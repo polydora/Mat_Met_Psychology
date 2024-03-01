@@ -1,0 +1,111 @@
+---
+title: Презентации и данные
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    theme: flatly
+    highlight: haddock
+    include:
+      after_body: _footer.html
+    css: page_styles.css
+---
+
+## 1. Знакомство с R
+
+<!-- - Презентация: [01_intro_to_r.html](01_intro_to_r.html) -->
+<!-- -   Код: [01_intro_to_r.R](01_intro_to_r.R) -->
+<!-- -   Дополнительные упражнения: [01_intro_to_r_exercises.R](01_intro_to_r_exercises.R) -->
+
+
+## 2. Данные и их визуализация с использованием пакета `ggplot2`
+
+```{r eval=FALSE}
+install.packages("readxl")
+install.packages("ggplot2")
+```
+
+
+## 3. Описание данных с помощью статистических показателей. Оценка параметров распределения.
+
+
+
+## 4. Тестирование статистических гипотез
+
+
+<!-- - Презентация: [02_power.html](02_power.html) -->
+<!-- - Код: [02_power_code.R](02_power_code.R) -->
+<!-- - Данные: [fleabeetles-subset.xlsx](data/fleabeetles-subset.xlsx) -->
+
+
+## 5. Регрессионный анализ, ч.1
+
+```{r eval=FALSE}
+install.packages("car")
+install.packages("cowplot")
+install.packages("gridExtra")
+```
+
+<!-- - Презентация: [03_regression1.html](03_regression1.html) -->
+<!-- - Код: [03_regression1_code.R](03_regression1_code.R) -->
+<!-- - Данные: -->
+<!--     - [nuclear_teeth.xlsx](data/nuclear_teeth.xlsx) | [nuclear_teeth.csv](data/nuclear_teeth.csv) -->
+
+## 6. Регрессионный анализ, ч.2
+
+
+<!-- - Презентация: [04_regression2.html](04_regression2.html) -->
+<!-- - Код: [04_regression2_code.R](04_regression2_code.R) -->
+<!-- - Данные: [river.xlsx](data/river.xlsx) | [river.csv](data/river.csv) -->
+
+## 7. Дисперсионный анализ
+
+```{r eval=FALSE}
+install.packages("multcomp")
+```
+
+<!-- - Презентация: [05_anova1.html](05_anova1.html) -->
+<!-- - Код: [05_anova1_code.R](05_anova1_code.R) -->
+<!-- - Данные: [sleep.xlsx](data/sleep.xlsx) | [sleep.csv](data/sleep.csv) -->
+
+<!-- - Презентация: [06_anova2.html](06_anova2.html) -->
+<!-- - Код: [06_anova2_code.R](06_anova2_code.R) -->
+<!-- - Данные: [eysenck.csv](data/eysenck.csv) -->
+
+## 8. Основы анализа многомерных данных (Многомерное шкалирование и кластерный анализ)
+
+```{r eval=FALSE}
+install.packages(c("ape", "pvclust", "phangorn", "factoextra", "dbscan", "dplyr"))
+```
+
+<!-- - Презентация: [09_dist.html](09_dist.html) -->
+<!-- - Код: [09_dist_code.R](09_dist_code.R) -->
+
+
+## 9. Основы анализа многомерных данных (Метод главных компонент) 
+
+```{r eval=FALSE}
+install.packages("vegan")
+```
+
+<!-- - Презентация: [07_pca.html](07_pca.html) -->
+<!-- - Код: [07_pca_code.R](07_pca_code.R) -->
+
+
+<!-- ## 8. Дискриминантный анализ -->
+
+<!-- ```{r eval=FALSE} -->
+<!-- install.packages("adegenet") -->
+<!-- ``` -->
+
+<!-- - Презентация: [08_da.html](08_da.html) -->
+<!-- - Код: -->
+<!--   + [код R](08_da_code.R) -->
+<!--   + [LDA_helper_functions.R](LDA_helper_functions.R) -->
+
+
+## 10. Подготовка научного отчета с использованием приемоа литературного программирования 
+
+<!-- - [Файл с примером отчёта](R_calc_Abalone.zip) -->
+<!-- - [Файл с проектом из лекции](R_my_first_project.zip) -->
