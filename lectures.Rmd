@@ -4,7 +4,7 @@ output:
   html_document:
     toc: true
     toc_float:
-      collapsed: false
+      collapsed: true
     theme: flatly
     highlight: haddock
     include:
@@ -12,34 +12,49 @@ output:
     css: page_styles.css
 ---
 
-## 1. Знакомство с R
+**Внимание!** Распределение тем по датам занятий очень условное. Возможно, что все переиграется по мере развития событий. 
+
+## 1. Знакомство с R (11 марта 13:00-14:30)
 
 <!-- - Презентация: [01_intro_to_r.html](01_intro_to_r.html) -->
-<!-- -   Код: [01_intro_to_r.R](01_intro_to_r.R) -->
-<!-- -   Дополнительные упражнения: [01_intro_to_r_exercises.R](01_intro_to_r_exercises.R) -->
+-   Код для работы на лекции: [01_intro to R_student_script.R](01_intro to R_student_script.R)
+-   Данные для работы на лекции: [hydrology_2022.xls](data/hydrology_2022.xls)
 
+### Домашнее задание
 
-## 2. Данные и их визуализация с использованием пакета `ggplot2`
+-   Домашнее задание:[Вариант 1](Home_Works/01_intro_to_R_HW1.html)
+-   Домашнее задание:[Вариант 2](Home_Works/01_intro_to_R_HW2.html)
+-   Данные для выполнения домашнего задания: [catsM.xls](data/catsM.xlsx)
+
+<br>
+<br>
+## 2. Данные и их визуализация с использованием пакета `ggplot2` (18 марта 13:00-14:30 )
 
 ```{r eval=FALSE}
 install.packages("readxl")
 install.packages("ggplot2")
 ```
 
+<br>
+<br>
 
-## 3. Описание данных с помощью статистических показателей. Оценка параметров распределения.
+## 3. Описание данных с помощью статистических показателей. Оценка параметров распределения (22 марта 9:00 - 10:30).
+
+<br>
+<br>
 
 
-
-## 4. Тестирование статистических гипотез
+## 4. Тестирование статистических гипотез (25 марта 13:00-14:30; 29 марта 9:00 - 10:30)
 
 
 <!-- - Презентация: [02_power.html](02_power.html) -->
 <!-- - Код: [02_power_code.R](02_power_code.R) -->
 <!-- - Данные: [fleabeetles-subset.xlsx](data/fleabeetles-subset.xlsx) -->
 
+<br>
+<br>
 
-## 5. Регрессионный анализ, ч.1
+## 5. Регрессионный анализ, ч.1 (1 апреля 13:00-14:30)
 
 ```{r eval=FALSE}
 install.packages("car")
@@ -52,14 +67,20 @@ install.packages("gridExtra")
 <!-- - Данные: -->
 <!--     - [nuclear_teeth.xlsx](data/nuclear_teeth.xlsx) | [nuclear_teeth.csv](data/nuclear_teeth.csv) -->
 
-## 6. Регрессионный анализ, ч.2
+<br>
+<br>
+
+## 6. Регрессионный анализ, ч.2 (5 апреля 9:00-10:30)
 
 
 <!-- - Презентация: [04_regression2.html](04_regression2.html) -->
 <!-- - Код: [04_regression2_code.R](04_regression2_code.R) -->
 <!-- - Данные: [river.xlsx](data/river.xlsx) | [river.csv](data/river.csv) -->
 
-## 7. Дисперсионный анализ
+<br>
+<br>
+
+## 7. Дисперсионный анализ (8 апреля 13:00 - 14:30)
 
 ```{r eval=FALSE}
 install.packages("multcomp")
@@ -73,7 +94,11 @@ install.packages("multcomp")
 <!-- - Код: [06_anova2_code.R](06_anova2_code.R) -->
 <!-- - Данные: [eysenck.csv](data/eysenck.csv) -->
 
-## 8. Основы анализа многомерных данных (Многомерное шкалирование и кластерный анализ)
+<br>
+<br>
+
+
+## 8. Основы анализа многомерных данных: Многомерное шкалирование и кластерный анализ (15 апреля 13:00 - 14:30)
 
 ```{r eval=FALSE}
 install.packages(c("ape", "pvclust", "phangorn", "factoextra", "dbscan", "dplyr"))
@@ -82,8 +107,11 @@ install.packages(c("ape", "pvclust", "phangorn", "factoextra", "dbscan", "dplyr"
 <!-- - Презентация: [09_dist.html](09_dist.html) -->
 <!-- - Код: [09_dist_code.R](09_dist_code.R) -->
 
+<br>
+<br>
 
-## 9. Основы анализа многомерных данных (Метод главных компонент) 
+
+## 9. Основы анализа многомерных данных: Метод главных компонент (22 апреля 13:00 - 14:30) 
 
 ```{r eval=FALSE}
 install.packages("vegan")
@@ -103,6 +131,9 @@ install.packages("vegan")
 <!-- - Код: -->
 <!--   + [код R](08_da_code.R) -->
 <!--   + [LDA_helper_functions.R](LDA_helper_functions.R) -->
+
+<br>
+<br>
 
 
 ## 10. Подготовка научного отчета с использованием приемов *литературного программирования* 
