@@ -22,18 +22,29 @@ output:
 
 ### Домашнее задание
 
--   Домашнее задание:[Вариант 1](Home_Works/01_intro_to_R_HW1.html)
--   Домашнее задание:[Вариант 2](Home_Works/01_intro_to_R_HW2.html)
+-   Домашнее задание:[Вариант 1](Home_Works/01_intro_to_R_HW1_Var_1.html)
+-   Домашнее задание:[Вариант 2](Home_Works/01_intro_to_R_HW1_Var_2.html)
 -   Данные для выполнения домашнего задания: [catsM.xls](data/catsM.xlsx)
 
 <br>
 <br>
+
 ## 2. Данные и их визуализация с использованием пакета `ggplot2` (18 марта 13:00-14:30 )
 
 ```{r eval=FALSE}
 install.packages("readxl")
 install.packages("ggplot2")
 ```
+
+<!-- - Презентация: [](01_intro_to_r.html) -->
+-   Код для работы на лекции: [02_intro_ggplot.R](02_intro_ggplot.R)
+-   Данные для работы на лекции: [](data/Titanic.csv)
+-   Данные для работы на лекции: [](data/fev.xls)
+
+
+### Домашнее задание
+-   Домашнее задание:[Вариант 1](Home_Works/02_intro_to_ggplot_HW2_Var_1.html)
+-   Домашнее задание:[Вариант 2](Home_Works/02_intro_to_ggplot_HW2_Var_2.html)
 
 <br>
 <br>
