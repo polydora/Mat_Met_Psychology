@@ -16,7 +16,7 @@ output:
 
 ## 1. Знакомство с R (11 марта 13:00-14:30)
 
-<!-- - Презентация: [01_intro_to_r.html](01_intro_to_r.html) -->
+-  Презентация: [01_intro_to_r.html](01_intro_to_r.html)
 -   Код для работы на лекции: [01_intro to R_student_script.R](01_intro to R_student_script.R)
 -   Данные для работы на лекции: [hydrology_2022.xls](data/hydrology_2022.xls)
 
@@ -36,10 +36,10 @@ install.packages("readxl")
 install.packages("ggplot2")
 ```
 
--   Презентация: [](01_intro_to_r.html)
 -   Код для работы на лекции: [02_intro_ggplot.R](02_intro_ggplot.R)
 -   Данные для работы на лекции: [](data/Titanic.csv)
 -   Данные для работы на лекции: [](data/fev.xls)
+<!-- -   Презентация: [ ](01_intro_to_r.html) -->
 
 
 ### Домашнее задание
