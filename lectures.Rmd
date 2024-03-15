@@ -22,8 +22,8 @@ output:
 
 ### Домашнее задание
 
--   Домашнее задание:[Вариант 1](Home_Works/01_intro_to_R_HW1_Var_1.html)
--   Домашнее задание:[Вариант 2](Home_Works/01_intro_to_R_HW1_Var_2.html)
+-   Домашнее задание:[Вариант 1](01_intro_to_R_HW1_Var_1.html)
+-   Домашнее задание:[Вариант 2](01_intro_to_R_HW1_Var_2.html)
 -   Данные для выполнения домашнего задания: [catsM.xls](data/catsM.xlsx)
 
 <br>
