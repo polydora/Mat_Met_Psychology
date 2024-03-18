@@ -2,7 +2,7 @@
 
 
 ## Учимся читать внешние данные в форате csv
-titanic <- read.table('data/Titanic.csv', sep = ';', header = TRUE)
+titanic <- read.table(file = 'data/Titanic.csv', sep = ';', header = TRUE)
 
 head(titanic, 8)
 
@@ -69,9 +69,31 @@ str(fev) #дает информацию о структуре датафрейм
 # $ Smoker: chr  "Non" "Non" "Non" "Non" ...
 
 
+fev[15:20, ]
+
+fev[ , 2]
+
+fev$FEV[2:3]
+
+fev[c(1, 4, 10),  ]
+
+
+
+library(dplyr)
+
+df_female <-
+fev %>%
+  filter(Sex == "Female")
+
+
+
+
 #Необходимо заменить формат в переменных fev$Sex и fev$Smoker
 
-fev$Sex <- factor(fev$Sex)
+fev$Sex <- factor(fev$Sex, levels = c("Male", "Female"))
+
+as.numeric(fev$Sex)
+
 fev$Smoker <- factor(fev$Smoker)
 
 #функция factor() превращает числовые или текстовые данные в дискретные факторы
@@ -82,6 +104,25 @@ fev$Smoker <- factor(fev$Smoker)
 #Визуализация данных (первый заход)
 
 #Задача: построить точечную диаграмму, где по оси OX отложен Age, а по оси OY отложен FEV
+
+ggplot(data = fev, mapping = aes(x = Age, y = FEV)) +
+  geom_point() +
+  ggtitle("График, отражающий связь объема легких и возраста") +
+  labs(x = "Возраст", y = "Объем легких")
+
+#####
+
+
+
+
+
+
+
+
+
+
+
+
 
 ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point()
 
