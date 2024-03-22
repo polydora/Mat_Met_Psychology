@@ -58,8 +58,14 @@ install.packages("ggplot2")
 
 #### Вторая часть ДЗ
 
--   Домашнее задание:[Вариант 1](02_intro_to_ggplot_HW2_Var_1.html)
--   Домашнее задание:[Вариант 2](02_intro_to_ggplot_HW2_Var_2.html)
+**Ваша миссия:** Используя переведенные в длинный формат данные по водному тесту, построить столбчатую диаграмму, которая будет отражать среднее количество яиц в гнездах на разных островах. Образец, к которому надо стремиться приведен [здесь](HW2_templ.html).
+
+
+
+Для дополнительных баллов
+
+-   Домашнее спцзадание:[Вариант 1](02_intro_to_ggplot_HW2_Var_1.html)
+-   Домашнее спцзадание:[Вариант 2](02_intro_to_ggplot_HW2_Var_2.html)
 
 <br>
 <br>
@@ -168,3 +174,21 @@ install.packages("ggplot2")
 
 <!-- <!-- - [Файл с примером отчёта](R_calc_Abalone.zip) -->
 <!-- <!-- - [Файл с проектом из лекции](R_my_first_project.zip) -->
+
+
+
+# Оценки за домашние работы
+
+```{r echo=FALSE}
+library(knitr)
+library(readxl)
+
+hw <- read_excel("Home_works_results/Home_works_scores.xlsx", sheet = "Scores")
+
+hw_values  <- read_excel("Home_works_results/Home_works_scores.xlsx", sheet = "Values")
+
+hw[,-1] <- (hw[, -1])/(hw_values[,-1]) * 100
+
+kable(hw)
+```
+
