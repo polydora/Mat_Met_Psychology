@@ -75,6 +75,10 @@ fev[ , 2]
 
 fev$FEV[2:3]
 
+fev$Age
+
+fev$Smoker [10:200]
+
 fev[c(1, 4, 10),  ]
 
 
@@ -96,6 +100,12 @@ as.numeric(fev$Sex)
 
 fev$Smoker <- factor(fev$Smoker)
 
+fev <-
+  fev %>%
+  filter(complete.cases(.))
+
+
+
 #функция factor() превращает числовые или текстовые данные в дискретные факторы
 
 # Если необходимо убрать объекты, у которых что-то не измерено (NA), то надо произвести "очистку данных". НО! не увлекайтесь
@@ -116,14 +126,6 @@ ggplot(data = fev, mapping = aes(x = Age, y = FEV)) +
 
 
 
-
-
-
-
-
-
-
-
 ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point()
 
 # Убираем серый фон
@@ -134,6 +136,9 @@ ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point() + theme_classic()
 
 ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point() + theme_minimal()
 
+ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point() + theme_dark()
+
+
 #Устанавливаем понравившуюся тему, как основную.
 theme_set(theme_bw()) # далее все графики, производимые в данной сессии, будут использовать именно эту тему
 
@@ -141,43 +146,68 @@ ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point()
 
 # Изменяем подписи осей
 
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point() + labs(x = "Возраст", y = "Объем легких")
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point() +
+  labs(x = "Возраст пациента", y = "Объем легких")
+
+
+
 
 #Создаем верхний заголовок рисунка
 
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point() + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких")
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point() +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \nвозрастом и объемом легких")
 
 # Делаем заголовок центральным
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point() + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point() +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
 # Меняем размер точек
 
 #Крупнее
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point(size = 3) + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point(size = 3) +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
 
 #Мельче
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point(size = 0.1) + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point(size = 0.1) +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
+  theme(plot.title = element_text(hjust = 0.5, size = 12), axis.title = element_text(size = 20, angle = 30))
 
 
 
 # Меняем цвет и форму точек
 
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point(color = "blue") + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point(color = "red") +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point(shape = 22, color = "red", fill = "yellow", size = 2) + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point(shape = 16, color = "red", fill = "yellow", size = 2) +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
 
 #Сохраняем рисунок в файл
 
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point(shape = 22, color = "red", fill = "yellow", size = 2) + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = fev, aes(x = Age, y = FEV)) +
+  geom_point(shape = 22, color = "red", fill = "yellow", size = 2) +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
-ggsave("MyPicture.wmf", plot = last_plot())
+ggsave("MyPicture.jpg", plot = last_plot())
 
 #Рисунок можно, и это правильно, поместить в специальную переменную
 Plot_1 <- ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point(shape = 22, color = "red", fill = "yellow", size = 2)
@@ -203,12 +233,15 @@ ggsave("MyPicture_2.wmf", plot = Plot_2)
 
 
 #Отражаем данные о поле с помощью цвета
-Plot_1 <- ggplot(data = fev, aes(x = Age, y = FEV, color = Sex )) + geom_point(size = 2) + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
+Plot_1 <-
+  ggplot(data = fev, aes(x = Age, y = FEV, size = Height, color = Sex)) +
+  geom_point() +
+  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
 
 Plot_1
 
 # Меняем цвет на тот, который нам нравится
-Plot_1 + scale_color_manual(values = c("pink","blue"))
+Plot_1 + scale_color_manual(values = c("blue", "pink"))
 
 
 # Меняем положение легенды
@@ -216,7 +249,7 @@ Plot_1 + scale_color_manual(values = c("pink","blue")) + theme(legend.position =
 
 Plot_1 + scale_color_manual(values = c("pink","blue")) + theme(legend.position =  "left")
 
-Plot_1 + scale_color_manual(values = c("pink","blue")) + theme(legend.position =  c(0.1, 0.9)) # c(0.1, 0.9) координаты указываются в долях от сторон рисунка
+Plot_1 + scale_color_manual(values = c("pink","blue")) + theme(legend.position =  c(0.5, 0.1)) # c(0.1, 0.9) координаты указываются в долях от сторон рисунка
 
 
 
