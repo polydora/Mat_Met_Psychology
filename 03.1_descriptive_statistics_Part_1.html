@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Описательная статистика</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Марина Варфоломеева" />
+    <meta name="author" content="Вадим Хайтов" />
+    <meta name="author" content="Юта Тамберг" />
+    <meta name="author" content="Анастасия Лянгузова" />
+    <script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+    <link href="site_libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="site_libs/remark-css-0.0.1/tamu-fonts.css" rel="stylesheet" />
+    <link href="site_libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link href="site_libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="site_libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="site_libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="site_libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="site_libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="site_libs/mark.js-8.11.1/mark.min.js"></script>
+    <link href="site_libs/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
+    <script src="site_libs/xaringanExtra-search-0.0.1/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <script src="site_libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <script src="site_libs/freezeframe-5.0.2/freezeframe.min.js"></script>
+    <script src="site_libs/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="site_libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <!-- https://github.com/fnaufel/xaringan-smartify-->
+    <script
+    			  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    			  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    			  crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/fnaufel/xaringan-smartify/smartify.min.js"></script>
+    <link rel="stylesheet" href="assets/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="assets/xaringan.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, left, inverse, title-slide
+
+.title[
+# Описательная статистика
+]
+.author[
+### Марина Варфоломеева
+]
+.author[
+### Вадим Хайтов
+]
+.author[
+### Юта Тамберг
+]
+.author[
+### Анастасия Лянгузова
+]
+
+---
+
+
+
+
+class: middle, center, inverse
+
+# Характеризуем данные
+
+---
+
+## С какими данными мы работаем
+
+.pull-left[
+.Large[Генеральная совокупность]
+]
+
+.pull-right-33[
+.Large[Выборка]
+]
+
+![](images/population_sample.png)
+
+--
+
+.pull-left[
+.Large[Параметры]
+]
+
+.pull-right-33[
+.Large[Описательная статистика]
+]
+---
+
+## Какие бывают данные 
+
+![:col_header Категориальные данные, Числовые дискретые (счётные), Числовые непрерывные (мерные)]
+![:col_list орёл или решка, оценка за экзамен, температура воздуха]
+![:col_list цвет радуги, количество пластиковых пипеток в упаковке, рост]
+
+---
+
+
+## Как передать информацию о большом наборе данных?
+
+
+
+```r
+set.seed(12345)
+dat &lt;- round(rnorm(100, 10, 2), 1)
+
+dat
+```
+
+```
+  [1] 11.2 11.4  9.8  9.1 11.2  6.4 11.3  9.4  9.4  8.2  9.8 13.6 10.7 11.0  8.5 11.6
+ [17]  8.2  9.3 12.2 10.6 11.6 12.9  8.7  6.9  6.8 13.6  9.0 11.2 11.2  9.7 11.6 14.4
+ [33] 14.1 13.3 10.5 11.0  9.4  6.7 13.5 10.1 12.3  5.2  7.9 11.9 11.7 12.9  7.2 11.1
+ [49] 11.2  7.4  8.9 13.9 10.1 10.7  8.7 10.6 11.4 11.6 14.3  5.3 10.3  7.3 11.1 13.2
+ [65]  8.8  6.3 11.8 13.2 11.0  7.4 10.1  8.4  7.9 14.7 12.8 11.9 11.7  8.4 11.0 12.0
+ [81] 11.3 12.1  9.4 15.0 11.9 13.7 11.3  9.4 11.1 11.6  8.1  8.3 13.8  9.2  8.0 11.4
+ [97]  9.0 14.3  8.8  8.6
+```
+
+---
+
+## Способ 1. 
+
+Можно построить график.
+
+.pull-left-40[
+
+```r
+df &lt;- data.frame(X = dat)
+
+Pl &lt;-
+  df %&gt;% 
+  ggplot()
+
+Pl + geom_histogram(aes(x = X), bins = 10)
+```
+
+![](03.1_descriptive_statistics_Part_1_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+]
+
+.pull-right-40[
+
+```r
+Pl + geom_boxplot(aes(y = X))
+```
+
+![](03.1_descriptive_statistics_Part_1_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## Способ 2.
+
+
+
+Можно охарактеризовать медиану и квартили.
+
+
+```r
+summary(dat)
+```
+
+```
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    5.2     8.8    11.0    10.5    11.8    15.0 
+```
+
+Можно ли по этим данным "воспроизвести" исходный ряд?
+
+---
+## Способ 3.
+
+Можно смоделировать данные 
+
+.pull-left-40[
+
+![](03.1_descriptive_statistics_Part_1_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+]
+
+.pull-right-40[
+
+![](03.1_descriptive_statistics_Part_1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+]
+
+Эта модель описывается всего двумя числами 
+
+$$
+\mu = 5 \\
+\sigma = 2
+$$
+
+Можно ли по этим данным "воспроизвести" исходный ряд?
+
+
+
+
+---
+
+## Характеризуем данные через связки описательных статистик 
+
+.pull-left[
+### Центральные тенденции &lt;br/&gt;(Statistics of location)
+
+- Медиана (Median)
+
+- Среднее значение (Mean)]
+
+.pull-right[
+### Меры разброса &lt;br/&gt;(Statistics of dispersion)
+
+- Квантили (Quantiles)
+
+- Дисперсия (Variance), &lt;br/&gt;cтандартное отклонение (Standard Deviation)]
+
+---
+
+# ЧАСТЬ 1. Медиана и квантили
+
+## Медиана
+
+Предположим, мы занимаемся селекцией яблонь и хотим охарактеризовать урожай любимой яблони, на которую возлагаем большие надежды.
+
+
+```r
+apples &lt;- c(7.3, 9.7, 10.1,  9.5,  8.0,  9.2,  7.9,  9.1)
+```
+
+---
+
+## Медиана
+
+Наши данные в исходном виде выглядят примерно так:
+
+
+```r
+apples
+```
+
+```
+[1]  7.3  9.7 10.1  9.5  8.0  9.2  7.9  9.1
+```
+
+.center[
+![](images/2.1_apples_mixed.png)
+]
+
+Чтобы увидеть медиану, мы должны ранжировать, или отсортировать, наш вектор по возрастанию:
+
+
+```r
+sort(apples)
+```
+
+```
+[1]  7.3  7.9  8.0  9.1  9.2  9.5  9.7 10.1
+```
+
+
+.center[
+![](images/2.1_apples_sorted.png)
+]
+---
+
+## Медиана
+
+В ранжированном ряду медиана расположена так, что слева и справа от нее находится равное число измерений.
+
+- Если n нечетное, то медиана = значение с индексом `\(\frac{n+1}{2}\)`. 
+- Если n четное, то медиана посередине между `\(\frac{n}{2}\)` и `\(\frac{n+1}{2}\)` значениями.
+
+
+```r
+sort(apples)
+```
+
+```
+[1]  7.3  7.9  8.0  9.1  9.2  9.5  9.7 10.1
+```
+
+Медиана находится в промежутке между значениями 9.1 и 9.2, т.е. 9.15
+
+.center[
+![](images/2.1_apples_sorted_2.png)
+]
+
+
+```r
+median(apples) # Проверим себя
+```
+
+```
+[1] 9.15
+```
+
+---
+
+## Медиана устойчива к выбросам
+
+Представим, что наши измерения пострадали от неаккуратности. Допустим сотрудник, которому мы поручили измерять яблоки, измерил также арбуз и записал этот результат вместе со всеми остальными.
+
+
+```r
+apples2 &lt;- c(apples, 68) # Создадим вектор с новым значением
+sort(apples2)
+```
+
+```
+[1]  7.3  7.9  8.0  9.1  9.2  9.5  9.7 10.1 68.0
+```
+
+Что станет с медианой? Сильно ли она изменится?
+
+
+```r
+median(apples2)
+```
+
+```
+[1] 9.2
+```
+
+---
+
+## Медиана устойчива к выбросам, а среднее - нет
+
+Давайте для сравнения посмотрим на среднее.
+
+
+```r
+mean(apples)
+```
+
+```
+[1] 8.85
+```
+
+```r
+mean(apples2)
+```
+
+```
+[1] 15.42
+```
+
+Единственное наблюдение-выброс сильно повлияет на величину среднего значения.
+
+---
+
+## Квантили
+
+Квантили --- это значения, которые делят ряд наблюдений на равные части.
+
+Они называются по-разному в зависимости от числа частей.
+
+Примеры квантилей:
+
+- 2-квантиль ("два-квантиль") --- медиана; 
+- 4-квантиль ("четыре-квантиль")--- квартиль;  
+- 100-квантиль ("сто-квантиль")--- перцентиль;
+
+---
+
+## Квартили
+
+Квартиль --- частный случай квантиля.
+
+Квартили делят распределение на __четыре__ равные части, каждая из которых включает по 25% значений.
+
+- I квартиль отсекает как раз 25%.  
+- II квартиль --- 50%. Это медиана.  
+- III квартиль отсекает 75% значений.  
+
+Квартили можно найти при помощи функции `quantile()`
+
+
+```r
+quantile(x = apples, probs = c(0.25, 0.5, 0.75))
+```
+
+```
+  25%   50%   75% 
+7.975 9.150 9.550 
+```
+
+---
+
+## 5-number summary
+
+Функция `quantile(x)` без указания значений вероятностей (`probs`) покажет нам квартили, минимум и максимум.
+
+
+```r
+quantile(apples)
+```
+
+```
+    0%    25%    50%    75%   100% 
+ 7.300  7.975  9.150  9.550 10.100 
+```
+
+5-number summary --- удобное краткое описание данных.
+
+---
+
+## Персентили
+
+Персентиль --- это частный случай квантиля. Всего 99 персентилей, они делят ряд наблюдений на 100 частей.
+
+Ничто не помешает нам узнать, например, какие значения отсекают 10% или 99% значений выборки. Подставим соответствующие аргументы:
+
+
+```r
+quantile(apples, probs = c(0.1, 0.99))
+```
+
+```
+  10%   99% 
+ 7.72 10.07 
+```
+
+---
+
+## Боксплот: 5-number summary на графике
+
+.pull-left[
+
+```r
+boxplot(apples)
+```
+
+![](03.1_descriptive_statistics_Part_1_files/figure-html/boxplot.plain.1-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+Отложим числа, характеризующие выборку, по оси Y:
+
+- жирная линия --- медиана,
+- нижняя и верхняя границы "коробки" --- это I и III квантили,
+- усы --- минимум и максимум.
+
+&lt;br /&gt;&lt;br /&gt;
+
+Расстояние между I и III квартилями (высота "коробки") называется _интерквартильное расстояние_
+
+Если в выборке есть выбросы (значения, отстоящие от границ "коробки" больше чем на 1.5 интерквартильных расстояния), то они будут изображены отдельными точками. 
+]
+
+---
+
+## Подготовим все, чтобы построить график в ggplot2
+
+
+```r
+library(ggplot2)
+theme_set(theme_bw())
+
+apple_data &lt;- data.frame(diameter = apples)
+head(apple_data)
+```
+
+```
+  diameter
+1      7.3
+2      9.7
+3     10.1
+4      9.5
+5      8.0
+6      9.2
+```
+
+---
+
+## Боксплот можно построить при помощи `geom_boxplot()`
+
+
+```r
+ggplot(data = apple_data) + 
+  geom_boxplot(aes(x = 'Медиана \nи квантили', y = diameter))
+```
+
+![](03.1_descriptive_statistics_Part_1_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+- `x` --- категория (переменная или текстовое обозначение)  
+- `y` --- зависимая переменная
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="assets/cols_macro.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "vs",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<!-- https://github.com/fnaufel/xaringan-smartify-->
+<script type="text/javascript">
+  smartify();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
