@@ -80,6 +80,104 @@ class: middle, center, inverse
 
 ---
 
+
+## Как передать информацию о большом наборе данных?
+
+
+```{r}
+set.seed(12345)
+dat <- round(rnorm(100, 10, 2), 1)
+
+dat
+```
+
+---
+
+## Способ 1. 
+
+Можно построить график.
+
+.pull-left-40[
+```{r}
+df <- data.frame(X = dat)
+
+Pl <-
+  df %>% 
+  ggplot()
+
+Pl + geom_histogram(aes(x = X), bins = 10)
+```
+]
+
+.pull-right-40[
+```{r}
+
+Pl + geom_boxplot(aes(y = X))
+
+```
+]
+
+---
+
+## Способ 2.
+
+
+
+Можно охарактеризовать медиану и квартили.
+
+```{r}
+summary(dat)
+```
+
+Можно ли по этим данным "воспроизвести" исходный ряд?
+
+---
+## Способ 3.
+
+Можно смоделировать данные 
+
+.pull-left-40[
+
+```{r, echo = FALSE}
+Pl + 
+  geom_point(aes(x = X, y =0), position = position_jitter(height = 0.002), color = "blue") + 
+  ylim(-0.01, 0.1) +
+  geom_hline(yintercept = 0) +
+  xlim(0, 20) 
+
+```
+
+]
+
+.pull-right-40[
+
+```{r, echo = FALSE}
+ND_curve <- ggplot(data = data.frame(x = 0:10), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = 10, sd = 2), 
+                colour = 'red3', size = 1) +
+  labs(y = 'Плотность вероятности')+
+  xlim(0, 20)
+  
+ND_curve + 
+  geom_point(data = df, aes(x = X, y = 0), position = position_jitter(height = 0.004), color = "blue")
+```
+
+]
+
+Эта модель описывается всего двумя числами 
+
+$$
+\mu = 5 \\
+\sigma = 2
+$$
+
+Можно ли по этим данным "воспроизвести" исходный ряд?
+
+
+
+
+---
+
 ## Характеризуем данные через связки описательных статистик 
 
 .pull-left[

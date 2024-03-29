@@ -3,6 +3,32 @@
 # author: "Вадим Хайтов, Юта Тамберг, Марина Варфоломеева, Анастасия Лянгузова"
 # ---
 
+set.seed(12345)
+dat <- round(rnorm(100, 10, 2), 1)
+dat
+
+table(dat)
+
+# Частотное распределине
+
+df <- as.data.frame(dat)
+
+library(ggplot2)
+
+ggplot(df, aes(x = dat)) +
+  geom_histogram(binwidth = 0.1)
+
+
+
+mean(dat)
+
+mean(iris$Sepal.Length)
+
+ggplot(df, aes(y = dat)) +
+  geom_boxplot()
+
+
+
 # # ЧАСТЬ 1. Медиана и квантили.  #############################
 
 # ## Медиана
@@ -18,6 +44,7 @@ sort(apples)
 # что слева и справа от нее находится равное число
 # измерений
 
+sort(apples)
 
 # Проверим себя
 median(apples)
@@ -38,6 +65,12 @@ median(apples2)
 mean(apples)
 mean(apples2)
 
+ggplot(data.frame(apples2), aes(y = apples2) ) +
+  geom_boxplot()
+
+
+ggplot(data.frame(apples), aes(y = apples) ) +
+  geom_boxplot()
 
 # ## Квантили
 
@@ -48,8 +81,11 @@ quantile(x = apples, probs = c(0.25, 0.5, 0.75))
 # 5-number summary
 quantile(apples)
 
+quantile(dat)
+
+
 # Персентили
-quantile(apples, probs = c(0.1, 0.99))
+quantile(apples, probs = seq(0.01, 0.99, 0.01))
 
 
 # ## Боксплот: 5-number summary на графике

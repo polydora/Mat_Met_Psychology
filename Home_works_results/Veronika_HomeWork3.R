@@ -12,3 +12,5 @@ ggplot(df, aes(x=Sepal.Length, y=Frequency)) +
   xlim(4.5, 7.5) +
   scale_x_continuous(breaks = seq(4.5, 7.5, by = 0.1)) +
   theme(axis.text.x = element_text(size = 4))
+
+

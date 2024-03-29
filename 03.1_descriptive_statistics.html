@@ -98,6 +98,109 @@ class: middle, center, inverse
 
 ---
 
+
+## Как передать информацию о большом наборе данных?
+
+
+
+```r
+set.seed(12345)
+dat &lt;- round(rnorm(100, 10, 2), 1)
+
+dat
+```
+
+```
+  [1] 11.2 11.4  9.8  9.1 11.2  6.4 11.3  9.4  9.4  8.2  9.8 13.6 10.7 11.0  8.5 11.6
+ [17]  8.2  9.3 12.2 10.6 11.6 12.9  8.7  6.9  6.8 13.6  9.0 11.2 11.2  9.7 11.6 14.4
+ [33] 14.1 13.3 10.5 11.0  9.4  6.7 13.5 10.1 12.3  5.2  7.9 11.9 11.7 12.9  7.2 11.1
+ [49] 11.2  7.4  8.9 13.9 10.1 10.7  8.7 10.6 11.4 11.6 14.3  5.3 10.3  7.3 11.1 13.2
+ [65]  8.8  6.3 11.8 13.2 11.0  7.4 10.1  8.4  7.9 14.7 12.8 11.9 11.7  8.4 11.0 12.0
+ [81] 11.3 12.1  9.4 15.0 11.9 13.7 11.3  9.4 11.1 11.6  8.1  8.3 13.8  9.2  8.0 11.4
+ [97]  9.0 14.3  8.8  8.6
+```
+
+---
+
+## Способ 1. 
+
+Можно построить график.
+
+.pull-left-40[
+
+```r
+df &lt;- data.frame(X = dat)
+
+Pl &lt;-
+  df %&gt;% 
+  ggplot()
+
+Pl + geom_histogram(aes(x = X), bins = 10)
+```
+
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+]
+
+.pull-right-40[
+
+```r
+Pl + geom_boxplot(aes(y = X))
+```
+
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## Способ 2.
+
+
+
+Можно охарактеризовать медиану и квартили.
+
+
+```r
+summary(dat)
+```
+
+```
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    5.2     8.8    11.0    10.5    11.8    15.0 
+```
+
+Можно ли по этим данным "воспроизвести" исходный ряд?
+
+---
+## Способ 3.
+
+Можно смоделировать данные 
+
+.pull-left-40[
+
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+]
+
+.pull-right-40[
+
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+]
+
+Эта модель описывается всего двумя числами 
+
+$$
+\mu = 5 \\
+\sigma = 2
+$$
+
+Можно ли по этим данным "воспроизвести" исходный ряд?
+
+
+
+
+---
+
 ## Характеризуем данные через связки описательных статистик 
 
 .pull-left[
@@ -380,7 +483,7 @@ ggplot(data = apple_data) +
   geom_boxplot(aes(x = 'Медиана \nи квантили', y = diameter))
 ```
 
-![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
 
 - `x` --- категория (переменная или текстовое обозначение)  
 - `y` --- зависимая переменная
@@ -742,7 +845,7 @@ raw_deviates
 [1] -1.55  0.85  1.25  0.65 -0.85  0.35 -0.95  0.25
 ```
  
-![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -856,7 +959,7 @@ ggplot(data = apple_data) +
                    y = diameter))
 ```
 
-![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
 ]
 
 
@@ -883,7 +986,7 @@ ggplot(data = apple_data) +
                aes(x = 'Среднее \nи стандартное отклонение', y = diameter))
 ```
 
-![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+![](03.1_descriptive_statistics_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
 
 Медиана и среднее дают сходные результаты, если выборка не содержит выбросов (сильно отличающихся от других наблюдений).
 
