@@ -1,0 +1,793 @@
+---
+title: "Тестирование статистических гипотез"
+subtitle: ""
+author: "Марина Варфоломеева, Юта Тамберг, Вадим Хайтов"
+date: ""
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    lib_dir: libs
+    css: [ninjutsu, "assets/xaringan-themer.css", "assets/xaringan.css"]
+    df_print: default
+    nature:
+      highlightStyle: googlecode
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: [middle, left, inverse]
+      beforeInit: "assets/macros.js"
+    includes:
+      in_header: "assets/xaringan_in_header.html"
+      after_body: "assets/xaringan_after_body.html"
+---
+
+```{r setup, include = FALSE, cache = FALSE, purl = FALSE, fig.showtext = TRUE}
+library(knitr)
+opts_chunk$set(tidy = FALSE, warning = FALSE, message = FALSE, cache =TRUE)
+
+source("assets/xaringan_setup.R")
+library(xaringanExtra)
+use_tile_view()
+use_scribble()
+use_search(show_icon = FALSE)
+use_progress_bar(color = "#6d2b5e", location = "bottom", height = "10px")
+use_freezeframe()
+# use_webcam()
+# use_panelset()
+# use_extra_styles(hover_code_line = TRUE)
+
+# http://tachyons.io/docs/
+# https://roperzh.github.io/tachyons-cheatsheet/
+use_tachyons()
+```
+
+```{r libs-funs, include = FALSE, cache = FALSE, purl = FALSE}
+library("tidyverse")
+library("cowplot")
+library("ggplot2")
+theme_set(theme_bw(base_size = 20))
+library("scales")
+library("grid")
+ar <- arrow(type = 'closed', length = unit(0.15,'cm'))
+arb <- arrow(type = 'closed', length = unit(0.15,'cm'), ends = 'both')
+
+dt_limit <- function(x, alph = 0.05, df = 18, sides = 2, ncp = 0, what = "alpha") {
+  #' Function to generate data for plotting with ggplot
+  #' (non)central t distribution
+  #' with shaded areas for alpha, beta and power
+  #' Authors: Marina Varfolomeeva, Vadim Khaitov
+  #' Usage inside stat_function:
+  #' stat_function(fun = dt_limit,
+  #'               args = list(alph = alpha, df = df, sides = sides),
+  #'               geom = "area", fill = "red", alpha = 0.7)
+  if(sides == 1) alph <- alph
+  if(sides == 2) alph <- alph/2
+  t_cr <- abs(qt(p = alph, df = df))
+
+  if(what == "alpha"){
+    y <- dt(x, df, ncp = ncp)
+    y[!(x < -t_cr | x > t_cr)] <- NA
+  }
+  if(what == "beta"){
+    y <- dt(x, df, ncp = ncp)
+    y[!(x >= -t_cr & x <= t_cr)] <- NA
+  }
+  if(what == "power"){
+    y <- dt(x, df, ncp = ncp)
+    y[!(x < -t_cr | x > t_cr)] <- NA
+  }
+  return(y)
+}
+
+dnorm_limit <- function(x, alph = 0.05, mu = 0, sig = 1, sides = 2, what = "alpha") {
+  #' Function to generate data for plotting with ggplot
+  #' (non)central normal distribution
+  #' with shaded areas for alpha, beta and power
+  #' Authors: Marina Varfolomeeva, Vadim Khaitov
+  #' Usage inside stat_function:
+  #' stat_function(fun = dnorm_limit,
+  #'               args = list(alph = alpha, mu = mu, sig = sig, sides = sides),
+  #'               geom = "area", fill = "red", alpha = 0.7)
+  if(sides == 1) alph <- alph
+  if(sides == 2) alph <- alph/2
+  z_cr <- abs(qnorm(p = alph, mean = mu, sd = sig))
+
+  if(what == "alpha"){
+    y <- dnorm(x, mean = mu, sd = sig)
+    y[!(x <= -z_cr | x >= z_cr)] <- NA
+  }
+  if(what == "beta"){
+    y <- dnorm(x, mean = mu, sd = sig)
+    y[!(x >= -z_cr & x <= z_cr)] <- NA
+  }
+  if(what == "power"){
+    y <- dnorm(x, mean = mu, sd = sig)
+    y[!(x < -z_cr | x > z_cr)] <- NA
+  }
+  return(y)
+}
+```
+
+## Тестирование гипотез
+
+- Выборочное распределение среднего значения
+- Как устроено тестирование гипотез
+- t-статистика
+- Применение t-теста
+- Статистическая значимость
+
+---
+
+class: middle, center, inverse
+
+# Как устроено тестирование гипотез
+
+---
+
+## Сравнение выборок
+
+Различия между выборками не всегда видны невооружённым глазом.
+
+![](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+![](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+
+.tiny[tres caracoles by Alberto Villen on Freeimages.com]
+
+---
+
+## Нулевая и альтернативная гипотезы
+
+Это первый шаг
+
+![](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+![](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+
+.tiny[tres caracoles by Alberto Villen on Freeimages.com]
+
+--
+
+- Нулевая гипотеза $H_0$ чаще всего формулируется как **отсутствие различий** между сравниваемыми объектами. Например: Улитки из обеих популяций одинакового размера
+
+- Альтернативная гипотеза $H_A$ формулируется как **присутствие различий**, она обратна нулевой гипотезе, т.е. включает все остальные случаи. Например: Улитки из обеих популяций разного размера.
+
+---
+
+## Нулевая и альтернативная гипотезы — это "два мира"
+
+Вне зависимости от нас, реальность может находиться в одном из двух состояний:
+
+.pull-left[
+- $H_0$ верна, улитки одинаковы
+
+![:scale 45%](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+![:scale 45%](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+]
+.pull-right[
+- $H_0$ неверна, улитки различаются 
+
+![:scale 45%](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+![:scale 30%](images/tres-caracoles-by-Alberto-Villen-on-freeimages.com.jpg)
+]
+
+<br />
+
+--
+
+После статистического теста мы принимаем решение о том, принять или отвергнуть $H_0$. Но это решение не обязательно окажется верным. Возможно четыре исхода:
+
+.pull-left[
+В мире где улитки одинаковы <br/>( $H_0$ верна) мы можем:  
+- принять $H_0$ (верное решение),  
+- отвергнуть $H_0$ (ошибка).
+]
+.pull-right[
+В мире где улитки различаются <br/>( $H_A$ верна), мы можем:  
+- принять $H_0$ (ошибка),  
+- либо отвергнуть $H_0$ (верное решение).
+]
+
+---
+
+## Верные и неверные решения
+
+.pull-left[
+**Ошибка I рода: нашли то, чего нет**
+]
+.pull-right[
+**Ошибка II рода: не нашли то, что было**
+]
+
+| 	| $H_0$ верна |	$H_0$ неверна |
+|:-----:|:-----:|:-----:|
+| Отклонить H0 | Ошибка I рода с вероятностью <span class="orange">&alpha;</span></br>Ложно-положительный результат | 	Верно |
+| Сохранить H0 | Верно | Ошибка II рода с вероятностью <span class= "blue">&beta;</span> </br> Ложно-отрицательный результат |
+
+--
+
+Пока мы будем говорить о том, как контролируют уровень **Ошибок I рода**. 
+Про **Ошибки II рода** и **Power analysis** читайте дополнительную литературу.   
+
+---
+
+## Тестирование гипотез: Тестовые статистики
+
+--
+
+#### 1. Формулируем нулевую и альтернативную гипотезы.
+
+Гипотезы выражаются математически в виде тестовых статистик. На этом этапе мы делаем определенные допущения.
+
+--
+
+#### 2. Проверяем __условия применимости__ тестовой статистики.
+
+--
+
+#### 3. По реальным данным вычисляем __эмпирическое значение тестовой статистики__.
+
+--
+
+Дальше мы должны ответить на вопрос:
+
+**Насколько вероятно получить _такое или более экстремальное_ эмпирическое значение, если верна нулевая гипотеза  $H_0$?**
+
+
+#### 4. Строим теоретическое распределение тестовой статистики для случая, когда верна $H_0$, и оцениваем по нему уровень значимости.
+
+--
+
+#### 5. Решаем сохранить или отвергнуть $H_0$.
+
+Увы, мы не сможем узнать, какая гипотеза верна, но поймем, насколько с ней согласуются исходные данные.
+
+---
+
+class: middle, center, inverse
+
+# Одновыборочный *t*-тест
+
+---
+
+## Размер кладки черепах
+
+Разберемся с одновыборочным $t$-тестом на вымышленном примере.
+
+```{r echo=FALSE, purl=FALSE}
+n <- 35
+# set.seed(181257)
+# X <- round(rnorm(n, mean = 9.2, sd = 2.5))
+X <- c(10, 11, 10, 7, 8, 7, 9, 8, 11, 11, 12, 8, 6, 7, 10, 11, 9, 
+10, 7, 11, 11, 12, 11, 9, 4, 12, 9, 6, 9, 6, 9, 7, 8, 10, 9)
+x <- mean(X)
+s <- sd(X)
+mu <- 8
+```
+
+Представьте, что в [одной статье](https://edis.ifas.ufl.edu/publication/UW441#:~:text=Reproductive%20rate%3A%20Clutch%20sizes%20range,to%20100%20years%20in%20captivity.) сказано, что средняя плодовитость черепах определенного вида — `r mu` яиц в кладке.
+
+В вашей выборке из $`r n`$ черепах — $\bar x = `r x`$, $sd = `r s`$.
+
+```{r echo=FALSE, eval=FALSE}
+mu <- 8
+X <- c(10, 11, 10, 7, 8, 7, 9, 8, 11, 11, 12, 8, 6, 7, 10, 11, 9, 
+10, 7, 11, 11, 12, 11, 9, 4, 12, 9, 6, 9, 6, 9, 7, 8, 10, 9)
+(n <- length(X))
+(x <- mean(X))
+(s <- sd(X))
+```
+
+Отличается ли приведенное в статье значение от того, что наблюдается в изученной популяции. Можно ли считать, что авторы статьи изучали что-то иное (другой вид, или популяцию из иных условий).   
+
+<!-- Отличается ли реальная плодовитость в обследованной вами популяции черепах от того, что указано в статье? -->
+
+![](images/gopher-tortoise.jpg)
+
+
+<small>Gopher Tortoise by Judy Gallagher on Flickr</small>
+<!-- https://flic.kr/p/Q2ZozS -->
+
+
+---
+
+## Одновыборочный t-тест
+
+- $H_0: \mu = \mu_0$ — Реальная средняя плодовитость черепах такая, как в статье.
+- $H_A: \mu \ne \mu_0$ — Средняя плодовитость отличается от того, что написано в статье.
+
+$\mu_0$ — это какое-то конкретное значение. В нашей задаче это — `r mu` яиц в кладке.
+
+<br/>
+
+$$t = \cfrac{\bar x - \mu}{ sd / \sqrt{n} }$$
+
+Если выполняется ЦПТ, то одновыборочная $t$-статистика подчиняется $t$-распределению  
+с числом степеней свободы $df = n - 1$.
+
+Условия применимости:
+
+- Наблюдения в выборке должны быть независимы друг от друга.
+- Объем выборки достаточно велик **или** величины нормально распределены.
+
+---
+
+## Проверяем, нормально ли распределение
+
+```{r echo=FALSE, purl=FALSE}
+library(car)
+qqPlot(X, id = FALSE)
+```
+
+--
+
+Нет оснований для сомнения, что наша выборка взята из генеральной совокупности с распределением отличающимся от нормального.
+
+---
+
+## Вычислим наблюдаемое значение $t$-статистики
+
+$$t = \cfrac{\bar x - \mu}{ sd / \sqrt{n} }$$
+Средняя плодовитость в выборке из `r n` черепах $\bar x = `r x`$, стандартное отклонение $sd = `r s`$.
+В статье указана плодовитость $`r mu`$.
+
+
+```{r echo=FALSE}
+t_val <- round((x - mu) / (s / sqrt(n)), 2)
+p_val <- format(2*pt(-t_val, df = n - 1), digits = 1, nsmall = 3)
+```
+
+
+$$t = \cfrac{`r x` - `r mu`}{ `r s` / \sqrt{`r n`} } = `r t_val`$$
+
+---
+
+## Насколько это значение согласуется с $H_0$?
+
+.pull-left[
+
+```{r echo=FALSE, purl=FALSE, opts.label='fig.medium.taller'}
+cols <- c('yellow2', 'red')
+labs <- c(paste('p =', p_val), expression(alpha ==0.05))
+mappings <- factor(c('p', 'alpha'), levels = c('p', 'alpha'), labels = labs)
+names(cols) <- labs
+
+gg_test_0 <- ggplot(data = data.frame(t = -4:4), aes(x = t)) + 
+  stat_function(fun = dt, args = list(df = n - 1), colour = 'steelblue', size = 1) +
+  scale_x_continuous(breaks = -4:4, 
+                     sec.axis = sec_axis(~.  * (s / sqrt(n))+ mu, 
+                                         name = 'Наблюдаемое значение',
+                                         breaks = seq(2, 18, 1))) +
+  coord_cartesian(ylim = c(0, 0.5), xlim = c(-3.8, 3.8)) +
+  labs(y = 'Плотность вероятности')
+
+gg_test_t <- gg_test_0 +
+  # Выноски для t
+  annotate(geom = 'segment', 
+           x = c(-t_val, t_val), 
+           y = dt(c(-t_val, t_val), df = n - 1) + 0.15,
+           xend = c(-t_val, t_val), 
+           yend = c(0, 0), 
+           arrow = ar) +
+    # Подпись t
+  annotate(geom = 'text', label = c(paste('-t =', -t_val), paste('t =', t_val)),
+           x = c(-t_val, t_val), 
+           y = dt(c(-t_val, t_val), df = n - 1) + 0.15,
+           vjust = -0.3, size = 5)
+
+gg_test_p <- gg_test_t +
+    # Площадь под кривой
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[1]), xlim = c(-4, -t_val), alpha = 0.7) +
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+               aes(fill = mappings[1]), xlim = c(t_val, 4), alpha = 0.7) +
+  scale_fill_manual('', values = cols[1], labels = labs[1]) +
+  theme(legend.position = c(0, 1), legend.background = element_blank(), legend.justification = c(0, 1))
+# gg_test_p
+
+gg_test_alpha <- gg_test_0 + 
+  geom_vline(xintercept = qt(c(0.025, 0.975), df = n - 1), linetype = 2) +
+        # Уровень значимости
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[2]), xlim = c(-4, qt(0.025, df = n - 1)), alpha = 0.3) +
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[2]), xlim = c(qt(0.975, df = n - 1), 4), alpha = 0.3) +
+   scale_fill_manual('', values = cols[2], labels = labs[2])+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.4))) +
+  theme(legend.position = c(0, 1), legend.background = element_blank(), legend.justification = c(0, 1))
+# gg_test_alpha
+
+gg_test_alpha_p <- gg_test_t + 
+  # Критический уровень значимости
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[2]), xlim = c(-4, qt(0.025, df = n - 1)), alpha = 0.3) +
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[2]), xlim = c(qt(0.975, df = n - 1), 4), alpha = 0.3) +
+  # Значение p, уровень значимости
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[1]), xlim = c(-4, -t_val), alpha = 0.9) +
+  stat_function(geom = 'area', fun = dt, args = list(df = n - 1), 
+                aes(fill = mappings[1]), xlim = c(t_val, 4), alpha = 0.9) +
+  scale_fill_manual('', values = cols, labels = labs) +
+  guides(fill = guide_legend(override.aes = list(alpha = 0.25)))+
+  theme(legend.position = c(0, 1), legend.background = element_blank(), legend.justification = c(0, 1))
+
+gg_test_t # реальное t
+# gg_test_p # уровень значимости
+# gg_test_alpha # критический уровень значимости
+# gg_test_alpha_p # сравнение с уровнем значимости
+```
+
+]
+.pull-right[
+
+При $H_0$ значение $t$ будет близко к нулю.
+
+Насколько необычны значения t меньше или больше $\pm `r t_val`$?
+
+]
+
+---
+
+## Уровень значимости (_p_-value)
+
+.pull-left[
+
+```{r echo=FALSE, purl=FALSE, opts.label='fig.medium.taller'}
+gg_test_p # Значение p
+```
+
+]
+.pull-right[
+
+__Уровень значимости__ — это вероятность получить значение $t$ меньше или больше данного, если бы $H_0$ была справедлива.
+
+]
+
+
+
+---
+
+## Уровень значимости (_p_-value)
+
+.pull-left[
+
+```{r echo=FALSE, purl=FALSE, opts.label='fig.medium.taller'}
+gg_test_p # Значение p
+```
+
+]
+.pull-right[
+
+Можно вычислить значение $p$
+
+```{r echo=TRUE, purl=FALSE}
+2 * ( 1 - pt(2.96, df = 35 - 1) )
+```
+
+Если бы плодовитость не отличалось от указанной в статье, получить $t$ меньше или больше $`r t_val`$ (то есть справедливы была бы $H_0$) можно было бы с вероятностью $p = `r p_val`$. 
+
+]
+
+---
+
+## Критический уровень значимости
+
+.pull-left[
+
+```{r echo=FALSE, purl=FALSE, opts.label='fig.medium.taller'}
+gg_test_alpha +  geom_vline(xintercept = qt(c(0.025, 0.975), df = n - 1), linetype = 2)
+```
+
+]
+.pull-right[
+
+Критический уровень значимости $\alpha$ — это порог для принятия решений.
+
+Обычно используют $\alpha = 0.05$. 
+
+$\alpha$ - это допустимая вероятность **Ошибки I рода** (найти отличия там, где их нет).
+
+
+Если $p \le \alpha$ — отвергаем $H_0$  и принимаем $H_A$.
+
+Если $p > \alpha$ — сохраняем $H_0$,  не можем ее отвергнуть.
+
+]
+
+---
+
+## Принимаем решение
+
+.pull-left[
+
+```{r echo=FALSE, purl=FALSE, opts.label='fig.medium.taller'}
+gg_test_alpha_p
+```
+
+]
+.pull-right[
+
+Мы получили $p < \alpha$, поэтому отвергаем $H_0$ и принимаем $H_A$.
+
+Указанная в статье плодовитость **статистически значимо** отличается от плодовитости в изученной нами популяции. Мы изучали что-то иное (другую генеральную совокупность)!
+
+--
+
+*At!* Лучше не использовать популярное словосочетание "*достоверно отличается*". Достоверные события - это события, вероятность которых равна 1. 
+]
+
+---
+
+## Заблуждения о _p_-values
+
+Это каверзные вопросы, на которые многие отвечают неправильно
+--
+
+ Правда ли, что $p$ — вероятность того, что верна сама $H_0$?  
+
+--
+
+- Нет! Значение $p$ всегда считается __при условии, что $H_0$ верна__. Но $H_0$ может быть неверна.
+
+<br/>
+
+--
+
+Правда ли, что $p$ — это вероятность получить такое значение статистики при справедливой $H_0$?
+
+--
+
+- Нет! Вероятность вычисляется как площадь под участком кривой.  Конкретное значение статистики — это точка и под ней нет площади.
+
+<br/>
+
+--
+
+Правда ли, что если $p > 0.05$, то различий между группами на самом деле нет?  
+
+--
+
+- Нет! Это значит, что имеющиеся данные не позволяют отвергнуть нулевую гипотезу. Различия могут быть.
+
+--
+
+*p*-value - это всего лишь вероятность того, что *в мире, где справедлива $H_0$,* при повторных выборках из той же генеральной совокупности значение выбранной статистики (например *t*) будет больше или равно наблюдаемого в нашей выборке. 
+
+
+---
+
+class: middle, center, inverse
+
+# Двухвыборочный t-тест
+
+---
+
+## Гипотезы в двухвыборочном $t$-тесте и тестовая статистика
+
+$H_0: \mu_1 - \mu_2 = 0$ — средние значения не различаются в двух группах
+
+$H_A: \mu_1 - \mu_2 \ne 0$ — средние значения различаются
+
+<br/>
+
+Т.е. нас интересует __разность выборочных средних__.
+
+Ее ожидаемое значение при $H_0$ будет 0.
+
+
+t-тест в общем виде выглядит так
+
+$$t=\frac{\text{Наблюдаемая величина - Ожидаемое значение}}{\text{Стандартная ошибка}}$$
+---
+
+## t-тест и его разновидности
+
+Двухвыборочный t-тест используется для проверки значимости различий между средними
+
+$$t=\frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{SE_{\bar{x}_1 - \bar{x}_2}} \; = \; \frac{\bar{x}_1 - \bar{x}_2}{SE_{\bar{x}_1 - \bar{x}_2}}$$
+
+--
+
+$SE_{\bar{x}_1 - \bar{x}_2}$ — стандартная ошибка разности двух средних, может рассчитываться по-разному
+
+- t-тест Стьюдента — если считать, что дисперсии в группах равны
+- t-тест Уэлча — если считать, что дисперсии могут быть разными
+
+---
+
+## Стандартная ошибка разности средних в t-тесте Стьюдента
+
+Student 1908
+
+Если группы независимы и **дисперсии в них равны**, то по центральной предельной теореме
+
+$$SE_{\bar{x}_1 - \bar{x}_2} = \sqrt{ \frac{sd^2}{n_{1}} + \frac{sd^2}{n_{2}}}$$
+
+Результирующая $t$-статистика подчиняется $t$-распределению с  $df = n_1 + n_2 - 2$.
+
+--
+
+Осторожно, равенство дисперсий в группах —  
+это часто нереалистичное предположение!
+
+---
+
+## t-тест Уэлча
+
+Если группы независимы и дисперсии в них неизвестны, но могут быть неравны 
+
+тогда число степенй свободы $df$ (параметр $t$-распределения)
+
+$$df_{ Welch-Satterthwaite} \approx \cfrac {\bigg(\cfrac{sd^2_{1}}{n_{1}} + \cfrac{sd^2_{2}}{n_{2}}\bigg)^2}
+{\cfrac{1}{n_{1} - 1}\bigg(\cfrac {sd_{1}^2} {n_{1}}\bigg)^2 + \cfrac{1}{n_{2} - 1}\bigg(\cfrac {sd_{2}^2} {n_{2}}\bigg)^2}$$
+
+
+t-тестом Уэлча можно пользоваться, даже если дисперсии равны.
+
+
+---
+
+## Условия применимости двухвыборочного t-теста
+
+- Наблюдения независимы друг от друга.
+- Выборки независимы друг от друга.
+- Объем выборки достаточно велик или величины нормально распределены.
+
+---
+
+class: middle, center, inverse
+
+# Двухвыборочный t-тест в R
+
+---
+
+## Пример: Гормоны и артериальная гипертензия
+
+Синдром Кушинга — это нарушения уровня артериального давления, вызванные гиперсекрецией кортизола надпочечниками.
+
+В датасете `Cushings` (пакет `MASS`) записаны данные о секреции двух метаболитов при разных типах синдрома (данные из кн. Aitchison, Dunsmore, 1975).
+
+- `Tetrahydrocortisone` — секреция тетрагидрокортизона с мочой (мг/сут.)
+- `Pregnanetriol` — секреция прегнантриола с мочой (мг/сут.)
+- `Type` — тип синдрома:
+    - `a` — аденома
+    - `b` — двусторонняя гиперплазия
+    - `c` — карцинома
+    - `u` — не известно
+
+Давайте сравним секрецию тетрагидрокортизона при аденомe (группа *a*) и двусторонней гиперплазии надпочечников (группа *b*). Различается ли она?
+
+---
+
+## Открываем данные
+
+```{r}
+library(MASS)
+data("Cushings")
+```
+
+Все ли правильно открылось?
+
+```{r}
+head(Cushings)
+str(Cushings)
+```
+
+---
+
+## Знакомимся с данными
+
+Есть ли пропущенные значения?
+
+```{r}
+colSums(is.na(Cushings))
+```
+
+<br/>
+
+Каковы объемы выборки в каждой группе?
+
+```{r}
+table(Cushings$Type)
+```
+
+Обратите внимание, объемы выборок **маленькие**.
+
+---
+
+## Проверяем условия применимости...
+
+1.Наблюдения независимы друг от друга?
+
+- Да, независимы. Это случайная выборка.
+
+<br/>
+
+2.Выборки независимы друг от друга?
+
+- Да, независимы. В группах разные люди (естественно, т.к. тип синдрома у человека может быть только какой-то один).
+
+<br/>
+
+3.Объем выборки достаточно велик или величины нормально распределены?
+
+- Объем выборки мал
+
+```{r}
+table(Cushings$Type)
+```
+
+Нужно проверить форму распределения в обеих группах.
+
+---
+
+## Нормально ли распределены концентрации тетрагидрокортизона в группах?
+
+```{r echo=FALSE, opts.label='fig.wide'}
+library(car)
+par(mfrow = c(1, 2))
+qqPlot(Cushings$Tetrahydrocortisone[Cushings$Type == 'a'], id = FALSE)
+qqPlot(Cushings$Tetrahydrocortisone[Cushings$Type == 'b'], id = FALSE)
+par(mfrow = c(1, 1))
+```
+
+Удовлетворительно. При таких малых объемах выборки сложно ожидать лучшего. 
+
+<!-- Будем считать, что можно аппроксимировать концентрацию тетрагидрокортизона нормальным распределением. -->
+
+---
+
+## Двухвыборочный t-тест в R: способ 1.
+
+Сравним секрецию тетрагидрокортизона при помощи **двухвыборочного** t-теста.
+
+```
+t.test(x = значения_в_гр.1, 
+       y = значения_в_гр.2)
+```
+
+```{r}
+tt <- t.test(x = Cushings$Tetrahydrocortisone[Cushings$Type == 'a'],
+             y = Cushings$Tetrahydrocortisone[Cushings$Type == 'b'])
+tt
+```
+
+---
+
+## Опишем результаты
+
+```{r echo=FALSE}
+tt
+```
+
+- Секреция тетрагидрокортизона значимо различается у пациентов с аденомой и двусторонней гиперплазией надпочечников ( $t_{`r round(tt$parameter, 2)`} = `r round(tt$statistic, 2)`$, $p = `r format.pval(tt$p.value, eps = 0.05)`$)
+
+
+<br/>
+
+Можно указать в скобках не сравнение с $\alpha$, а само значение $p$:  
+( $t_{`r round(tt$parameter, 2)`} = `r round(tt$statistic, 2)`$, $p = `r format.pval(tt$p.value, digits = 2, eps = 0.001)`$).
+
+Только не надо безумствовать и указывать слишком много знаков...
+
+
+---
+
+## График со средними и доверительными интервалами
+
+```{r}
+ggplot(data = Cushings[Cushings$Type %in% c('a', 'b'), ],
+       aes(x = Type, y = Tetrahydrocortisone)) +
+  stat_summary(fun.data = mean_cl_normal)
+```
+
+
+---
+
+## Take-home messages
+
+- По центральной предельной теореме выборочные средние нормально распределены $$\bar X \sim N (\mu, \sigma / \sqrt{n})$$.
+- Доверительный интервал к среднему значению можно построить из нормального распределения, если известна $\sigma$ в генеральной совокупности, или из $t$-распределения, если она не известна.
+- При тестировании нулевой гипотезы оценивают вероятность получения данного или более экстремального значения тестовой статистики при условии, что $H_0$ справедлива. Если эта вероятность меньше выбранного критического уровня значимости, то нулевую гипотезу отвергают.
+- Для сравнения выборочных средних лучше использовать t-критерий в модификации Уэлча, который учитывает, что дисперсии в группах могут быть разными.
+- Средние в независимых выборках нужно сравнивать двухвыборочным t-тестом.
+- Если выборки зависимы — нужно это учесть, поэтому для сравнения средних используется парный t-тест.
+
