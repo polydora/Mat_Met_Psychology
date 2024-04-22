@@ -1,0 +1,113 @@
+---
+title: "Изучение сезонной динамики температуры воды"
+author: "В. М. Хайтов"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+```
+
+## Визуализация наблюдаемых тенденций
+
+
+```{r Packages}
+# Загрузка необходимых пакетов
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(multcomp)
+library(car)
+```
+
+
+```{r Data_reading}
+
+# Загрузка данных из файла Excel
+data <- read_excel("data/hydrology_2022.xls", na = 'NA')
+
+data <-
+data %>% 
+  filter(!is.na(Water_T))
+```
+
+На рисунке, приведенном ниже, мы видим боксплоты, отражающие значения температуры аоды в разные месяцы. 
+
+```{r}
+ggplot(data, aes(x = Month, y = Water_T)) +
+  geom_boxplot()
+```
+
+## Дисперсионный анализ
+
+```{r Model_building}
+# Проведение дисперсионного анализа
+model <- aov(Water_T ~ Month, data = data)
+anova_result <- summary(model)
+```
+
+Проверка валидности дисперсионного анализа
+
+```{r}
+# Проверка условий применимости ANOVA
+residuals <- residuals(model)
+
+qplot(x = fitted(model), y  = residuals) +
+  geom_hline(yintercept = 0)
+```
+
+```{r}
+qqPlot(residuals)
+```
+
+
+Результаты дсперсионного анализа показывают наличие статистически значимого влияния фактора "Month" на температуру воды. 
+
+```{r}
+anova_result
+```
+
+## Post-hoc анализ
+
+Применим критерий Тьюки для попарного сравнения средних
+
+```{r}
+tukey_result <- TukeyHSD(model)
+tukey_result
+```
+
+Все различия между средними оказались значимыми.
+
+## Среднемесячные значения температуры воды
+
+```{r}
+ggplot(data, aes(x=Month, y=Water_T, group = Month)) + 
+  geom_bar(stat = "summary", fun= "mean", na.rm=TRUE) + 
+  labs(title= "Средние значения Water_T по месяцам") +
+  stat_summary(geom = 'errorbar', fun.data = mean_cl_normal)
+```
+
+
+```{r}
+
+data %>% 
+  group_by(Month) %>% 
+  summarise(Mean = mean(Water_T), 
+            n = n(),
+            sd = sd(Water_T),
+            SE = sd/sqrt(n),
+            t = qt(0.975, df = n-1), 
+            CI_low = Mean - t * SE, 
+            CI_up = Mean + t * SE) %>% 
+  ggplot(aes(x = Month, y = Mean)) +
+  geom_col() + 
+  geom_errorbar(aes(ymin = CI_low, ymax = CI_up), width = 0.2)
+
+
+```
+
