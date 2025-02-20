@@ -1,1380 +1,1010 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
-  <head>
-    <title>Знакомство с R</title>
-    <meta charset="utf-8" />
-    <meta name="author" content="Марина Варфоломеева" />
-    <meta name="author" content="Анастасия Лянгузова" />
-    <meta name="author" content="Вадим Хайтов" />
-    <script src="libs/header-attrs-2.20/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/tamu-fonts.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
-    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
-    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
-    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
-    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
-    <script src="libs/mark.js-8.11.1/mark.min.js"></script>
-    <link href="libs/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-search-0.0.1/search.js"></script>
-    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
-    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
-    <script src="libs/freezeframe-5.0.2/freezeframe.min.js"></script>
-    <script src="libs/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
-    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
-    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
-    <!-- https://github.com/fnaufel/xaringan-smartify-->
-    <script
-    			  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    			  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-    			  crossorigin="anonymous">
-    </script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/fnaufel/xaringan-smartify/smartify.min.js"></script>
-    <link rel="stylesheet" href="assets/xaringan-themer.css" type="text/css" />
-    <link rel="stylesheet" href="assets/xaringan.css" type="text/css" />
-  </head>
-  <body>
-    <textarea id="source">
-class: middle, left, inverse, title-slide
-
-.title[
-# Знакомство с R
-]
-.subtitle[
-## Математические методы
-]
-.author[
-### Марина Варфоломеева
-]
-.author[
-### Анастасия Лянгузова
-]
-.author[
-### Вадим Хайтов
-]
-
----
-
-
-
-
-class: middle, center, inverse
-
-# Знакомство с R
-
----
-
-## Загрузка, установка...
-
-Собственно, сам [R](https://cran.r-project.org/)
-
-[RStudio](posit.co) --- среда для разработки (IDE) на R
-
-Онлайн IDE для R --- на тот случай, если у вас не установлен R:
-
--   &lt;https://posit.cloud&gt;
-
-
----
-
-1.  Создайте папку (например *"mat_met"*), где будут храниться ВСЕ материалы курса. Эта папка будет **рабочей директорией**. В эту папку помещайте ВСЕ файлы с кодом (с расширением .R).
-
-2.  Внутри папки `mat_met` создайте папку `data`, где будут храниться все файлы с данными для анализа.
-
-В итоге у вас должно получиться примерно это:
-
-    C:\mat_met\
-    C:\mat_met\data\
-    
----
-
-## Установка рабочей директории
-
-Есть несколько способов установки пути к рабочей директории:
-
-1. Выберите в меню `Session -&gt; Set working Directory... -&gt; To Source File Location` (Если вы уже сохранили код).
-
-2. На вкладке `Files` в одной из рабочих областей RStudio выберите многоточие `...` -&gt; в открывшемся системном диалоге выбора файлов найдите директорию, в которой лежит ваш код и нажмите OK
-
-3. Можно вручную прописать путь к рабочей директории в кавычках в качестве аргумента функции `setwd()`
-
-
-```r
-setwd("~/linmodr")
-```
-
-Полезно создать в рабочей директории проект в формате `.Rproj` и работать, запуская проект. 
-
----
-
-## Как получить помощь
-
-1.  В RStudio можно поставить курсор на имя функции, например `setwd()`, и нажать `F1`
-2.  Перед названием функции можно напечатать знак вопроса и выполнить эту строку `?setwd`
-3.  Можно воспользоваться функцией `help()`
-
-
-```r
-help("setwd")
-```
-
----
-
-## Настройка RStudio
-
-Все настройки RStudio находятся в меню Tools -\&gt; Global Options
-
--   Восстановление рабочего пространства из прошлого сеанса --- это лучше отменить, т.к. обычно переменные-призраки очень мешают. На вкладке `General` убираем галочку `Restore .RData into workspace at startup`, и меняем `Save workspace to .RData on exit` на `Never`
--   Перенос длинных строк в окне кода --- это удобно. На вкладке `Code` ставим галочку рядом с опцией `Soft-wrap R source files`.
-
-## Комментарии
-
-Комментарии в текстах программ обозначаются символом \#
-
-
-```r
-# это комментарии, они не будут выполняться
-```
-
----
-
-## Полезные клавиатурные сокращения в RStudio
-
--   `Ctrl + Shift + C` --- закомментировать/раскомментировать выделенный фрагмент кода.
--   `Ctrl + Enter` --- отправляет активную строку из текстового редактора в консоль, а если выделить несколько строк, то будет выполнен этот фрагмент кода.
--   `Ctrl + Alt` --- выбор нескольких строк одновременно.
--   `Tab` или `Ctrl + Space` --- нажмите после того как начали набирать название функции или переменной, и появится список автоподстановки. Это помогает печатать код быстро и с меньшим количеством ошибок.
--   `Ctrl + L` --- очистить консоль. 
--   `Alt + -` --- ввод оператора присваивания (`&lt;-`).
--   `Ctrl + Shift + M` --- ввод оператора `%&gt;%` (pipe operator).
-
-
----
-
-## R как калькулятор, математические операции
-
-
-```r
-2+2
-```
-
-```
-[1] 4
-```
-
-```r
-1024/2
-```
-
-```
-[1] 512
-```
-
-```r
-1:10
-```
-
-```
- [1]  1  2  3  4  5  6  7  8  9 10
-```
-
-```r
-34*4
-```
-
-```
-[1] 136
-```
-
-```r
-2^4
-```
-
-```
-[1] 16
-```
-
-```r
-sqrt(27)
-```
-
-```
-[1] 5.196
-```
-
----
-
-## Переменные
-
-Оператор присваивания это символ стрелочки `&lt;-`. Он работает справа налево, это значит, что значение выражения в его правой части присваивается объекту в левой части.
-
-Переменные --- это такие контейнеры, в которые можно положить разные данные и даже функции.
-
-Имена переменных могут содержать латинские буквы обоих регистров, символы точки . и подчеркивания \_ , а также цифры. Имена переменных должны начинаться с латинских букв. Создавайте понятные и "говорящие" имена переменных.
-
-
-```r
-var_1 &lt;- 1024 / 2
+<html>
+<head>
+  <title>Знакомство с R</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Знакомство с R',
+                        subtitle: 'Математические методы',
+                useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Вадим Хайтов' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            {
+        name:  'Марина Варфоломеева' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            {
+        name:  'Анастасия Лянгузова' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+  <link href="site_libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+  <script src="site_libs/tile-view-0.2.6/tile-view.js"></script>
+  <script src="site_libs/fabric-4.3.1/fabric.min.js"></script>
+  <link href="site_libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+  <script src="site_libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+  <script src="site_libs/mark.js-8.11.1/mark.min.js"></script>
+  <link href="site_libs/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
+  <script src="site_libs/xaringanExtra-search-0.0.1/search.js"></script>
+  <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+  <script src="site_libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+  <script src="site_libs/freezeframe-5.0.2/freezeframe.min.js"></script>
+  <script src="site_libs/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
+  <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+  <link href="site_libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            pre > code.sourceCode { white-space: pre; position: relative; }
+            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span:empty { height: 1.2em; }
+            .sourceCode { overflow: visible; }
+            code.sourceCode > span { color: inherit; text-decoration: inherit; }
+            div.sourceCode { margin: 1em 0; }
+            pre.sourceCode { margin: 0; }
+            @media screen {
+            div.sourceCode { overflow: auto; }
+            }
+            @media print {
+            pre > code.sourceCode { white-space: pre-wrap; }
+            pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+            }
+            pre.numberSource code
+              { counter-reset: source-line 0; }
+            pre.numberSource code > span
+              { position: relative; left: -4em; counter-increment: source-line; }
+            pre.numberSource code > span > a:first-child::before
+              { content: counter(source-line);
+                position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                border: none; display: inline-block;
+                -webkit-touch-callout: none; -webkit-user-select: none;
+                -khtml-user-select: none; -moz-user-select: none;
+                -ms-user-select: none; user-select: none;
+                padding: 0 4px; width: 4em;
+                color: #aaaaaa;
+              }
+            pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+            div.sourceCode
+              {   }
+            @media screen {
+            pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+            }
+            code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code span.at { color: #7d9029; } /* Attribute */
+            code span.bn { color: #40a070; } /* BaseN */
+            code span.bu { color: #008000; } /* BuiltIn */
+            code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code span.ch { color: #4070a0; } /* Char */
+            code span.cn { color: #880000; } /* Constant */
+            code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code span.dt { color: #902000; } /* DataType */
+            code span.dv { color: #40a070; } /* DecVal */
+            code span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code span.ex { } /* Extension */
+            code span.fl { color: #40a070; } /* Float */
+            code span.fu { color: #06287e; } /* Function */
+            code span.im { color: #008000; font-weight: bold; } /* Import */
+            code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code span.op { color: #666666; } /* Operator */
+            code span.ot { color: #007020; } /* Other */
+            code span.pp { color: #bc7a00; } /* Preprocessor */
+            code span.sc { color: #4070a0; } /* SpecialChar */
+            code span.ss { color: #bb6688; } /* SpecialString */
+            code span.st { color: #4070a0; } /* String */
+            code span.va { color: #19177c; } /* Variable */
+            code span.vs { color: #4070a0; } /* VerbatimString */
+            code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+        
+  </style>
+
+  <link rel="stylesheet" href="assets/my_styles.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides>
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+          </hgroup>
+  </slide>
+
+<!-- class: middle, center, inverse -->
+
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Знакомство с R</h2></hgroup><article  id="знакомство-с-r">
+
+</article></slide><slide class=""><hgroup><h2>Загрузка, установка…</h2></hgroup><article  id="загрузка-установка">
+
+<p>Собственно, сам <a href='https://cran.r-project.org/' title=''>R</a></p>
+
+<p><a href='posit.co' title=''>RStudio</a> среда для разработки (IDE) на R</p>
+
+<p>Онлайн IDE для R на тот случай, если у вас не установлен R:</p>
+
+<ul>
+<li><a href='https://posit.cloud' title=''>https://posit.cloud</a></li>
+</ul>
+
+<ol>
+<li><p>Создайте папку (например <em>&ldquo;mat_met&rdquo;</em>), где будут храниться ВСЕ материалы курса. Эта папка будет <strong>рабочей директорией</strong>. В эту папку помещайте ВСЕ файлы с кодом (с расширением .R).</p></li>
+<li><p>Внутри папки <code>mat_met</code> создайте папку <code>data</code>, где будут храниться все файлы с данными для анализа.</p></li>
+</ol>
+
+<p>В итоге у вас должно получиться примерно это:</p>
+
+<pre >C:\mat_met\
+C:\mat_met\data\</pre>
+
+</article></slide><slide class=""><hgroup><h2>Установка рабочей директории</h2></hgroup><article  id="установка-рабочей-директории">
+
+<p>Есть несколько способов установки пути к рабочей директории:</p>
+
+<ol>
+<li><p>Выберите в меню <code>Session -&gt; Set working Directory... -&gt; To Source File Location</code> (Если вы уже сохранили код).</p></li>
+<li><p>На вкладке <code>Files</code> в одной из рабочих областей RStudio выберите многоточие <code>...</code> -&gt; в открывшемся системном диалоге выбора файлов найдите директорию, в которой лежит ваш код и нажмите OK</p></li>
+<li><p>Можно вручную прописать путь к рабочей директории в кавычках в качестве аргумента функции <code>setwd()</code></p></li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>setwd(&quot;~/linmodr&quot;)</pre>
+
+<p>Полезно создать в рабочей директории проект в формате <code>.Rproj</code> и работать, запуская проект.</p>
+
+</article></slide><slide class=""><hgroup><h2>Как получить помощь</h2></hgroup><article  id="как-получить-помощь">
+
+<ol>
+<li>В RStudio можно поставить курсор на имя функции, например <code>setwd()</code>, и нажать <code>F1</code></li>
+<li>Перед названием функции можно напечатать знак вопроса и выполнить эту строку <code>?setwd</code></li>
+<li>Можно воспользоваться функцией <code>help()</code></li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>help(&quot;setwd&quot;)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Настройка RStudio</h2></hgroup><article  id="настройка-rstudio">
+
+<p>Все настройки RStudio находятся в меню Tools -&gt; Global Options</p>
+
+<ul>
+<li>Восстановление рабочего пространства из прошлого сеанса это лучше отменить, т.к. обычно переменные-призраки очень мешают. На вкладке <code>General</code> убираем галочку <code>Restore .RData into workspace at startup</code>, и меняем <code>Save workspace to .RData on exit</code> на <code>Never</code></li>
+<li>Перенос длинных строк в окне кода это удобно. На вкладке <code>Code</code> ставим галочку рядом с опцией <code>Soft-wrap R source files</code>.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Комментарии</h2></hgroup><article  id="комментарии">
+
+<p>Комментарии в текстах программ обозначаются символом #</p>
+
+<pre class = 'prettyprint lang-r'># это комментарии, они не будут выполняться</pre>
+
+</article></slide><slide class=""><hgroup><h2>Полезные клавиатурные сокращения в RStudio</h2></hgroup><article  id="полезные-клавиатурные-сокращения-в-rstudio">
+
+<ul>
+<li><code>Ctrl + Shift + C</code> закомментировать/раскомментировать выделенный фрагмент кода.</li>
+<li><code>Ctrl + Enter</code> отправляет активную строку из текстового редактора в консоль, а если выделить несколько строк, то будет выполнен этот фрагмент кода.</li>
+<li><code>Ctrl + Alt</code> выбор нескольких строк одновременно.</li>
+<li><code>Tab</code> или <code>Ctrl + Space</code> нажмите после того как начали набирать название функции или переменной, и появится список автоподстановки. Это помогает печатать код быстро и с меньшим количеством ошибок.</li>
+<li><code>Ctrl + L</code> очистить консоль.</li>
+<li><code>Alt + -</code> ввод оператора присваивания (<code>&lt;-</code>).</li>
+<li><code>Ctrl + Shift + M</code> ввод оператора <code>%&gt;%</code> (pipe operator).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>R как калькулятор, математические операции</h2></hgroup><article  id="r-как-калькулятор-математические-операции">
+
+<pre class = 'prettyprint lang-r'>2+2</pre>
+
+<pre >[1] 4</pre>
+
+<pre class = 'prettyprint lang-r'>1024/2</pre>
+
+<pre >[1] 512</pre>
+
+<pre class = 'prettyprint lang-r'>1:10</pre>
+
+<pre > [1]  1  2  3  4  5  6  7  8  9 10</pre>
+
+<pre class = 'prettyprint lang-r'>34*4</pre>
+
+<pre >[1] 136</pre>
+
+<pre class = 'prettyprint lang-r'>2^4</pre>
+
+<pre >[1] 16</pre>
+
+<pre class = 'prettyprint lang-r'>sqrt(27)</pre>
+
+<pre >[1] 5.196</pre>
+
+</article></slide><slide class=""><hgroup><h2>Переменные</h2></hgroup><article  id="переменные">
+
+<p>Оператор присваивания это символ стрелочки <code>&lt;-</code>. Он работает справа налево, это значит, что значение выражения в его правой части присваивается объекту в левой части.</p>
+
+<p>Переменные это такие контейнеры, в которые можно положить разные данные и даже функции.</p>
+
+<p>Имена переменных могут содержать латинские буквы обоих регистров, символы точки . и подчеркивания _ , а также цифры. Имена переменных должны начинаться с латинских букв. Создавайте понятные и &ldquo;говорящие&rdquo; имена переменных.</p>
+
+<pre class = 'prettyprint lang-r'>var_1 &lt;- 1024 / 2
 1238 * 3 -&gt; var_2
-var_2
-```
+var_2</pre>
 
-```
-[1] 3714
-```
+<pre >[1] 3714</pre>
 
-Как выбрать название переменной?
+<p>Как выбрать название переменной?</p>
 
--   `a` - плохо, и даже `b`, `с`, или `х`. Но в некоторых случаях допустимо:)
--   `var1` - плохо, но уже лучше
--   `var_1` - плохо, но уже лучше
--   `braincontent` - говорящее, но плохо читается
--   `brain_content`, `BrainContent` или `brain.content` - хорошие говорящие и читабельные названия
+<ul>
+<li><code>a</code> - плохо, и даже <code>b</code>, <code>с</code>, или <code>х</code>. Но в некоторых случаях допустимо:)</li>
+<li><code>var1</code> - плохо, но уже лучше</li>
+<li><code>var_1</code> - плохо, но уже лучше</li>
+<li><code>braincontent</code> - говорящее, но плохо читается</li>
+<li><code>brain_content</code>, <code>BrainContent</code> или <code>brain.content</code> - хорошие говорящие и читабельные названия</li>
+</ul>
 
----
+</article></slide><slide class=""><hgroup><h2>Векторы</h2></hgroup><article  id="векторы">
 
-## Векторы 
+<p>Данные в R можно хранить в виде разных объектов. R векторный язык, и большинство объектов в нём представлены векторами.</p>
 
-Данные в R можно хранить в виде разных объектов. R --- векторный язык, и большинство объектов в нём представлены векторами. 
+<p>Векторы бывают:</p>
 
-Векторы бывают:
+<ul>
+<li>атомарные все элементы представлены одним типом данных;</li>
+<li>списки могут быть разные типы данных.</li>
+</ul>
 
-- атомарные --- все элементы представлены одним типом данных; 
-- списки --- могут быть разные типы данных.
+<p>Примеры атомарных векторов:</p>
 
-Примеры атомарных векторов:
+<pre class = 'prettyprint lang-r'>23</pre>
 
+<pre >[1] 23</pre>
 
-```r
-23
-```
+<pre class = 'prettyprint lang-r'>sqrt(25)</pre>
 
-```
-[1] 23
-```
+<pre >[1] 5</pre>
 
-```r
-sqrt(25)
-```
+<p>Полученные величины просто векторы единичной длины.</p>
 
-```
-[1] 5
-```
+<p><em>Вектор</em> – один объект, внутри которого несколько значений.</p>
 
-Полученные величины --- просто векторы единичной длины.
+</article></slide><slide class=""><hgroup><h2>Некоторые способы создания векторов:</h2></hgroup><article  id="некоторые-способы-создания-векторов">
 
-*Вектор* -- один объект, внутри которого несколько значений.
+<ul>
+<li>Оператор <code>:</code> используется для создания целочисленных векторов, где значения следуют одно за другим без пропусков</li>
+</ul>
 
----
+<pre class = 'prettyprint lang-r'>1:10 # от одного до 10</pre>
 
-## Некоторые способы создания векторов:
+<pre > [1]  1  2  3  4  5  6  7  8  9 10</pre>
 
--   Оператор `:` используется для создания целочисленных векторов, где значения следуют одно за другим без пропусков
+<pre class = 'prettyprint lang-r'>-5:3 # от -5 до 3</pre>
 
+<pre >[1] -5 -4 -3 -2 -1  0  1  2  3</pre>
 
-```r
-1:10 # от одного до 10
-```
+<ul>
+<li>Функция <code>seq()</code> создает последовательности из чисел</li>
+</ul>
 
-```
- [1]  1  2  3  4  5  6  7  8  9 10
-```
+<pre class = 'prettyprint lang-r'>seq(from = 1, to = 5, by = 0.5)</pre>
 
-```r
--5:3 # от -5 до 3
-```
+<pre >[1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</pre>
 
-```
-[1] -5 -4 -3 -2 -1  0  1  2  3
-```
+</article></slide><slide class=""><hgroup><h2>Некоторые способы создания векторов</h2></hgroup><article  id="некоторые-способы-создания-векторов-1">
 
--   Функция `seq()` создает последовательности из чисел
+<ul>
+<li>Функция <code>c()</code> - от англ. concatenate. Следите, чтобы было английское си, а не русское эс:).</li>
+</ul>
 
+<pre class = 'prettyprint lang-r'>?c # посмотрите хелп к функции</pre>
 
-```r
-seq(from = 1, to = 5, by = 0.5)
-```
+<p>Функция <code>c</code> принимает несколько (произвольное количество) аргументов, разделенных запятыми. Она собирает из них вектор.</p>
 
-```
-[1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0
-```
+<pre class = 'prettyprint lang-r'>c(2, 4, 6)</pre>
 
----
+<pre >[1] 2 4 6</pre>
 
-## Некоторые способы создания векторов
+<pre class = 'prettyprint lang-r'>c(-9.3, 0, 2.17, 21.3)</pre>
 
--   Функция `c()` - от англ. concatenate. Следите, чтобы было английское си, а не русское эс:).
+<pre >[1] -9.30  0.00  2.17 21.30</pre>
 
+<p>Векторы можно хранить в переменных для последующего использования</p>
 
-```r
-?c # посмотрите хелп к функции
-```
+<pre class = 'prettyprint lang-r'>vect_num &lt;- -11:12 # численный вектор от -11 до 12 сохранен в переменной vect_num
+vect_num_1 &lt;- c(1.3, 1.7, 1.2, 0.9, 1.6, 1.4) # численный вектор, сохранен в переменной vect_num_1</pre>
 
-Функция `c` принимает несколько (произвольное количество) аргументов, разделенных запятыми. Она собирает из них вектор.
+</article></slide><slide class=""><hgroup><h2>Адресация внутри векторов</h2></hgroup><article  id="адресация-внутри-векторов">
 
+<p>При помощи оператора <code>[]</code>, можно обратится к некоторым элементам вектора. В квадратных скобках вам нужно указать один или несколько порядковых номеров элементов</p>
 
-```r
-c(2, 4, 6)
-```
+<pre class = 'prettyprint lang-r'>vect_num[1] # первый элемент в векторе vect_num</pre>
 
-```
-[1] 2 4 6
-```
+<pre >[1] -11</pre>
 
-```r
-c(-9.3, 0, 2.17, 21.3)
-```
+<pre class = 'prettyprint lang-r'>vect_num[10] # 10-й элемент</pre>
 
-```
-[1] -9.30  0.00  2.17 21.30
-```
+<pre >[1] -2</pre>
 
-Векторы можно хранить в переменных для последующего использования
+<pre class = 'prettyprint lang-r'>vect_num[22]</pre>
 
+<pre >[1] 10</pre>
 
-```r
-vect_num &lt;- -11:12 # численный вектор от -11 до 12 сохранен в переменной vect_num
-vect_num_1 &lt;- c(1.3, 1.7, 1.2, 0.9, 1.6, 1.4) # численный вектор, сохранен в переменной vect_num_1
-```
+<p>Если вам нужно несколько элементов, то их нужно передать квадратным скобкам в виде вектора. Например, нам нужны элементы с 3 по 5. Вот вектор, который содержит значения 3, 4 и 5.</p>
 
----
+<pre class = 'prettyprint lang-r'>3:5</pre>
 
-## Адресация внутри векторов
+<pre >[1] 3 4 5</pre>
 
-При помощи оператора `[]`, можно обратится к некоторым элементам вектора. В квадратных скобках вам нужно указать один или несколько порядковых номеров элементов
+<p>Если мы его напишем в квадратных скобках, то добудем элементы с такими порядковыми номерами</p>
 
+<pre class = 'prettyprint lang-r'>vect_num[3:5]</pre>
 
-```r
-vect_num[1] # первый элемент в векторе vect_num
-```
+<pre >[1] -9 -8 -7</pre>
 
-```
-[1] -11
-```
+</article></slide><slide class=""><hgroup><h2>Выбор элементов из вектора</h2></hgroup><article  id="выбор-элементов-из-вектора">
 
-```r
-vect_num[10] # 10-й элемент
-```
+<p>Аналогично, если вам нужны элементы не подряд, то передайте вектор с номерами элементов, который вы создали при помощи функции c() c(2, 4, 6) # это вектор содержащий 2, 4 и 6, поэтому</p>
 
-```
-[1] -2
-```
+<pre class = 'prettyprint lang-r'>vect_num[c(2, 4, 6)] # возвращает 2-й, 4-й и 6-й элементы</pre>
 
-```r
-vect_num[22]
-```
+<pre >[1] -10  -8  -6</pre>
 
-```
-[1] 10
-```
+<pre class = 'prettyprint lang-r'>vect_num[c(1, 10, 20)] # возвращает 1-й, 10-й и 20-й элементы</pre>
 
-Если вам нужно несколько элементов, то их нужно передать квадратным скобкам в виде вектора. Например, нам нужны элементы с 3 по 5. Вот вектор, который содержит значения 3, 4 и 5.
+<pre >[1] -11  -2   8</pre>
 
+<p>Вектор - одномерный объект. У его элементов только один порядковый номер (индекс). Поэтому при обращении к элементам вектора нужно указывать только одно число или один вектор с адресами.</p>
 
-```r
-3:5
-```
+<p>Правильно:</p>
 
-```
-[1] 3 4 5
-```
+<pre class = 'prettyprint lang-r'>vect_num[c(1, 2, 5)] # возвращает 1-й, 3-й и 5-й элементы</pre>
 
-Если мы его напишем в квадратных скобках, то добудем элементы с такими порядковыми номерами
+<pre >[1] -11 -10  -7</pre>
 
+</article></slide><slide class=""><hgroup><h2>Выбор элементов из вектора</h2></hgroup><article  id="выбор-элементов-из-вектора-1">
 
-```r
-vect_num[3:5]
-```
+<p>R выдаёт ошибку, если при обращении к вектору просто перечислить номера элементов через запятую.</p>
 
-```
-[1] -9 -8 -7
-```
+<pre class = 'prettyprint lang-r'>vect_num[1, 3, 5] # ошибка
+vect_num[15, 9, 1] # ошибка</pre>
 
----
+<pre class = 'prettyprint lang-r'>vect_num[c(15, 9, 1)] # правильно</pre>
 
-## Выбор элементов из вектора
+<pre >[1]   3  -3 -11</pre>
 
-Аналогично, если вам нужны элементы не подряд, то передайте вектор с номерами элементов, который вы создали при помощи функции c() c(2, 4, 6) \# это вектор содержащий 2, 4 и 6, поэтому
+<p>При помощи функции c() можно объединять несколько векторов в один вектор</p>
 
+<pre class = 'prettyprint lang-r'>c(1, 1, 5:9)</pre>
 
-```r
-vect_num[c(2, 4, 6)] # возвращает 2-й, 4-й и 6-й элементы
-```
+<pre >[1] 1 1 5 6 7 8 9</pre>
 
-```
-[1] -10  -8  -6
-```
+<pre class = 'prettyprint lang-r'>c(vect_num, vect_num)</pre>
 
-```r
-vect_num[c(1, 10, 20)] # возвращает 1-й, 10-й и 20-й элементы
-```
-
-```
-[1] -11  -2   8
-```
-
-Вектор - одномерный объект. У его элементов только один порядковый номер (индекс). Поэтому при обращении к элементам вектора нужно указывать только одно число или один вектор с адресами.
-
-Правильно:
-
-
-```r
-vect_num[c(1, 2, 5)] # возвращает 1-й, 3-й и 5-й элементы
-```
-
-```
-[1] -11 -10  -7
-```
-
----
-
-## Выбор элементов из вектора
-
-R выдаёт ошибку, если при обращении к вектору просто перечислить номера элементов через запятую.
-
-
-```r
-vect_num[1, 3, 5] # ошибка
-vect_num[15, 9, 1] # ошибка
-```
-
-
-```r
-vect_num[c(15, 9, 1)] # правильно
-```
-
-```
-[1]   3  -3 -11
-```
-
-При помощи функции c() можно объединять несколько векторов в один вектор
-
-
-```r
-c(1, 1, 5:9)
-```
-
-```
-[1] 1 1 5 6 7 8 9
-```
-
-```r
-c(vect_num, vect_num)
-```
-
-```
- [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
+<pre > [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
 [21]   9  10  11  12 -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4
-[41]   5   6   7   8   9  10  11  12
-```
+[41]   5   6   7   8   9  10  11  12</pre>
 
-```r
-c(100, vect_num)
-```
+<pre class = 'prettyprint lang-r'>c(100, vect_num)</pre>
 
-```
- [1] 100 -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7
-[21]   8   9  10  11  12
-```
+<pre > [1] 100 -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7
+[21]   8   9  10  11  12</pre>
 
-Добываем 1, 3, 5 и с 22 по 24 элементы
+<p>Добываем 1, 3, 5 и с 22 по 24 элементы</p>
 
+<pre class = 'prettyprint lang-r'>vect_num[c(1, 3, 5, 22:24)]</pre>
 
-```r
-vect_num[c(1, 3, 5, 22:24)]
-```
+<pre >[1] -11  -9  -7  10  11  12</pre>
 
-```
-[1] -11  -9  -7  10  11  12
-```
+<p>class: middle, center, inverse</p>
 
----
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Типы данных в R</h2></hgroup><article  id="типы-данных-в-r">
 
-class: middle, center, inverse
+</article></slide><slide class=""><hgroup><h2>Числовые данные</h2></hgroup><article  id="числовые-данные">
 
-# Типы данных в R
+<p>Всё, что вы видели в прошлом разделе :)</p>
 
----
+</article></slide><slide class=""><hgroup><h2>Текстовые данные</h2></hgroup><article  id="текстовые-данные">
 
-## Числовые данные
+<p>Каждый текстовый элемент (говорят &ldquo;строка&rdquo; - string или character) должен быть окружен кавычками двойными или одинарными.</p>
 
-Всё, что вы видели в прошлом разделе :)
+<pre class = 'prettyprint lang-r'>&quot;это текст&quot;</pre>
 
----
+<pre >[1] &quot;это текст&quot;</pre>
 
-## Текстовые данные
+<pre class = 'prettyprint lang-r'>&#39;это тоже текст&#39;</pre>
 
-Каждый текстовый элемент (говорят "строка" - string или character) должен быть окружен кавычками --- двойными или одинарными.
+<pre >[1] &quot;это тоже текст&quot;</pre>
 
+<p>Текстовые значения можно объединять в вектора. Так получается текстовый вектор.</p>
 
-```r
-"это текст"
-```
+<pre class = 'prettyprint lang-r'>rainbow &lt;- c(&quot;red&quot;, &quot;orange&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;violet&quot;)
+rainbow # весь вектор</pre>
 
-```
-[1] "это текст"
-```
+<pre >[1] &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot; &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot;</pre>
 
-```r
-'это тоже текст'
-```
+</article></slide><slide class=""><hgroup><h2>Объединение векторов</h2></hgroup><article  id="объединение-векторов">
 
-```
-[1] "это тоже текст"
-```
+<p>Добываем первый и последний элементы.</p>
 
-Текстовые значения можно объединять в вектора. Так получается текстовый вектор.
+<p>Точно знаем, что элементов 6 в данном случае.</p>
 
+<pre class = 'prettyprint lang-r'>rainbow[c(1, 6)]</pre>
 
-```r
-rainbow &lt;- c("red", "orange", "yellow", "green", "blue", "violet")
-rainbow # весь вектор
-```
+<pre >[1] &quot;red&quot;    &quot;violet&quot;</pre>
 
-```
-[1] "red"    "orange" "yellow" "green"  "blue"   "violet"
-```
+<p>Добываем элементы с 3 по 6.</p>
 
----
+<p>Если у вас вдруг слишком короткий вектор в этом задании, то можно склеить новый из двух.</p>
 
-## Объединение векторов
+<pre class = 'prettyprint lang-r'>double_rainbow &lt;- c(rainbow, rainbow)
+double_rainbow</pre>
 
-Добываем первый и последний элементы.
+<pre > [1] &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot; &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot; &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot;
+[10] &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot;</pre>
 
-Точно знаем, что элементов 6 в данном случае.
+<pre class = 'prettyprint lang-r'>rainbow[3:6] # элементы с 3 по 6</pre>
 
+<pre >[1] &quot;yellow&quot; &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot;</pre>
 
-```r
-rainbow[c(1, 6)]
-```
+</article></slide><slide class=""><hgroup><h2>Логические данные</h2></hgroup><article  id="логические-данные">
 
-```
-[1] "red"    "violet"
-```
+<pre class = 'prettyprint lang-r'>TRUE # истина</pre>
 
-Добываем элементы с 3 по 6.
+<pre >[1] TRUE</pre>
 
-Если у вас вдруг слишком короткий вектор в этом задании, то можно склеить новый из двух.
+<pre class = 'prettyprint lang-r'>FALSE # ложь</pre>
 
+<pre >[1] FALSE</pre>
 
-```r
-double_rainbow &lt;- c(rainbow, rainbow)
-double_rainbow
-```
+<p>Можно сокращать первыми заглавными буквами. <strong>Но лучше так не делать</strong>, чтобы читать программы было легче.</p>
 
-```
- [1] "red"    "orange" "yellow" "green"  "blue"   "violet" "red"    "orange" "yellow"
-[10] "green"  "blue"   "violet"
-```
+<pre class = 'prettyprint lang-r'>c(T, T, T, T, F, F, T, T)</pre>
 
-```r
-rainbow[3:6] # элементы с 3 по 6
-```
+<pre >[1]  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE</pre>
 
-```
-[1] "yellow" "green"  "blue"   "violet"
-```
+<p>Создаём логический вектор.</p>
 
----
+<pre class = 'prettyprint lang-r'>c(TRUE, TRUE, TRUE, FALSE, FALSE, TRUE)</pre>
 
-## Логические данные
+<pre >[1]  TRUE  TRUE  TRUE FALSE FALSE  TRUE</pre>
 
+<p>Ещё логический вектор</p>
 
-```r
-TRUE # истина
-```
+<pre class = 'prettyprint lang-r'>short_logical_vector &lt;- c(FALSE, TRUE)</pre>
 
-```
-[1] TRUE
-```
+</article></slide><slide class=""><hgroup><h2>Длинные векторы</h2></hgroup><article  id="длинные-векторы">
 
-```r
-FALSE # ложь
-```
+<p>Чтобы создавать длинные вектора из повторяющихся элементов, можно использовать функцию rep().</p>
 
-```
-[1] FALSE
-```
+<pre class = 'prettyprint lang-r'>rep(x = 1, times = 3) # 1 повторяется 3 раза</pre>
 
-Можно сокращать первыми заглавными буквами. **Но лучше так не делать**, чтобы читать программы было легче.
+<pre >[1] 1 1 1</pre>
 
+<pre class = 'prettyprint lang-r'>rep(x = &quot;red&quot;, times = 5) # &quot;red&quot; повторяется 5 раз</pre>
 
-```r
-c(T, T, T, T, F, F, T, T)
-```
+<pre >[1] &quot;red&quot; &quot;red&quot; &quot;red&quot; &quot;red&quot; &quot;red&quot;</pre>
 
-```
-[1]  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE
-```
+<pre class = 'prettyprint lang-r'>rep(x = TRUE, times = 2) # TRUE повторяется 2 раза</pre>
 
-Создаём логический вектор.
+<pre >[1] TRUE TRUE</pre>
 
+</article></slide><slide class=""><hgroup><h2>Аргументы функций</h2></hgroup><article  id="аргументы-функций">
 
-```r
-c(TRUE, TRUE, TRUE, FALSE, FALSE, TRUE)
-```
+<p>В R названия аргументов функций можно не указывать, если вы используете аргументы порядке, прописанном в help к этой функции.</p>
 
-```
-[1]  TRUE  TRUE  TRUE FALSE FALSE  TRUE
-```
+<pre class = 'prettyprint lang-r'>rep(TRUE, 5) # TRUE повторяется 5 раз, аргументы без названий</pre>
 
-Ещё логический вектор
+<pre >[1] TRUE TRUE TRUE TRUE TRUE</pre>
 
+<p>Создаем логический вектор, где TRUE повторяется 3 раза, FALSE 3 раза и TRUE 4 раза. Результат сохраняем в переменной vect_log</p>
 
-```r
-short_logical_vector &lt;- c(FALSE, TRUE)
-```
+<pre class = 'prettyprint lang-r'>vect_log &lt;- c(rep(TRUE, 3), rep(FALSE, 3), rep(TRUE, 4))
+vect_log</pre>
 
----
+<pre > [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</pre>
 
-## Длинные векторы
+</article></slide><slide class=""><hgroup><h2>Применение логических векторов для фильтрации данных</h2></hgroup><article  id="применение-логических-векторов-для-фильтрации-данных">
 
-Чтобы создавать длинные вектора из повторяющихся элементов, можно использовать функцию rep().
+<p>Логические векторы создаются при проверке выполнения каких-либо условий, заданных при помощи логических операторов (<code>&gt;</code>, <code>&lt;</code>, <code>==</code>, <code>!=</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>!</code>, <code>&amp;</code>, <code>|</code>). Такие векторы можно использовать для фильтрации данных.</p>
 
+<p>Вспомните, у нас был вот такой текстовый вектор.</p>
 
-```r
-rep(x = 1, times = 3) # 1 повторяется 3 раза
-```
+<pre class = 'prettyprint lang-r'>double_rainbow</pre>
 
-```
-[1] 1 1 1
-```
+<pre > [1] &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot; &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot; &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot;
+[10] &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot;</pre>
 
-```r
-rep(x = "red", times = 5) # "red" повторяется 5 раз
-```
+</article></slide><slide class=""><hgroup><h2>Задача 1.</h2></hgroup><article  id="задача-1.">
 
-```
-[1] "red" "red" "red" "red" "red"
-```
+<p>Извлекаем только .yellow[жёлтый] цвет.</p>
 
-```r
-rep(x = TRUE, times = 2) # TRUE повторяется 2 раза
-```
+<p>Мы можем создать логический вектор, в котором TRUE будет только для 3-го и 9-го элементов.</p>
 
-```
-[1] TRUE TRUE
-```
+<pre class = 'prettyprint lang-r'>f_yellow &lt;- double_rainbow == &quot;yellow&quot;
+f_yellow</pre>
 
----
+<pre > [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
-## Аргументы функций 
+<p>Этот логический вектор-фильтр мы можем использовать для извлечения данных из <code>double_rainbow</code></p>
 
-В R названия аргументов функций можно не указывать, если вы используете аргументы порядке, прописанном в help к этой функции.
+<pre class = 'prettyprint lang-r'>double_rainbow[f_yellow]</pre>
 
+<pre >[1] &quot;yellow&quot; &quot;yellow&quot;</pre>
 
-```r
-rep(TRUE, 5) # TRUE повторяется 5 раз, аргументы без названий
-```
+</article></slide><slide class=""><hgroup><h2>Задача 2.</h2></hgroup><article  id="задача-2.">
 
-```
-[1] TRUE TRUE TRUE TRUE TRUE
-```
+<p>Извлекаем из double_rainbow .yellow[жёлтый] и .blue[синий]. Жёлтый фильтр у нас уже есть, поэтому мы создадим фильтр для синего.</p>
 
-Создаем логический вектор, где TRUE повторяется 3 раза, FALSE 3 раза и TRUE 4 раза. Результат сохраняем в переменной vect_log
+<pre class = 'prettyprint lang-r'>f_blue &lt;- double_rainbow == &quot;blue&quot;</pre>
 
+<p>Выражение &ldquo;жёлтый или синий&rdquo; можно записать при помощи логического &ldquo;или&rdquo; (<code>|</code>)</p>
 
-```r
-vect_log &lt;- c(rep(TRUE, 3), rep(FALSE, 3), rep(TRUE, 4))
-vect_log
-```
+<pre class = 'prettyprint lang-r'>f_yellow | f_blue</pre>
 
-```
- [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
-```
+<pre > [1] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE</pre>
 
----
+<p>Задача решена, мы извлекли жёлтый и синий цвета.</p>
 
-## Применение логических векторов для фильтрации данных
+<pre class = 'prettyprint lang-r'>double_rainbow[f_yellow | f_blue]</pre>
 
-Логические векторы создаются при проверке выполнения каких-либо условий, заданных при помощи логических операторов (`&gt;`, `&lt;`, `==`, `!=`, `&gt;=`, `&lt;=`, `!`, `&amp;`, `|`). Такие векторы можно использовать для фильтрации данных.
+<pre >[1] &quot;yellow&quot; &quot;blue&quot;   &quot;yellow&quot; &quot;blue&quot;  </pre>
 
-Вспомните, у нас был вот такой текстовый вектор.
+</article></slide><slide class=""><hgroup><h2>Сокращаем запись</h2></hgroup><article  id="сокращаем-запись">
 
+<p>То же самое можно было бы записать короче.</p>
 
-```r
-double_rainbow
-```
+<p>В одну строку совершенно нечитабельно:</p>
 
-```
- [1] "red"    "orange" "yellow" "green"  "blue"   "violet" "red"    "orange" "yellow"
-[10] "green"  "blue"   "violet"
-```
+<pre class = 'prettyprint lang-r'>double_rainbow[double_rainbow == &quot;yellow&quot; | double_rainbow == &quot;blue&quot;]</pre>
 
----
+<pre >[1] &quot;yellow&quot; &quot;blue&quot;   &quot;yellow&quot; &quot;blue&quot;  </pre>
 
-## Задача 1. 
+<p>Фильтр отдельно читается лучше:</p>
 
-Извлекаем только .yellow[жёлтый] цвет.
+<pre class = 'prettyprint lang-r'>f_colours &lt;- double_rainbow == &quot;yellow&quot; | double_rainbow == &quot;blue&quot;
+double_rainbow[f_colours]</pre>
 
-Мы можем создать логический вектор, в котором TRUE будет только для 3-го и 9-го элементов.
+<pre >[1] &quot;yellow&quot; &quot;blue&quot;   &quot;yellow&quot; &quot;blue&quot;  </pre>
 
+</article></slide><slide class=""><hgroup><h2>Задача 3</h2></hgroup><article  id="задача-3">
 
-```r
-f_yellow &lt;- double_rainbow == "yellow"
-f_yellow
-```
+<p>Был числовой вектор.</p>
 
-```
- [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
-```
+<pre class = 'prettyprint lang-r'>vect_num</pre>
 
-Этот логический вектор-фильтр мы можем использовать для извлечения данных из `double_rainbow`
+<pre > [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
+[21]   9  10  11  12</pre>
 
+<p>Извлекаем из числового вектора <code>vect_num</code> только значения больше 0.</p>
 
-```r
-double_rainbow[f_yellow]
-```
+<pre class = 'prettyprint lang-r'>vect_num[vect_num &gt; 0]</pre>
 
-```
-[1] "yellow" "yellow"
-```
+<pre > [1]  1  2  3  4  5  6  7  8  9 10 11 12</pre>
 
----
+<p><strong>Задача 4</strong>. Давайте извлечем из вектора <code>vect_num</code> все числа, которые либо меньше или равны -8, либо больше или равны 8</p>
 
-## Задача 2. 
+<pre class = 'prettyprint lang-r'>f_5_8 &lt;- (vect_num &lt;= -8) | (vect_num &gt;= 8)
+vect_num[f_5_8]</pre>
 
-Извлекаем из double_rainbow .yellow[жёлтый] и .blue[синий]. Жёлтый фильтр у нас уже есть, поэтому мы создадим фильтр для синего.
+<pre >[1] -11 -10  -9  -8   8   9  10  11  12</pre>
 
+</article></slide><slide class=""><hgroup><h2>Факторы</h2></hgroup><article  id="факторы">
 
-```r
-f_blue &lt;- double_rainbow == "blue"
-```
+<p>Факторы это способ хранения дискретных (= категориальных данных). Факторы построены на основе целочисленных векторов и имеют несколько атрибутов (<code>class</code> и <code>level</code>).</p>
 
-Выражение "жёлтый или синий" можно записать при помощи логического "или" (`|`)
+<p>Например, если вы поймали 10 улиток и посмотрели их цвет. У большого количества улиток небольшое счетное количество возможных цветов.</p>
 
+<pre class = 'prettyprint lang-r'>snail_colours &lt;- c(&quot;red&quot;, &quot;green&quot;, &quot;green&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;yellow&quot;, &quot;yellow&quot;, &quot;yellow&quot;)
+snail_colours # это текстовый вектор</pre>
 
-```r
-f_yellow | f_blue
-```
+<pre >[1] &quot;red&quot;    &quot;green&quot;  &quot;green&quot;  &quot;green&quot;  &quot;yellow&quot; &quot;yellow&quot; &quot;yellow&quot; &quot;yellow&quot;</pre>
 
-```
- [1] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE
-```
+<p>Цвет &ldquo;жёлтый&rdquo; обозначает одно и то же для каждой из улиток. Поэтому в целях экономии места можно записать цвета этих улиток в виде вектора, в котором численным значениям будут сопоставлены &ldquo;этикетки&rdquo; (называются &ldquo;уровни&rdquo;, levels) названия цветов. Мы можем создать фактор &ldquo;цвет улиток&rdquo;.</p>
 
-Задача решена, мы извлекли жёлтый и синий цвета.
+</article></slide><slide class=""><hgroup><h2>Создаём фактор</h2></hgroup><article  id="создаём-фактор">
 
+<pre class = 'prettyprint lang-r'>factor(snail_colours)</pre>
 
-```r
-double_rainbow[f_yellow | f_blue]
-```
+<pre >[1] red    green  green  green  yellow yellow yellow yellow
+Levels: green red yellow</pre>
 
-```
-[1] "yellow" "blue"   "yellow" "blue"  
-```
+<p>уровни этого фактора</p>
 
----
+<ul>
+<li>1 green,</li>
+<li>2 red,</li>
+<li>3 yellow.</li>
+</ul>
 
-## Сокращаем запись
+<p>По умолчанию, R назначает порядок уровней по алфавиту. Можно изменить порядок (см. <code>help(&quot;factor&quot;)</code>). Нам это пригодится позже.</p>
 
-То же самое можно было бы записать короче.
+<pre class = 'prettyprint lang-r'>double_rainbow # текстовый вектор</pre>
 
-В одну строку --- совершенно нечитабельно:
+<pre > [1] &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot; &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot; &quot;red&quot;    &quot;orange&quot; &quot;yellow&quot;
+[10] &quot;green&quot;  &quot;blue&quot;   &quot;violet&quot;</pre>
 
+<p>Создаем фактор из текстового вектора и складываем его в переменную</p>
 
-```r
-double_rainbow[double_rainbow == "yellow" | double_rainbow == "blue"]
-```
+<pre class = 'prettyprint lang-r'>f_double_rainbow &lt;- factor(double_rainbow)</pre>
 
-```
-[1] "yellow" "blue"   "yellow" "blue"  
-```
+</article></slide><slide class=""><hgroup><h2>Как узнать, что за данные хранятся в переменной?</h2></hgroup><article  id="как-узнать-что-за-данные-хранятся-в-переменной">
 
-Фильтр отдельно --- читается лучше:
+<p>Чтобы узнать, что за данные хранятся в переменной, используйте функцию <code>class()</code></p>
 
+<pre class = 'prettyprint lang-r'>class(f_double_rainbow)</pre>
 
-```r
-f_colours &lt;- double_rainbow == "yellow" | double_rainbow == "blue"
-double_rainbow[f_colours]
-```
+<pre >[1] &quot;factor&quot;</pre>
 
-```
-[1] "yellow" "blue"   "yellow" "blue"  
-```
+<pre class = 'prettyprint lang-r'>class(vect_log)</pre>
 
----
+<pre >[1] &quot;logical&quot;</pre>
 
-## Задача 3
+<pre class = 'prettyprint lang-r'>class(vect_num)</pre>
 
-Был числовой вектор.
+<pre >[1] &quot;integer&quot;</pre>
 
+<pre class = 'prettyprint lang-r'>class(rainbow)</pre>
 
-```r
-vect_num
-```
+<pre >[1] &quot;character&quot;</pre>
 
-```
- [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
-[21]   9  10  11  12
-```
+</article></slide><slide class=""><hgroup><h2>Встроенные константы в R</h2></hgroup><article  id="встроенные-константы-в-r">
 
-Извлекаем из числового вектора `vect_num` только значения больше 0.
+<p>Встроенные константы в R: NA, NULL, NAN, Inf</p>
 
+<ul>
+<li>NA – англ &ldquo;not available&rdquo;. Когда объект был, но его свойство не измерили или не записали.</li>
+<li>NULL – пусто - просто ничего нет</li>
+<li>NaN – &ldquo;not a number&rdquo;</li>
+<li>Inf – &ldquo;infinity&rdquo; - бесконечность</li>
+</ul>
 
-```r
-vect_num[vect_num &gt; 0]
-```
+<p>Вот текстовый вектор с пропущенным значением</p>
 
-```
- [1]  1  2  3  4  5  6  7  8  9 10 11 12
-```
+<pre class = 'prettyprint lang-r'>rainbow_1 &lt;- c(&quot;red&quot;, &quot;orange&quot;, NA, &quot;green&quot;, &quot;blue&quot;, &quot;violet&quot;)</pre>
 
-**Задача 4**. Давайте извлечем из вектора `vect_num` все числа, которые либо меньше или равны -8, либо больше или равны 8
+<p>Что будет, если попытаться добыть из вектор номер элемента, которого там нет?</p>
 
+<p>–</p>
 
-```r
-f_5_8 &lt;- (vect_num &lt;= -8) | (vect_num &gt;= 8)
-vect_num[f_5_8]
-```
+<p>R выдаст NA, потому, что такого элемента нет.</p>
 
-```
-[1] -11 -10  -9  -8   8   9  10  11  12
-```
+<pre class = 'prettyprint lang-r'>rainbow_1[198]</pre>
 
----
+<pre >[1] NA</pre>
 
-## Факторы
+</article></slide><slide class=""><hgroup><h2>Арифметические операции с векторами</h2></hgroup><article  id="арифметические-операции-с-векторами">
 
-Факторы --- это способ хранения дискретных (= категориальных данных). Факторы построены на основе целочисленных векторов и имеют несколько атрибутов (`class` и `level`).
+<pre class = 'prettyprint lang-r'>vect_num</pre>
 
-Например, если вы поймали 10 улиток и посмотрели их цвет. У большого количества улиток небольшое счетное количество возможных цветов.
+<pre > [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
+[21]   9  10  11  12</pre>
 
+<pre class = 'prettyprint lang-r'>vect_num + 2</pre>
 
-```r
-snail_colours &lt;- c("red", "green", "green", "green", "yellow", "yellow", "yellow", "yellow")
-snail_colours # это текстовый вектор
-```
+<pre > [1] -9 -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14</pre>
 
-```
-[1] "red"    "green"  "green"  "green"  "yellow" "yellow" "yellow" "yellow"
-```
+<pre class = 'prettyprint lang-r'>vect_num * 2</pre>
 
-Цвет "жёлтый" обозначает одно и то же для каждой из улиток. Поэтому в целях экономии места можно записать цвета этих улиток в виде вектора, в котором численным значениям будут сопоставлены "этикетки" (называются "уровни", levels) --- названия цветов. Мы можем создать фактор "цвет улиток".
+<pre > [1] -22 -20 -18 -16 -14 -12 -10  -8  -6  -4  -2   0   2   4   6   8  10  12  14  16
+[21]  18  20  22  24</pre>
 
----
+<pre class = 'prettyprint lang-r'>vect_num * (-2)</pre>
 
-## Создаём фактор 
+<pre > [1]  22  20  18  16  14  12  10   8   6   4   2   0  -2  -4  -6  -8 -10 -12 -14 -16
+[21] -18 -20 -22 -24</pre>
 
+<pre class = 'prettyprint lang-r'>vect_num^2</pre>
 
-```r
-factor(snail_colours)
-```
+<pre > [1] 121 100  81  64  49  36  25  16   9   4   1   0   1   4   9  16  25  36  49  64
+[21]  81 100 121 144</pre>
 
-```
-[1] red    green  green  green  yellow yellow yellow yellow
-Levels: green red yellow
-```
+</article></slide><slide class=""><hgroup><h2>Операции с векторами, содержащими константы</h2></hgroup><article  id="операции-с-векторами-содержащими-константы">
 
-уровни этого фактора
+<pre class = 'prettyprint lang-r'>NAs_NANs &lt;- c(1, 3, NA, 7, 0, 22:24)</pre>
 
--   1 --- green,
--   2 --- red,
--   3 --- yellow.
+<p>Что произойдет с NA?</p>
 
-По умолчанию, R назначает порядок уровней по алфавиту. Можно изменить порядок (см. `help("factor")`). Нам это пригодится позже.
+<pre class = 'prettyprint lang-r'>NAs_NANs + 2 # останется NA</pre>
 
+<pre >[1]  3  5 NA  9  2 24 25 26</pre>
 
-```r
-double_rainbow # текстовый вектор
-```
+<pre class = 'prettyprint lang-r'>NAs_NANs * 0 # останется NA</pre>
 
-```
- [1] "red"    "orange" "yellow" "green"  "blue"   "violet" "red"    "orange" "yellow"
-[10] "green"  "blue"   "violet"
-```
+<pre >[1]  0  0 NA  0  0  0  0  0</pre>
 
-Создаем фактор из текстового вектора и складываем его в переменную
+<pre class = 'prettyprint lang-r'>NAs_NANs / 0  # останется NA</pre>
 
+<pre >[1] Inf Inf  NA Inf NaN Inf Inf Inf</pre>
 
-```r
-f_double_rainbow &lt;- factor(double_rainbow)
-```
+<p><em>Но в последнем случае вы увидите:</em></p>
 
----
+<ul>
+<li>Inf при делении чисел на ноль;</li>
+<li>NaN при делении нуля на ноль.</li>
+</ul>
 
-## Как узнать, что за данные хранятся в переменной?
+<p>NaN получится, если взять корень из отрицательного числа</p>
 
-Чтобы узнать, что за данные хранятся в переменной, используйте функцию `class()`
+<pre class = 'prettyprint lang-r'>sqrt(-1)</pre>
 
+<pre >[1] NaN</pre>
 
-```r
-class(f_double_rainbow)
-```
+</article></slide><slide class=""><hgroup><h2>Функции в R</h2></hgroup><article  id="функции-в-r">
 
-```
-[1] "factor"
-```
+<p>Вы уже видели массу функций, их легко узнать по скобкам после ключевого слова. Познакомимся еще с несколькими и научимся писать пользовательские функции. Пользовательские функции позволяют автоматизировать повторяющиеся действия и делают код легко читаемым.</p>
 
-```r
-class(vect_log)
-```
+<p>Вот наш вектор</p>
 
-```
-[1] "logical"
-```
+<pre class = 'prettyprint lang-r'>NAs_NANs</pre>
 
-```r
-class(vect_num)
-```
+<pre >[1]  1  3 NA  7  0 22 23 24</pre>
 
-```
-[1] "integer"
-```
+<p>Длину вектора можно вычислить при помощи функции <code>length()</code></p>
 
-```r
-class(rainbow)
-```
+<pre class = 'prettyprint lang-r'>length(NAs_NANs)</pre>
 
-```
-[1] "character"
-```
+<pre >[1] 8</pre>
 
----
+<p>Сумму элементов вектора при помощи функции <code>sum()</code></p>
 
-## Встроенные константы в R
+<pre class = 'prettyprint lang-r'>sum(NAs_NANs)</pre>
 
-Встроенные константы в R: NA, NULL, NAN, Inf
+<pre >[1] NA</pre>
 
--   NA -- англ "not available". Когда объект был, но его свойство не измерили или не записали.
--   NULL -- пусто - просто ничего нет
--   NaN -- "not a number"
--   Inf -- "infinity" - бесконечность
+<p>Упс! Почему-то получилось <code>NA</code>.</p>
 
-Вот текстовый вектор с пропущенным значением
+</article></slide><slide class=""><hgroup><h2>Работа функций с векторами, содержащими константы</h2></hgroup><article  id="работа-функций-с-векторами-содержащими-константы">
 
+<p>У функции <code>sum()</code> есть аргумент <code>na.rm</code>, который по умолчанию принимает значение <code>FALSE</code>, то есть <code>NA</code> не учитываются при подсчете суммы.</p>
 
-```r
-rainbow_1 &lt;- c("red", "orange", NA, "green", "blue", "violet")
-```
+<p>Если мы передадим функции <code>sum</code> аргумент <code>na.rm = TRUE</code>, то получится правильная сумма</p>
 
----
+<pre class = 'prettyprint lang-r'>sum(NAs_NANs, na.rm = TRUE)</pre>
 
-Что будет, если попытаться добыть из вектор номер элемента, которого там нет? 
+<pre >[1] 80</pre>
 
---
+<p>Та же история с функцией <code>mean</code></p>
 
-R выдаст NA, потому, что такого элемента нет.
+<pre class = 'prettyprint lang-r'>mean(NAs_NANs, na.rm = TRUE)</pre>
 
+<pre >[1] 11.43</pre>
 
-```r
-rainbow_1[198]
-```
+</article></slide><slide class=""><hgroup><h2>Пользовательские функции</h2></hgroup><article  id="пользовательские-функции">
 
-```
-[1] NA
-```
+<p>Попробуем написать пользовательскую функцию <code>mmean()</code>, которая будет по умолчанию считать среднее значение элементов в векторе с учетом пропущенных значений (<code>NA</code>)</p>
 
----
-
-## Арифметические операции с векторами
-
-
-```r
-vect_num
-```
-
-```
- [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
-[21]   9  10  11  12
-```
-
-```r
-vect_num + 2
-```
-
-```
- [1] -9 -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
-```
-
-```r
-vect_num * 2
-```
-
-```
- [1] -22 -20 -18 -16 -14 -12 -10  -8  -6  -4  -2   0   2   4   6   8  10  12  14  16
-[21]  18  20  22  24
-```
-
-```r
-vect_num * (-2)
-```
-
-```
- [1]  22  20  18  16  14  12  10   8   6   4   2   0  -2  -4  -6  -8 -10 -12 -14 -16
-[21] -18 -20 -22 -24
-```
-
-```r
-vect_num^2
-```
-
-```
- [1] 121 100  81  64  49  36  25  16   9   4   1   0   1   4   9  16  25  36  49  64
-[21]  81 100 121 144
-```
-
----
-
-## Операции с векторами, содержащими константы
-
-
-```r
-NAs_NANs &lt;- c(1, 3, NA, 7, 0, 22:24)
-```
-
-Что произойдет с NA?
-
-
-```r
-NAs_NANs + 2 # останется NA
-```
-
-```
-[1]  3  5 NA  9  2 24 25 26
-```
-
-```r
-NAs_NANs * 0 # останется NA
-```
-
-```
-[1]  0  0 NA  0  0  0  0  0
-```
-
-```r
-NAs_NANs / 0  # останется NA
-```
-
-```
-[1] Inf Inf  NA Inf NaN Inf Inf Inf
-```
-
-*Но в последнем случае вы увидите:*
-
--   Inf при делении чисел на ноль;
--   NaN при делении нуля на ноль.
-
-NaN получится, если взять корень из отрицательного числа
-
-
-```r
-sqrt(-1)
-```
-
-```
-[1] NaN
-```
-
----
-
-## Функции в R
-
-Вы уже видели массу функций, их легко узнать по скобкам после ключевого слова. Познакомимся еще с несколькими и научимся писать пользовательские функции. Пользовательские функции позволяют автоматизировать повторяющиеся действия и делают код легко читаемым.
-
-Вот наш вектор
-
-
-```r
-NAs_NANs
-```
-
-```
-[1]  1  3 NA  7  0 22 23 24
-```
-
-Длину вектора можно вычислить при помощи функции `length()`
-
-
-```r
-length(NAs_NANs)
-```
-
-```
-[1] 8
-```
-
-Сумму элементов вектора при помощи функции `sum()`
-
-
-```r
-sum(NAs_NANs)
-```
-
-```
-[1] NA
-```
-
-Упс! Почему-то получилось `NA`.
-
----
-
-## Работа функций с векторами, содержащими константы
-
-У функции `sum()` есть аргумент `na.rm`, который по умолчанию принимает значение `FALSE`, то есть `NA` не учитываются при подсчете суммы.
-
-Если мы передадим функции `sum` аргумент `na.rm = TRUE`, то получится правильная сумма
-
-
-```r
-sum(NAs_NANs, na.rm = TRUE)
-```
-
-```
-[1] 80
-```
-
-Та же история с функцией `mean`
-
-
-```r
-mean(NAs_NANs, na.rm = TRUE)
-```
-
-```
-[1] 11.43
-```
-
----
-
-## Пользовательские функции
-
-Попробуем написать пользовательскую функцию `mmean()`, которая будет по умолчанию считать среднее значение элементов в векторе с учетом пропущенных значений (`NA`)
-
-
-```r
-mmean &lt;- function(x){
+<pre class = 'prettyprint lang-r'>mmean &lt;- function(x){
   mean(x, na.rm = TRUE)
-  }
-```
+  }</pre>
 
-В этом коде: - mmean - переменная, название функции. В эту переменную мы складываем функцию, которую создает функция `function()` --- функция, которая делает функции. В скобках перечисляются аргументы (названия переменных, которые мы передаем в функцию, чтобы она что-то сделала с ними) - `{ }` - в фигурных скобках тело функции - последовательность действий, которую нужно сделать с аргументами
+<p>В этом коде: - mmean - переменная, название функции. В эту переменную мы складываем функцию, которую создает функция <code>function()</code> функция, которая делает функции. В скобках перечисляются аргументы (названия переменных, которые мы передаем в функцию, чтобы она что-то сделала с ними) - <code>{ }</code> - в фигурных скобках тело функции - последовательность действий, которую нужно сделать с аргументами</p>
 
----
+</article></slide><slide class=""><hgroup><h2>Return в теле функции</h2></hgroup><article  id="return-в-теле-функции">
 
-## Return в теле функции
+<p>У больших функций бывает еще инструкция <code>return()</code>, которая сообщает, что именно должна возвращать наша функция. Вот как выглядела бы наша функция с этой инструкцией.</p>
 
-У больших функций бывает еще инструкция `return()`, которая сообщает, что именно должна возвращать наша функция. Вот как выглядела бы наша функция с этой инструкцией.
-
-
-```r
-mmean &lt;- function(x){
+<pre class = 'prettyprint lang-r'>mmean &lt;- function(x){
   res &lt;- mean(x, na.rm = TRUE)
   return(res)
-}
-```
+}</pre>
 
-Проверим нашу функцию при помощи встроенной функции
+<p>Проверим нашу функцию при помощи встроенной функции</p>
 
+<pre class = 'prettyprint lang-r'>mean(vect_num, na.rm = TRUE)</pre>
 
-```r
-mean(vect_num, na.rm = TRUE)
-```
+<pre >[1] 0.5</pre>
 
-```
-[1] 0.5
-```
+<pre class = 'prettyprint lang-r'>mmean(vect_num)</pre>
 
-```r
-mmean(vect_num)
-```
+<pre >[1] 0.5</pre>
 
-```
-[1] 0.5
-```
+</article></slide><slide class=""><hgroup><h2>Матрицы</h2></hgroup><article  id="матрицы">
 
----
+<p>Матрицы двумерный объект, схожий с атомарными векторами, но содержащий дополнительный аттрибут <code>dim</code>.</p>
 
-## Матрицы 
+<p>Матрицу можно создать следующим образом:</p>
 
-Матрицы --- двумерный объект, схожий с атомарными векторами, но содержащий дополнительный аттрибут `dim`. 
+<pre class = 'prettyprint lang-r'>matrix(1:9, nrow = 3, ncol = 3)</pre>
 
-Матрицу можно создать следующим образом:
-
-
-```r
-matrix(1:9, nrow = 3, ncol = 3)
-```
-
-```
-     [,1] [,2] [,3]
+<pre >     [,1] [,2] [,3]
 [1,]    1    4    7
 [2,]    2    5    8
-[3,]    3    6    9
-```
+[3,]    3    6    9</pre>
 
-Размерность матрицы создаётся двумя аргументами: `nrow` (количество строк) и `ncol` (количество столбцов). 
+<p>Размерность матрицы создаётся двумя аргументами: <code>nrow</code> (количество строк) и <code>ncol</code> (количество столбцов).</p>
 
----
+</article></slide><slide class=""><hgroup><h2>Датафреймы двумерные структуры данных</h2></hgroup><article  id="датафреймы-двумерные-структуры-данных">
 
-## Датафреймы --- двумерные структуры данных
+<p>Датафрейм один из способов хранения табличных данных в R. Строится на базе списков и имеет в т.ч. сходные с матрицами свойства. Имеет такие атрибуты как <code>rownames</code> (имена строк) и <code>colnames</code> (имена столбцов). <code>names</code> датафрейма идентичны <code>colnames</code>.</p>
 
-Датафрейм --- один из способов хранения табличных данных в R.  Строится на базе списков и имеет в т.ч. сходные с матрицами свойства. Имеет такие атрибуты как `rownames` (имена строк) и `colnames` (имена столбцов). `names` датафрейма идентичны `colnames`. 
+<p>Создадим датафрейм. Для начала создадим векторы с данными для переменных.</p>
 
-Создадим датафрейм. Для начала создадим векторы с данными для переменных.
+<pre class = 'prettyprint lang-r'>len &lt;- 1:9 # числовой
+col &lt;- c(rep(&quot;green&quot;, 4), rep(&quot;red&quot;, 5)) # текстовый
+wid &lt;- seq(from = 2, by = 2, to = 18) # числовой</pre>
 
+<p>Теперь сложим эти векторы в датафрейм</p>
 
-```r
-len &lt;- 1:9 # числовой
-col &lt;- c(rep("green", 4), rep("red", 5)) # текстовый
-wid &lt;- seq(from = 2, by = 2, to = 18) # числовой
-```
+<pre class = 'prettyprint lang-r'>my_worms &lt;- data.frame(Length = len, Width = wid, Colour = col, stringsAsFactors = TRUE)</pre>
 
-Теперь сложим эти векторы в датафрейм
+<p>Можно проверить, действительно мы создали объект класса data.frame</p>
 
+<pre class = 'prettyprint lang-r'>class(my_worms) # смотрим, действительно датафрейм</pre>
 
-```r
-my_worms &lt;- data.frame(Length = len, Width = wid, Colour = col, stringsAsFactors = TRUE)
-```
+<pre >[1] &quot;data.frame&quot;</pre>
 
-Можно проверить, действительно мы создали объект класса data.frame
+</article></slide><slide class=""><hgroup><h2>Превращение других типов данных в датафрейм</h2></hgroup><article  id="превращение-других-типов-данных-в-датафрейм">
 
+<p>Например, из матрицы…</p>
 
-```r
-class(my_worms) # смотрим, действительно датафрейм
-```
-
-```
-[1] "data.frame"
-```
-
----
-
-## Превращение других типов данных в датафрейм
-
-Например, из матрицы...
-
-
-```r
-mat &lt;- matrix(1:9, nrow = 3, ncol = 3)
+<pre class = 'prettyprint lang-r'>mat &lt;- matrix(1:9, nrow = 3, ncol = 3)
 mat_data &lt;- as.data.frame(mat)
-str(mat_data)
-```
+str(mat_data)</pre>
 
-```
-'data.frame':	3 obs. of  3 variables:
+<pre >&#39;data.frame&#39;:   3 obs. of  3 variables:
  $ V1: int  1 2 3
  $ V2: int  4 5 6
- $ V3: int  7 8 9
-```
+ $ V3: int  7 8 9</pre>
 
----
+</article></slide><slide class=""><hgroup><h2>Содержимое датафрейма</h2></hgroup><article  id="содержимое-датафрейма">
 
-## Содержимое датафрейма
+<p>Содержимое датафрейма можно посмотреть несколькими способами.</p>
 
-Содержимое датафрейма можно посмотреть несколькими способами.
-
-
-```r
-my_worms # печать датафрейма
+<pre class = 'prettyprint lang-r'>my_worms # печать датафрейма
 View(my_worms) # просмотр в RStudio
 head(my_worms)
 tail(my_worms)
-# fix(my_worms) # ручное редактирование. осторожно! избегайте его использовать, никаких документов о нем не останется
-```
+# fix(my_worms) # ручное редактирование. осторожно! избегайте его использовать, никаких документов о нем не останется</pre>
 
-Также у датафрейма можно посмотреть количество строк и столбцов.
+<p>Также у датафрейма можно посмотреть количество строк и столбцов.</p>
 
+<pre class = 'prettyprint lang-r'>nrow(my_worms)</pre>
 
-```r
-nrow(my_worms)
-```
+<pre >[1] 9</pre>
 
-```
-[1] 9
-```
+<pre class = 'prettyprint lang-r'>ncol(my_worms)</pre>
 
-```r
-ncol(my_worms)
-```
+<pre >[1] 3</pre>
 
-```
-[1] 3
-```
+<pre class = 'prettyprint lang-r'>length(my_worms) #выдаст количество столбцов</pre>
 
-```r
-length(my_worms) #выдаст количество столбцов
-```
+<pre >[1] 3</pre>
 
-```
-[1] 3
-```
+</article></slide><slide class=""><hgroup><h2>Адресация внутри датафреймов</h2></hgroup><article  id="адресация-внутри-датафреймов">
 
----
+<p>Вывод столбца-переменной при помощи оператора $ и имени переменной</p>
 
-## Адресация внутри датафреймов
+<pre class = 'prettyprint lang-r'>my_worms$Length</pre>
 
-Вывод столбца-переменной при помощи оператора \$ и имени переменной
+<pre >[1] 1 2 3 4 5 6 7 8 9</pre>
 
+<pre class = 'prettyprint lang-r'>my_worms$Width</pre>
 
-```r
-my_worms$Length
-```
+<pre >[1]  2  4  6  8 10 12 14 16 18</pre>
 
-```
-[1] 1 2 3 4 5 6 7 8 9
-```
+<p>У каждой ячейки в датафрейме есть координаты вида [строка, столбец]</p>
 
-```r
-my_worms$Width
-```
+<pre class = 'prettyprint lang-r'>my_worms[2, 3] # вторая строка в 3 столбце</pre>
 
-```
-[1]  2  4  6  8 10 12 14 16 18
-```
+<pre >[1] green
+Levels: green red</pre>
 
-У каждой ячейки в датафрейме есть координаты вида [строка, столбец]
+<pre class = 'prettyprint lang-r'>my_worms[2, ] # вторая строка целиком</pre>
 
+<pre >  Length Width Colour
+2      2     4  green</pre>
 
-```r
-my_worms[2, 3] # вторая строка в 3 столбце
-```
+<pre class = 'prettyprint lang-r'>my_worms[1:9, 2] # строки с 1 по 9 во втором столбце</pre>
 
-```
-[1] green
-Levels: green red
-```
+<pre >[1]  2  4  6  8 10 12 14 16 18</pre>
 
-```r
-my_worms[2, ] # вторая строка целиком
-```
+<pre class = 'prettyprint lang-r'>my_worms[, 2] # второй столбец целиком</pre>
 
-```
-  Length Width Colour
-2      2     4  green
-```
+<pre >[1]  2  4  6  8 10 12 14 16 18</pre>
 
-```r
-my_worms[1:9, 2] # строки с 1 по 9 во втором столбце
-```
+</article></slide><slide class=""><hgroup><h2>Расширение датафрейма</h2></hgroup><article  id="расширение-датафрейма">
 
-```
-[1]  2  4  6  8 10 12 14 16 18
-```
+<p>Добавление колонки.</p>
 
-```r
-my_worms[, 2] # второй столбец целиком
-```
+<pre class = 'prettyprint lang-r'>my_worms$Site &lt;- c(&quot;Sredniy&quot;, &quot;Sredniy&quot;, &quot;Ogorod&quot;, &quot;Vichennaya&quot;, &quot;Ogorod&quot;, &quot;Vichennaya&quot;, &quot;Keret&quot;, &quot;Ogorod&quot;, &quot;Vichennaya&quot;)
+my_worms</pre>
 
-```
-[1]  2  4  6  8 10 12 14 16 18
-```
-
----
-
-## Расширение датафрейма
-
-Добавление колонки.
-
-
-```r
-my_worms$Site &lt;- c("Sredniy", "Sredniy", "Ogorod", "Vichennaya", "Ogorod", "Vichennaya", "Keret", "Ogorod", "Vichennaya")
-my_worms
-```
-
-```
-  Length Width Colour       Site
+<pre >  Length Width Colour       Site
 1      1     2  green    Sredniy
 2      2     4  green    Sredniy
 3      3     6  green     Ogorod
@@ -1383,22 +1013,15 @@ my_worms
 6      6    12    red Vichennaya
 7      7    14    red      Keret
 8      8    16    red     Ogorod
-9      9    18    red Vichennaya
-```
+9      9    18    red Vichennaya</pre>
 
----
+</article></slide><slide class=""><hgroup><h2>Добавление строки</h2></hgroup><article  id="добавление-строки">
 
-## Добавление строки
-
-
-```r
-my_worms_new &lt;- data.frame(Length = 40, Width = 60, Colour = "blue", Site = "Pashinnikov")
+<pre class = 'prettyprint lang-r'>my_worms_new &lt;- data.frame(Length = 40, Width = 60, Colour = &quot;blue&quot;, Site = &quot;Pashinnikov&quot;)
 my_worms_final &lt;- rbind(my_worms, my_worms_new)
-my_worms_final
-```
+my_worms_final</pre>
 
-```
-   Length Width Colour        Site
+<pre >   Length Width Colour        Site
 1       1     2  green     Sredniy
 2       2     4  green     Sredniy
 3       3     6  green      Ogorod
@@ -1408,147 +1031,41 @@ my_worms_final
 7       7    14    red       Keret
 8       8    16    red      Ogorod
 9       9    18    red  Vichennaya
-10     40    60   blue Pashinnikov
-```
+10     40    60   blue Pashinnikov</pre></article></slide>
 
-    </textarea>
-<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
-<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script src="assets/macros.js"></script>
-<script>var slideshow = remark.create({
-"highlightStyle": "vs",
-"highlightLines": true,
-"countIncrementalSlides": false
-});
-if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
-  window.dispatchEvent(new Event('resize'));
-});
-(function(d) {
-  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
-  if (!r) return;
-  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
-  d.head.appendChild(s);
-})(document);
 
-(function(d) {
-  var el = d.getElementsByClassName("remark-slides-area");
-  if (!el) return;
-  var slide, slides = slideshow.getSlides(), els = el[0].children;
-  for (var i = 1; i < slides.length; i++) {
-    slide = slides[i];
-    if (slide.properties.continued === "true" || slide.properties.count === "false") {
-      els[i - 1].className += ' has-continuation';
-    }
-  }
-  var s = d.createElement("style");
-  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
-  d.head.appendChild(s);
-})(document);
-// delete the temporary CSS (for displaying all slides initially) when the user
-// starts to view slides
-(function() {
-  var deleted = false;
-  slideshow.on('beforeShowSlide', function(slide) {
-    if (deleted) return;
-    var sheets = document.styleSheets, node;
-    for (var i = 0; i < sheets.length; i++) {
-      node = sheets[i].ownerNode;
-      if (node.dataset["target"] !== "print-only") continue;
-      node.parentNode.removeChild(node);
-    }
-    deleted = true;
-  });
-})();
-// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
-// screen reader (see PR #262)
-(function(d) {
-  let res = {};
-  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
-    const t = tr.querySelector('td:nth-child(2)').innerText;
-    tr.querySelectorAll('td:first-child .key').forEach(key => {
-      const k = key.innerText;
-      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
-    });
-  });
-  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
-})(document);
-(function() {
-  "use strict"
-  // Replace <script> tags in slides area to make them executable
-  var scripts = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container script'
-  );
-  if (!scripts.length) return;
-  for (var i = 0; i < scripts.length; i++) {
-    var s = document.createElement('script');
-    var code = document.createTextNode(scripts[i].textContent);
-    s.appendChild(code);
-    var scriptAttrs = scripts[i].attributes;
-    for (var j = 0; j < scriptAttrs.length; j++) {
-      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
-    }
-    scripts[i].parentElement.replaceChild(s, scripts[i]);
-  }
-})();
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
+  <slide class="backdrop"></slide>
 
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
-<!-- https://github.com/fnaufel/xaringan-smartify-->
-<script type="text/javascript">
-  smartify();
-</script>
+</slides>
 
-<script>
-slideshow._releaseMath = function(el) {
-  var i, text, code, codes = el.getElementsByTagName('code');
-  for (i = 0; i < codes.length;) {
-    code = codes[i];
-    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
-      text = code.textContent;
-      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
-          /^\$\$(.|\s)+\$\$$/.test(text) ||
-          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
-        code.outerHTML = code.innerHTML;  // remove <code></code>
-        continue;
-      }
-    }
-    i++;
-  }
-};
-slideshow._releaseMath(document);
-</script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
-(function () {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
-  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
-    script.src  = script.src.replace(/^https?:/, '');
-  document.getElementsByTagName('head')[0].appendChild(script);
-})();
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
 </script>
-  </body>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
+    }
+  })();
+</script>
+
+</body>
 </html>

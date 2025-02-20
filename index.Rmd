@@ -19,9 +19,6 @@ output:
 
 Цели этого курса: познакомить с применением различных математических методов обработки данных и научить самостоятельно их анализировать с использованием скриптов на языке статистического программирования R. Слушатели научатся представлять результаты в наглядном виде, интерпретировать их и оформлять в виде научного отчета.
 
-### Контакты
-
-Хайтов Вадим Михайлович -  polydora[]rambler.ru
 
 
 ### Задания, дедлайны и оценки
@@ -32,4 +29,36 @@ output:
 + После прохождения курса слушатели выполняют учебнй проект, основанный на анализе предложенных данных.
 
 + Финальный теоретический тест.
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(cowplot)
+library(magick)
+library(ggtext)
+
+
+photo_2 <- ggdraw() + draw_image("images/Vadim.jpg")
+
+df <- data.frame(
+  label = "**Хайтов Вадим Михайлович**  <br> email: polydora__rambler.ru <br> Кандидат биологических наук,  ведущий научный сотрудник Санкт-Петербургского Государственного университета и Кандалакского государственного заповедника. Научная сфера: морская биология, биостатистика, научное образование школьников." ,
+  x = c(0),
+  y = c(1),
+  hjust = c(0),
+  vjust = c(1),
+  orientation = c("upright"),
+  color = c("black"),
+  fill = c("cornsilk")
+)
+
+gg_text_2 <-
+  ggplot() +
+  geom_textbox(data = df, aes(x, y, label = label,  orientation = orientation), width = unit(0.9, "npc"), color = "black", fill = "white", hjust = 0.5, vjust = 0.5) +
+  theme_nothing()
+  
+  
+plot_grid(photo_2, gg_text_2, ncol = 2, rel_widths = c(0.5, 1, 1, 1))
+
+```
+
 
