@@ -470,23 +470,72 @@ ggplot(df2, aes(x = Var1, y = Freq)) +
 
 
 
-<!-- **Дальнейшие планы корректируются...** -->
+**Дальнейшие планы корректируются...**
 
 
 
 
-<!-- # Оценки за домашние работы -->
+# Оценки за домашние работы
 
-<!-- ```{r echo=FALSE} -->
-<!-- library(knitr) -->
-<!-- library(readxl) -->
+```{r echo=FALSE}
+library(knitr)
+library(readxl)
 
-<!-- hw <- read_excel("Home_works_results/Home_works_scores.xlsx", sheet = "Scores") -->
+hw <- read_excel("data/Classes_2025.xlsx")
 
-<!-- hw_values  <- read_excel("Home_works_results/Home_works_scores.xlsx", sheet = "Values") -->
 
-<!-- hw[,-1] <- (hw[, -1])/(hw_values[,-1]) * 100 -->
+kable(hw)
+```
 
-<!-- kable(hw) -->
-<!-- ``` -->
+### Комментарии к ДЗ_1
+
+1. Очень хорошо сделали те, кто подробно комментировал ход решения.
+2. Не нужно было разбивать пример, для которого написан код на отдельные переменные
+
+Например, вот так делать можно, но неэкономично.
+
+```{r, eval=FALSE, echo=TRUE}
+arcsin_value <- asin(0.5)
+sqrt_arcsin <- sqrt(arcsin_value)
+constant <- 180 / pi
+sqrt_11 <- sqrt(11)
+e_value <- exp(1)
+sqrt4_10_plus_e2 <- (10 + e_value^2)^(1/4) 
+
+# Первая часть выражения
+first_part <- 2 * sqrt_arcsin * constant
+
+# Вторая часть выражения
+second_part <- sqrt_11 * sqrt4_10_plus_e2 * 50
+
+# Полное выражение
+result <- first_part - second_part
+
+# Печатаем результат
+cat("Результат выражения:", result, "\n")
+
+```
+
+Лучше вот так
+
+```{r, eval = F, , echo=TRUE}
+log2(((2 * asin(sqrt(1 / 2))) * (180 / pi ) - (11^(1 / 4))) / ((10 + exp(2)) * 50))
+
+```
+
+Впрочем, это дело автора.
+
+3. Очень правильно, что некоторые коллеги разобрались с тем, как использовать сложные функции с условиями (*за это я даже простил то, что из четырех заданий выполнено только одно*)  
+
+```{r eval=FALSE, echo=TRUE}
+# Проверяем, можно ли взять логарифм
+if (result > 0) {
+  log_result <- log2(result)
+  cat("log2 результата:", log_result, "\n")
+} else {
+  cat("Логарифм отрицательного числа не определен.\n")
+}
+
+
+```
 
