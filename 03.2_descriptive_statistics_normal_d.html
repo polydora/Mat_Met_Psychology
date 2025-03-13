@@ -7,7 +7,7 @@
     <meta name="author" content="Вадим Хайтов" />
     <meta name="author" content="Юта Тамберг" />
     <meta name="author" content="Анастасия Лянгузова" />
-    <script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="site_libs/remark-css-0.0.1/tamu-fonts.css" rel="stylesheet" />
     <link href="site_libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
@@ -46,7 +46,6 @@ class: middle, left, inverse, title-slide
 
 
 
----
 
 class: middle, center, inverse
 
@@ -66,7 +65,7 @@ class: middle, center, inverse
 
 
 
-```r
+``` r
 set.seed(12345)
 dat &lt;- round(rnorm(100, 10, 2), 1)
 
@@ -93,7 +92,7 @@ dat
 
 .pull-left-40[
 
-```r
+``` r
 df &lt;- data.frame(X = dat)
 
 Pl &lt;-
@@ -108,7 +107,7 @@ Pl + geom_histogram(aes(x = X), bins = 10)
 
 .pull-right-40[
 
-```r
+``` r
 Pl + geom_boxplot(aes(y = X))
 ```
 
@@ -124,7 +123,7 @@ Pl + geom_boxplot(aes(y = X))
 Можно охарактеризовать медиану и квартили.
 
 
-```r
+``` r
 summary(dat)
 ```
 
@@ -194,6 +193,9 @@ $$
 ]
 
 .pull-left-66[
+
+
+
 `$$f(x) = \cfrac {1}{\sigma \sqrt{2 \pi}} \; e^{- \: \cfrac{(x-\mu)^2}{2\sigma^2}}$$`
 
 - `\(\mu\)` --- среднее значение;
@@ -201,7 +203,22 @@ $$
 
 
 Это кратко записывается как `\(x \sim N(\mu, \sigma)\)`.
+
+
 ]
+
+---
+
+### Иоганн Карл Фридрих Гаусс
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+![:scale 200%](images/Gauss.jpg)
+
+
+
 
 ---
 
@@ -303,7 +320,7 @@ $$
 ## Квантильный график в `R`
 
 
-```r
+``` r
 set.seed(9128)
 my_vector &lt;- rnorm(n = 150, mean = 10, sd = 3)
 library(car)
@@ -363,7 +380,7 @@ qqPlot(my_vector, id = FALSE) # квантильный график
 ## Решение (3.1)
 
 
-```r
+``` r
 data("women")
 str(women)
 ```
@@ -374,7 +391,7 @@ str(women)
 ##  $ weight: num  115 117 120 123 126 129 132 135 139 142 ...
 ```
 
-```r
+``` r
 qqPlot(women$height, id = FALSE)
 ```
 
@@ -385,7 +402,7 @@ qqPlot(women$height, id = FALSE)
 ## Решение (3.2)
 
 
-```r
+``` r
 data("iris")
 str(iris)
 ```
@@ -399,7 +416,7 @@ str(iris)
 ##  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 ```
 
-```r
+``` r
 op &lt;- par(mfrow = c(1, 2))
 qqPlot(iris$Sepal.Length, id = FALSE)
 hist(iris$Sepal.Length)
@@ -407,7 +424,7 @@ hist(iris$Sepal.Length)
 
 ![](03.2_descriptive_statistics_normal_d_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
 
-```r
+``` r
 par(op)
 ```
 
@@ -416,7 +433,7 @@ par(op)
 ## Решение (3.3)
 
 
-```r
+``` r
 data("lynx")
 str(lynx)
 ```
@@ -425,7 +442,7 @@ str(lynx)
 ##  Time-Series [1:114] from 1821 to 1934: 269 321 585 871 1475 ...
 ```
 
-```r
+``` r
 op &lt;- par(mfrow = c(1, 2))
 qqPlot(lynx, id = FALSE)
 hist(lynx)
@@ -433,7 +450,7 @@ hist(lynx)
 
 ![](03.2_descriptive_statistics_normal_d_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
 
-```r
+``` r
 par(op)
 ```
 
@@ -493,7 +510,7 @@ par(op)
 В выборке улиток средний диаметр раковины 5 см со стандартным отклонением 1.5 см.
 ### Какова вероятность того, что случайно выбранная улитка окажется __меньше 3 см__?
 
-```r
+``` r
 Z_1 &lt;- (3 - 5) / 1.5
 pnorm(q = Z_1)
 ```
@@ -502,7 +519,7 @@ pnorm(q = Z_1)
 ## [1] 0.0912
 ```
 
-```r
+``` r
 # или то же самое
 pnorm(q = 3, mean = 5, sd = 1.5)
 ```
@@ -528,7 +545,7 @@ pnorm(q = 3, mean = 5, sd = 1.5)
 
 .pull-right-66[
 
-```r
+``` r
 1 - pnorm(q = 6, mean = 5, sd = 1.5)
 ```
 
@@ -548,7 +565,7 @@ pnorm(q = 3, mean = 5, sd = 1.5)
 ### Какова доля улиток с размером раковины __в пределах 3--6 см__?
 
 
-```r
+``` r
 pnorm(q = 6, mean = 5, sd = 1.5) - 
   pnorm(q = 3, mean = 5, sd = 1.5)
 ```
@@ -580,7 +597,7 @@ pnorm(q = 6, mean = 5, sd = 1.5) -
 ### Какова вероятность того, что случайно выбранный мужчина окажется __ниже 160 см__?
 
 
-```r
+``` r
 Z_short &lt;- (160 - 174.7) / 6.65
 pnorm(q = Z_short)
 ```
@@ -589,7 +606,7 @@ pnorm(q = Z_short)
 ## [1] 0.0135
 ```
 
-```r
+``` r
 # или то же самое
 pnorm(q = 160, mean = 174.7, sd = 6.65)
 ```
@@ -609,7 +626,7 @@ pnorm(q = 160, mean = 174.7, sd = 6.65)
 ### Какова вероятность того, что случайно выбранный мужчина окажется  __больше 190 см__?
 
 
-```r
+``` r
 1 - pnorm(q = 190, mean = 174.7, sd = 6.65)
 ```
 
@@ -629,7 +646,7 @@ pnorm(q = 160, mean = 174.7, sd = 6.65)
 
 
 
-```r
+``` r
 (1 - pnorm(q = 190, mean = 174.7, sd = 6.65)) + 
   pnorm(q = 160, mean = 174.7, sd = 6.65)
 ```
@@ -657,7 +674,7 @@ pnorm(q = 160, mean = 174.7, sd = 6.65)
 В пилоты берут только людей с ростом от 160 до 190 см (по приказу Минтранса).
 
 
-```r
+``` r
 pnorm(q = 190, mean = 162.2, sd = 6.0) - 
   pnorm(q = 160, mean = 162.2, sd = 6.0)
 ```
@@ -690,7 +707,7 @@ pnorm(q = 190, mean = 162.2, sd = 6.0) -
 ### Какой процент детей рождается с весом больше 3200г.?
 
 
-```r
+``` r
 1 - pnorm(q = 3200, mean = 3500, sd = 600)
 ```
 
@@ -713,7 +730,7 @@ pnorm(q = 190, mean = 162.2, sd = 6.0) -
 ### Какой процент детей рождается с весом в пределах 2500-4500г.?
 
 
-```r
+``` r
 pnorm(q = 4500, mean = 3500, sd = 600) - pnorm(q = 2500, mean = 3500, sd = 600)
 ```
 

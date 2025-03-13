@@ -37,7 +37,6 @@ library(ggplot2)
 opts_chunk$set(tidy = FALSE, fig.width = 7, fig.height = 3, warning = FALSE, message = FALSE)
 ```
 
----
 
 class: middle, center, inverse
 
@@ -197,6 +196,9 @@ ND_curve
 ]
 
 .pull-left-66[
+
+
+
 $$f(x) = \cfrac {1}{\sigma \sqrt{2 \pi}} \; e^{- \: \cfrac{(x-\mu)^2}{2\sigma^2}}$$
 
 - $\mu$ --- среднее значение;
@@ -204,7 +206,22 @@ $$f(x) = \cfrac {1}{\sigma \sqrt{2 \pi}} \; e^{- \: \cfrac{(x-\mu)^2}{2\sigma^2}
 
 
 Это кратко записывается как $x \sim N(\mu, \sigma)$.
+
+
 ]
+
+---
+
+### Иоганн Карл Фридрих Гаусс
+
+<br>
+<br>
+<br>
+
+![:scale 200%](images/Gauss.jpg)
+
+
+
 
 ---
 
