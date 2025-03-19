@@ -296,11 +296,11 @@ ggplot(df, aes(x = Category, y = Value)) +
 
 <!-- ``` -->
 
-Вариант 1. [Датасет для варианта 1](Data/dataset_variant_1.csv)
+Вариант 1. [Датасет для варианта 1](data/dataset_variant_1.csv)
 
-Вариант 2. [Датасет для варианта 2](Data/dataset_variant_2.csv)
+Вариант 2. [Датасет для варианта 2](data/dataset_variant_2.csv)
 
-Вариант 3. [Датасет для варианта 3](Data/dataset_variant_3.csv)
+Вариант 3. [Датасет для варианта 3](data/dataset_variant_3.csv)
 
 
 **Часть 2.**
