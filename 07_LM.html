@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Линейная регрессия</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Марина Варфоломеева, Юта Тамберг, Вадим Хайтов, Анастасия Лянгузова" />
+    <script src="libs/header-attrs-2.23/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/mark.js-8.11.1/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search-0.0.1/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <script src="libs/freezeframe-5.0.2/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <!-- https://github.com/fnaufel/xaringan-smartify-->
+    <script
+    			  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    			  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    			  crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/fnaufel/xaringan-smartify/smartify.min.js"></script>
+    <link rel="stylesheet" href="assets/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="assets/xaringan.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, left, inverse, title-slide
+
+.title[
+# Линейная регрессия
+]
+.subtitle[
+## Линейные модели…
+]
+.author[
+### Марина Варфоломеева, Юта Тамберг, Вадим Хайтов, Анастасия Лянгузова
+]
+.date[
+### Осень 2023
+]
+
+---
+
+
+
+
+
+## Мы рассмотрим 
+
+- Базовые идеи корреляционного анализа
+- Проблему двух статистических подходов: "Тестирование гипотез vs. построение моделей"
+- Разнообразие статистических моделей
+- Основы регрессионного анализа
+
+---
+
+### Вы сможете
+
++ Оценить взаимосвязь между измеренными величинами
++ Объяснить что такое линейная модель
++ Формализовать запись модели в виде уравнения
++ Подобрать модель линейной регрессии
++ Протестировать гипотезы о наличии зависимости при помощи t-критерия или F-критерия
++ Оценить предсказательную силу модели 
+
+---
+
+class: middle, center, inverse
+
+# Знакомимся с даными
+
+---
+
+## Пример: IQ и размеры мозга
+
+Зависит ли уровень интеллекта от размера головного мозга? (Willerman et al. 1991)
+
+.pull-left[
+![](images/MRI-Scan_03_11-by_bucaorg_Paul_Burnett_no_Flickr.jpg)
+.small[[Scan_03_11](https://flic.kr/p/c45eZ3) by bucaorg(Paul_Burnett) on Flickr]  
+]
+
+.pull-right[
+Было исследовано 20 девушек и 20 молодых людей
+
+У каждого индивида измеряли:
+
+- вес, 
+- рост, 
+- размер головного мозга (количество пикселей на изображении ЯМР сканера)
+- Уровень интеллекта измеряли с помощью IQ тестов
+
+Пример взят из работы: Willerman, L., Schultz, R., Rutledge, J. N., and Bigler, E. (1991), "In Vivo Brain Size and Intelligence," Intelligence, 15, 223-228.  
+Данные представлены в библиотеке *"The Data and Story Library"* 
+http://lib.stat.cmu.edu/DASL/  
+]
+
+---
+
+## Знакомство с данными
+
+Посмотрим на датасет:
+
+
+```r
+brain &lt;- read.csv("data/IQ_brain.csv", header = TRUE)
+head(brain)
+```
+
+```
+  Gender FSIQ VIQ PIQ Weight Height MRINACount
+1 Female  133 132 124    118   64.5     816932
+2   Male  140 150 124     NA   72.5    1001121
+3   Male  139 123 150    143   73.3    1038437
+4   Male  133 129 128    172   68.8     965353
+5 Female  137 132 134    147   65.0     951545
+6 Female   99  90 110    146   69.0     928799
+```
+
+Есть ли пропущенные значения?
+
+
+```r
+sum(!complete.cases(brain))
+```
+
+```
+[1] 2
+```
+
+---
+
+## Где пропущенные значения?
+
+Где именно?
+
+
+```r
+sapply(brain, function(x) sum(is.na(x)))
+```
+
+```
+    Gender       FSIQ        VIQ        PIQ     Weight     Height MRINACount 
+         0          0          0          0          2          1          0 
+```
+
+Что это за случаи?
+
+
+```r
+brain[!complete.cases(brain), ]
+```
+
+```
+   Gender FSIQ VIQ PIQ Weight Height MRINACount
+2    Male  140 150 124     NA   72.5    1001121
+21   Male   83  83  86     NA     NA     892420
+```
+
+Каков объём выборки?
+
+
+```r
+nrow(brain) ## Это без учета пропущенных значений
+```
+
+```
+[1] 40
+```
+
+---
+
+class: center, middle, inverse
+
+# Корреляционный анализ
+
+.pull-right[*Цель практически любого исследования* --- поиск взаимосвязи величин и создание базы для предсказания неизвестного на основе имеющихся данных]
+
+---
+
+## Корреляционный анализ
+
+Наличие связи между явлениями __не означает__, что между ними существует причинно-следственная связь.    
+
+Сила связи между явлениями может быть количественно измерена.
+
+---
+
+## Основные типы линейной связи между величинами
+
+![](05_LM_files/figure-html/linear-basic-1.png)&lt;!-- --&gt;
+
+---
+
+## Криволинейные связи между величинами
+
+![](05_LM_files/figure-html/curvilinear-1.png)&lt;!-- --&gt;
+
+---
+
+## Коэффициент ковариации
+
+Оценивает **сонаправленность отклонений** двух величин от своих средних значений
+`$$cov_{x,y} = \frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{n - 1}$$`
+
+
+Коэффициент ковариации варьирует в интервале `\(-\infty &lt; cov_{x,y} &lt; +\infty\)`
+
+
+![](05_LM_files/figure-html/deviations-1.png)&lt;!-- --&gt;
+
+
+---
+
+## Коэффициент корреляции
+
+Это стандартизованное значение ковариации:
+
+`$$r_{x,y} = \frac{\sum(x_i-\bar{x})(y_i-\bar{y})} {\sqrt{\sum(x_i-\bar{x})^2}\sqrt{\sum(y_i-\bar{y})^2}} = \frac{cov_{x,y}} {\sigma_x \sigma_y}$$`
+
+Коэффициент корреляции варьирует в интервале: `\(-1 \le r_{x,y} \le +1\)`
+
+---
+
+## Коэффициенты корреляции и условия их применимости   
+
+| Коэффициент                                      | Функция                                                                         | Особенности применения                                                                                    |
+| ------------------------------------------------ | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Коэффициент Пирсона                                    | `cor(x,y,method="pearson")`                                   | Оценивает связь двух нормально распределенных величин. Выявляет только линейную составляющую взаимосвязи. |
+| Ранговые коэффициенты (коэффициент Спирмена, Кендалла) | `cor(x,y,method="spearman")`&lt;br/&gt;`cor(x,y,method="kendall")`  | Не зависят от формы распределения. Могут оценивать связь для любых монотонных зависимостей.           |
+
+---
+
+## Оценка статистической значимости коэффициентов корреляции
+
+- Коэффициент корреляции --- это статистика, значение которой описывает степень взаимосвязи двух сопряженных переменных. Следовательно, применима логика статистического критерия. 
+- Нулевая гипотеза `\(H_0: r=0\)`.
+- Бывают двусторонние `\(H_a: r\ne 0\)` и односторонние критерии `\(H_a: r&gt;0\)` или `\(H_a: r&lt;0\)`.
+- Ошибка коэффициента Пирсона: `\(SE_r=\sqrt{\frac{1-r^2}{n-2}}\)`.
+- Стандартизованная величина `\(t=\frac{r}{SE_r}\)` подчиняется распределению Стьюдента с параметром `\(df = n-2\)`.
+- Для ранговых коэффициентов существует проблема "совпадающих рангов" (tied ranks), что приводит к приблизительной оценке `\(r\)` и приблизительной оценке уровня значимости. 
+- Значимость коэффициента корреляции можно оценить пермутационным методом.
+
+---
+
+## Задание
+
++ Постройте точечную диаграмму, отражающую взаимосвязь между результатами IQ-теста (PIQ) и размером головного мозга (MRINACount)
++ Определите силу и направление связи между этими величинами
++ Оцените сатистическую значимость коэффициента корреляции Пирсона между этими двумя переменными 
++ Придумайте способ, как оценить корреляцию между всеми парами исследованных признаков
+
+*Hint 1*: Обратите внимание на то, что в датафрейме есть пропущенные значения. Изучите, как работают с `NA` функции, вычисляющие коэффициенты корреляции. 
+
+&lt;!-- *Hint 2* Для построения точечной диаграммы вам понадобится `geom_point()` --&gt;
+
+---
+
+## Решение
+
+
+```r
+pl_brain &lt;- ggplot(brain, 
+               aes(x = MRINACount, y = PIQ)) + 
+  geom_point() + 
+  xlab("Brain size") + 
+  ylab("IQ test") +
+  theme(text = element_text(size = 20))
+pl_brain
+```
+
+![](05_LM_files/figure-html/pl-brain_expose-1.png)&lt;!-- --&gt;
+
+---
+
+## Решение
+
+```r
+cor.test(brain$PIQ, brain$MRINACount, method = "pearson", alternative = "two.sided")
+```
+
+```
+
+	Pearson's product-moment correlation
+
+data:  brain$PIQ and brain$MRINACount
+t = 2.6, df = 38, p-value = 0.01
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.08563 0.62323
+sample estimates:
+   cor 
+0.3868 
+```
+
+---
+
+## Решение 
+
+
+```r
+cor(brain[, 2:6], use = "pairwise.complete.obs")
+```
+
+```
+           FSIQ      VIQ       PIQ    Weight   Height
+FSIQ    1.00000  0.94664  0.934125 -0.051483 -0.08600
+VIQ     0.94664  1.00000  0.778135 -0.076088 -0.07107
+PIQ     0.93413  0.77814  1.000000  0.002512 -0.07672
+Weight -0.05148 -0.07609  0.002512  1.000000  0.69961
+Height -0.08600 -0.07107 -0.076723  0.699614  1.00000
+```
+
+---
+
+##   Два подхода к исследованию: .center[&lt;br&gt; Тестирование гипотезы &lt;br&gt;VS&lt;br&gt; Построение модели] 
+
++ Проведя корреляционный анализ, мы лишь ответили на вопрос "Существует ли статистически значимая связь между величинами?"
+
++ Сможем ли мы, используя это знание, _предсказать_ значения одной величины, исходя из знаний другой? 
+
+---
+
+## Тестирование гипотезы VS построение модели 
+
+Простейший пример: 
+
+- Между путем, пройденным автомобилем, и временем, проведенным в движении, несомненно есть связь. Хватает ли нам этого знания?   
+- Для расчета величины пути в зависимости от времени необходимо построить модель: `\(S=Vt\)`, где `\(S\)` - зависимая величина, `\(t\)` - независимая переменная, `\(V\)` - параметр модели.
+- Зная параметр модели (скорость) и значение независимой переменной (время), мы можем рассчитать (*cмоделировать*) величину пройденного пути.
+
+---
+
+class: middle, center, inverse
+
+# Какие бывают модели?
+
+---
+
+## Линейные и нелинейные модели
+&lt;br&gt;
+
+Линейные модели 
+`$$y = b_0 + b_1x$$` &lt;br&gt; `$$y = b_0 + b_1x_1 + b_2x_2$$` 
+Нелинейные модели 
+`$$y = b_0 + b_1^x$$` &lt;br&gt;  `$$y = b_0^{b_1x_1+b_2x_2}$$` 
+
+---
+
+## Простые и многокомпонентные (множественные) модели
+
++ Простая модель
+ `$$y = b_0 + b_1x$$` 
+
++ Множественная модель
+ `$$y = b_0 + b_1x_1 + b_2x_2 + b_3x_3 + ... + b_nx_n$$` 
+
+---
+
+## Детерминистские и стохастические модели
+
+.pull-left[
+![](05_LM_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+Модель: `\(у_i = 2 + 5x_i\)`    
+Два параметра: угловой коэффициент (slope) `\(b_1=5\)`; свободный член (intercept) `\(b_0=2\)`   
+Чему равен `\(y\)` при `\(x=10\)`?
+]
+
+.pull-right[
+![](05_LM_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+Модель: `\(у_i = 2 + 5x_i + \varepsilon_i\)`    
+Появляется дополнительный член `\(\varepsilon_i\)` 
+Он вводит в модель влияние неучтенных моделью факторов. 
+Обычно считают, что `\(\epsilon \in N(0, \sigma^2)\)` 
+]
+
+---
+
+## Случайная и фиксированая часть модели
+В стохастические модели выделяется две части:
+
+**Фиксированная часть:** `\(у_i = 2 + 5x_i\)`   
+**Случайная часть:** `\(\varepsilon_i\)` 
+
+Бывают модели, в которых случайная часть выглядит существенно сложнее (модели со смешанными эффектами). В таких моделях необходимо смоделировать еще и поведение случайной части.
+
+---
+
+## Модели с дискретными предикторами
+
+![](05_LM_files/figure-html/discrete-1.png)&lt;!-- --&gt;
+
+Модель для данного примера имеет такой вид  
+&lt;br&gt;
+&lt;br&gt;
+`\(response = 4.6 + 5.3I_{Level2} + 9.9 I_{Level3}\)`
+
+`\(I_{i}\)` - dummy variable   
+
+---
+
+## Модель для зависимости величины IQ от размера головного мозга
+
+Какая из линий "лучше" описывает облако точек?
+
+&lt;img src="05_LM_files/figure-html/iq-regression-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle, center, inverse
+
+# Найти оптимальную модель позволяет регрессионный анализ
+
+.pull-right[
+"Essentially, all models are wrong,     
+but some are useful"     
+(George E. P. Box) 
+]
+
+---
+
+## Происхождение термина "регрессия"
+
+.pull-left[
+
+
+![](images/Galton.png)
+
+
+Френсис Галтон (Francis Galton)]
+
+.pull-right[
+"the Stature of the adult offspring … [is] … more mediocre than the
+stature of their Parents" (цит. по `Legendre &amp; Legendre, 1998`)
+
+
+Рост _регрессирует_ (возвращается) к популяционной средней     
+Угловой коэффициент в зависимости роста потомков от роста родителей- _коэффициент регрессии_
+]
+
+---
+
+## Подбор линии регрессии проводится с помощью двух методов 
+
+&gt;- С помощью метода наименьших квадратов (Ordinary Least Squares) - используется для простых линейных моделей
+&lt;br&gt;
+
+&gt;- Через подбор функции максимального правдоподобия (Maximum Likelihood) - используется для подгонки сложных линейных и нелинейных моделей.
+
+---
+
+## Метод наименьших квадратов
+
+.pull-left[
+![](images/OLS.png)
+
+
+.small[
+(из кн. Quinn, Keough, 2002, стр. 85)     
+]
+]
+
+.pull-right[
+Остатки (Residuals):            
+`$$\varepsilon_i = y_i - \hat{y_i}$$`
+
+Линия регрессии (подобранная модель) - это та линия, у которой `\(\sum{\varepsilon_i}^2\)` минимальна.
+]
+
+---
+
+## Подбор модели методом наименьших квадратов с помощью функци `lm()`  
+`fit &lt;- lm(formula, data)`
+
+Модель записывается в виде формулы  
+
+| Модель        | Формула   |
+|-------------|-------------|  
+| Простая линейная регрессия &lt;br&gt; `\(\hat{y_i}=b_0 + b_1x_i\)` | `Y ~ X` &lt;br&gt; `Y ~ 1 + X` &lt;br&gt; `Y ~ X + 1`  |
+| Простая линейная регрессия &lt;br&gt; (без `\(b_0\)`, "no intercept") &lt;br&gt; `\(\hat{y_i}=b_1x_i\)` | `Y ~ -1 + X` &lt;br&gt; `Y ~ X - 1`  |
+| Уменьшенная простая линейная регрессия &lt;br&gt; `\(\hat{y_i}=b_0\)` | `Y ~ 1` &lt;br&gt; `Y ~ 1 - X`  |
+| Множественная линейная регрессия &lt;br&gt; `\(\hat{y_i}=b_0 + b_1x_i +b_2x_2\)` | `Y ~ X1 + X2`  |
+
+---
+
+## Подбор модели методом наименьших квадратов с помощью функци `lm()` 
+`fit &lt;- lm(formula, data)`
+
+Элементы формул для записи множественных моделей
+
+| Элемент формулы | Значение |
+|-------------|-------------| 
+| `:` | Взаимодействие предикторов &lt;br&gt; `Y ~ X1 + X2 + X1:X2` |
+| `*` | Обозначает полную схему взаимодействий &lt;br&gt;  `Y ~ X1 * X2 * X3` &lt;br&gt; аналогично &lt;br&gt; `Y ~ X1 + X2 + X3+ X1:X2 + X1:X3 + X2:X3 + X1:X2:X3` |
+| `.` | `Y ~ .` &lt;br&gt; В правой части формулы записываются все переменные из датафрейма, кроме `Y` | 
+
+---
+
+## Подберем модель, наилучшим образом описывающую зависимость результатов IQ-теста от размера головного мозга
+
+
+```r
+brain_model &lt;- lm(PIQ ~ MRINACount, data = brain)
+brain_model
+```
+
+```
+
+Call:
+lm(formula = PIQ ~ MRINACount, data = brain)
+
+Coefficients:
+(Intercept)   MRINACount  
+    1.74376      0.00012  
+```
+
+---
+
+## Как трактовать значения параметров регрессионной модели?
+
+&lt;img src="05_LM_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Как трактовать значения параметров регрессионной модели?
+
+&gt;- Угловой коэффициент (_slope_) показывает *на сколько* _единиц_ изменяется предсказанное значение `\(\hat{y}\)` при изменении на _одну единицу_ значения предиктора `\((x)\)`.
+
+&gt;- Свободный член (_intercept_) --- величина во многих случаях не имеющая "смысла", просто поправочный коэффициент, без которого нельзя вычислить `\(\hat{y}\)`. &lt;br&gt; _NB!_ В некоторых линейных моделях он имеет смысл, например, значения `\(\hat{y}\)` при `\(x = 0\)`. 
+
+&gt;- Остатки (_residuals_) - характеризуют влияние неучтенных моделью факторов.
+
+---
+
+## Вопросы: 
+1. Чему равны угловой коэффициент и свободный член полученной модели `brain_model`?       
+2. Какое значение IQ-теста предсказывает модель для человека с объемом  мозга равным 900000?         
+3. Чему равно значение остатка от модели для человека с порядковым номером 10?    
+
+---
+
+## Ответы
+
+1. Чему равны угловой коэффициент и свободный член полученной модели `brain_model`?  
+
+Угловой коэффициент:
+
+```r
+coefficients(brain_model) [1]
+```
+
+```
+(Intercept) 
+      1.744 
+```
+
+Свободный член:
+
+```r
+coefficients(brain_model) [2]
+```
+
+```
+MRINACount 
+ 0.0001203 
+```
+
+---
+
+## Ответы
+
+Какое значение IQ-теста предсказывает модель для человека с объемом  мозга равным 900000?  
+
+
+```r
+as.numeric(coefficients(brain_model) [1] + coefficients(brain_model) [2] * 900000)
+```
+
+```
+[1] 110
+```
+
+---
+
+## Ответы
+
+3. Чему равно значение остатка от модели для человека с порядковым номером 10?    
+
+
+```r
+brain$PIQ[10] - fitted(brain_model)[10]
+```
+
+```
+   10 
+30.36 
+```
+
+```r
+residuals(brain_model)[10]
+```
+
+```
+   10 
+30.36 
+```
+
+---
+
+## Углубляемся в анализ модели: функция `summary()`
+
+
+```r
+summary(brain_model)
+```
+
+```
+
+Call:
+lm(formula = PIQ ~ MRINACount, data = brain)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -39.6  -17.9   -1.6   17.0   42.3 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  1.7437570 42.3923825    0.04    0.967  
+MRINACount   0.0001203  0.0000465    2.59    0.014 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 21 on 38 degrees of freedom
+Multiple R-squared:  0.15,	Adjusted R-squared:  0.127 
+F-statistic: 6.69 on 1 and 38 DF,  p-value: 0.0137
+```
+
+---
+
+## Что означают следующие величины?
+
+`Estimate`  
+`Std. Error`   
+`t value`  
+`Pr(&gt;|t|)`   
+
+---
+
+## Оценки параметров регрессионной модели
+
+| Параметр | Оценка      | Стандартная ошибка |   
+|-------------|--------------------|-------------|   
+| `\(\beta_1\)` &lt;br&gt; Slope| `\(b _1 = \frac {\sum _{i=1}^{n} {[(x _i - \bar {x})(y _i - \bar {y})]}}{\sum _{i=1}^{n} {(x _i - \bar x)^2}}\)`&lt;br&gt; или проще &lt;br&gt; `\(b_0 = r\frac{sd_y}{sd_x}\)` | `\(SE _{b _1} = \sqrt{\frac{MS _e}{\sum _{i=1}^{n} {(x _i - \bar {x})^2}}}\)`  | 
+| `\(\beta_0\)` &lt;br&gt; Intercept | `\(b_0 = \bar y - b_1 \bar{x}\)`  | `\(SE _{b _0} = \sqrt{MS _e [\frac{1}{n} + \frac{\bar x}{\sum _{i=1}^{n} {(x _i - \bar x)^2}}]}\)` |
+| `\(\epsilon _i\)` | `\(e_i = y_i - \hat {y_i}\)` | `\(\approx \sqrt{MS_e}\)`   
+
+---
+
+## Для чего нужны стандартные ошибки?
+
+- Они нужны, поскольку мы _оцениваем_ параметры по _выборке_;
+- Позволяют построить доверительные интервалы для параметров;
+- Их используют в статистических тестах.
+
+---
+
+## Графическое представление результатов 
+
+.pull-left[
+
+```r
+pl_brain + geom_smooth(method="lm") 
+```
+
+![](05_LM_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+Доверительная зона регрессии. В ней с 95% вероятностью лежит регрессионная прямая, описывающая связь в генеральной совокупности. 
+
+&lt;br&gt;
+Возникает из-за неопределенности оценок коэффициентов модели, вследствие выборочного характера оценок.           
+]
+
+---
+
+## Зависимость в генеральной совокупности 
+
+.pull-left[
+Симулированный пример: Генеральная совокупность, в которой связь между Y и X, описывается следующей зависимостью
+$$
+y_i = 10 + 10x_i + \varepsilon_i \\
+\varepsilon \in N(0, 20)
+$$
+
+
+```r
+pop_x &lt;- rnorm(1000, 10, 3)
+pop_y &lt;- 10 + 10*pop_x + rnorm(1000, 0, 20)
+population &lt;- data.frame(x = pop_x, y = pop_y)
+
+pop_plot &lt;- ggplot(population, aes(x = x, y = y)) + 
+  geom_point(alpha = 0.3, color = "red") + 
+  geom_abline(aes(intercept = 10, slope = 10), 
+              color="blue", size = 2) +
+  theme(text = element_text(size = 15))
+pop_plot
+```
+]
+
+.pull-right[
+![](05_LM_files/figure-html/pop-plot-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## Зависимости, выявленные в нескольких разных выборках 
+
+.pull-left[
+Линии регрессии, полученные для 100 выборок (по 20 объектов в каждой), взятых из одной и той же генеральной совокупности.
+]
+
+.pull-right[
+
+&lt;img src="05_LM_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Доверительные интервалы для коэффициентов уравнения регрессии
+
+
+```r
+coef(brain_model)
+```
+
+```
+(Intercept)  MRINACount 
+  1.7437570   0.0001203 
+```
+
+```r
+confint(brain_model)
+```
+
+```
+                   2.5 %     97.5 %
+(Intercept) -84.07513478 87.5626489
+MRINACount    0.00002611  0.0002144
+```
+
+---
+
+## Для разных `\(\alpha\)` можно построить разные доверительные интервалы
+
+&lt;img src="05_LM_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Важно!
+
+Если коэффициенты уравнения регрессии --- лишь приблизительные оценки параметров, то предсказать значения зависимой переменной можно только _с нeкоторой вероятностью_.           
+
+---
+
+## Какое значение IQ можно ожидать у человека с размером головного мозга 900000?
+
+
+```r
+newdata &lt;- data.frame(MRINACount = 900000)
+
+predict(brain_model, newdata, interval = "prediction", level = 0.95, se = TRUE)$fit
+```
+
+```
+  fit   lwr upr
+1 110 66.94 153
+```
+
+--
+
+&gt;- При размере мозга 900000 среднее значение IQ будет, с вероятностью 95%, находиться в интервале от 67 до 153.
+
+---
+
+## Отражаем на графике область значений, в которую попадут 95% предсказанных величин IQ
+
+Подготавливаем данные:
+
+
+```r
+brain_predicted &lt;- predict(brain_model, interval="prediction")
+brain_predicted &lt;- data.frame(brain, brain_predicted)
+head(brain_predicted)
+```
+
+```
+  Gender FSIQ VIQ PIQ Weight Height MRINACount    fit   lwr   upr
+1 Female  133 132 124    118   64.5     816932  99.98 56.10 143.9
+2   Male  140 150 124     NA   72.5    1001121 122.13 78.24 166.0
+3   Male  139 123 150    143   73.3    1038437 126.62 81.90 171.3
+4   Male  133 129 128    172   68.8     965353 117.83 74.48 161.2
+5 Female  137 132 134    147   65.0     951545 116.17 72.96 159.4
+6 Female   99  90 110    146   69.0     928799 113.44 70.37 156.5
+```
+
+---
+
+## Отражаем на графике область значений, в которую попадут 95% предсказанных величин IQ
+
+&lt;img src="05_LM_files/figure-html/pl-predict-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Код для построения графика
+
+
+
+```r
+pl_brain + 
+
+# 1) Линия регрессии и ее дов. интервал
+# Если мы указываем fill внутри aes() и задаем фиксированное значение - 
+#  появится соотв. легенда с названием.
+# alpha - задает прозрачность
+  geom_smooth(method = "lm", aes(fill = "Conf.interval"), alpha = 0.4) +
+# 2) Интервал предсказаний создаем при помощи геома ribbon ("лента")
+# Данные берем из другого датафрейма - из brain_predicted
+# ymin и ymax - эстетики геома ribbon, которые задают нижний и верхний 
+# край ленты в точках с заданным x (x = MRINACount было задано в ggplot() 
+# при создании pl_brain, поэтому сейчас его указывать не обязательно)
+#
+
+geom_ribbon(data = brain_predicted,  aes(ymin = lwr, ymax = upr, fill = "Conf. area for prediction"), alpha = 0.2) +
+# 3) Вручную настраиваем цвета заливки при помощи шкалы fill_manual.
+# Ее аргумент name - название соотв. легенды, values - вектор цветов
+  scale_fill_manual(name = "Intervals", values = c("green", "gray")) +
+# 4) Название графика
+  ggtitle("Confidence interval \n and confidence area for prediction")
+```
+
+---
+
+## Важно! 
+
+.pull-left-33[
+Модель "работает" только в том диапазоне значений независимой переменной `\((x)\)`, для которой она построена (интерполяция). Экстраполяцию надо применять с большой осторожностью.
+]
+
+.pull-right-66[
+&lt;img src="05_LM_files/figure-html/lm-model-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Итак, что означают следующие величины?
+
+&gt;- `Estimate` 
+&gt;- Оценки праметров регрессионной модели 
+&gt;- `Std. Error`   
+&gt;- Стандартная ошибка для оценок    
+&gt;- Осталось решить, что такое `t value`, `Pr(&gt;|t|)`
+
+---
+
+## Summary
+
+&gt; - Модель простой линейной регрессии `\(y _i = \beta _0 + \beta _1 x _i + \epsilon _i\)`
+- Параметры модели оцениваются на основе выборки
+- В оценке коэффициентов регрессии и предсказанных значений существует неопределенность: необходимо вычислять доверительный интервал. 
+- Доверительные интервалы можно расчитать, зная стандартные ошибки.  
+
+---
+
+## Что почитать
+
++ Гланц, С., 1998. Медико-биологическая статистика. М., Практика
++ Кабаков Р.И. R в действии. Анализ и визуализация данных на языке R. М.: ДМК Пресс, 2014
++ Diez, D.M., Barr, C.D. and Çetinkaya-Rundel, M., 2015. OpenIntro Statistics. OpenIntro.
++ Zuur, A., Ieno, E.N. and Smith, G.M., 2007. Analyzing ecological data. Springer Science &amp; Business Media.
++ Quinn G.P., Keough M.J. 2002. Experimental design and data analysis for biologists
++ Logan M. 2010. Biostatistical Design and Analysis Using R. A Practical Guide
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="assets/cols_macro.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "googlecode",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<!-- https://github.com/fnaufel/xaringan-smartify-->
+<script type="text/javascript">
+  smartify();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
