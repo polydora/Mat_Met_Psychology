@@ -25,6 +25,10 @@ brain_plot
 
 #Вычисление коэффициента корреляции
 
+cor(x = brain$PIQ, y = brain$MRINACount)
+
+cor.test(x = brain$PIQ, y = brain$MRINACount)
+
 
 #Вычисление матрицы корреляций
 
@@ -37,19 +41,34 @@ cor.test(x = brain$MRINACount, y = brain$PIQ)
 qt(p = 0.975, df = (nrow(brain) - 1) )
 
 ## Подгоняем модель с помощью функции lm()
-brain_model <-
+brain_model <- lm(formula = PIQ ~ MRINACount, data = brain)
 
+brain_model <- lm(PIQ ~ MRINACount, data = brain)
 
 
 ## Прогнозируем величину IQ для человека с размером мозга 900000
 
+1.7437570 + 0.0001203 * 900000
 
+1.7437570 + 0.0001203 * 70000
 
 
 #Находим остатки
 
+brain
+
+predicted <- 1.7437570 + 0.0001203 *955466
+
+observed <- 147
+
+residual <- observed - predicted
 
 
+hist(residuals(brain_model))
+
+qqPlot(brain_model)
+
+summary(brain_model)
 
 ##Находим доверительные интервалы для параметров
 
@@ -57,16 +76,56 @@ brain_model <-
 
 ##Рисуем графики для разных уровней значимости
 
-pl_alpha1 <- pl_brain + geom_smooth(method="lm", level=0.8) + ggtitle(bquote(alpha==0.2))
+pl_alpha1 <-
+  brain_plot +
+  geom_smooth(method="lm", level=0.8) +
+  ggtitle(bquote(alpha==0.2))
 
-pl_alpha2 <- pl_brain + geom_smooth(method="lm", level=0.95) + ggtitle(bquote(alpha==0.05))
 
-pl_alpha3 <- pl_brain + geom_smooth(method="lm", level=0.999) + ggtitle(bquote(alpha==0.01))
+pl_alpha2 <-
+  brain_plot +
+  geom_smooth(method="lm", level=0.95) +
+  ggtitle(bquote(alpha==0.05))
+
+pl_alpha3 <-
+  brain_plot +
+  geom_smooth(method="lm", level=0.999) +
+  ggtitle(bquote(alpha==0.01))
+
+library(cowplot)
+plot_grid(pl_alpha1, pl_alpha2, pl_alpha3, ncol=3)
 
 
-grid.arrange(pl_alpha1, pl_alpha2, pl_alpha3, ncol=3)
+# Анализ валидности модели
+# 1. Независимость наблюдений
+# 2. Нормалность распределения
+
+qqPlot(brain_model)
+
+# 3. гомогенность дисерсии
+
+diagn_df <- fortify(brain_model)
+
+
+ggplot(diagn_df, aes(x = .fitted, y = .stdresid)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+
+
+# 4. Линейность связи
+
+ggplot(diagn_df, aes(x = .fitted, y = .stdresid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth(method = "loess")
+
+
+
+
 
 ## Зависимость в генеральной совокупности
+
+
 
 pop_x <- rnorm(1000, 10, 3)
 pop_y <- 10 + 10*pop_x + rnorm(1000, 0, 20)
@@ -111,7 +170,7 @@ brain_predicted <- predict(brain_model, interval="prediction")
 brain_predicted <- data.frame(brain, brain_predicted)
 head(brain_predicted)
 
-pl_brain +
+brain_plot +
 
   # 1) Линия регрессии и ее дов. интервал
   # Если мы указываем fill внутри aes() и задаем фиксированное значение - появится соотв. легенда с названием.
