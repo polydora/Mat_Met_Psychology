@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Сандра Алексеевна Мирошниченко" />
+
+<meta name="date" content="2025-01-01" />
+
+<title>Отчет о домашнем задании</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/mathmethr/">Mathmethr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">О курсе</a></li>
+        <li><a href="lectures.html">Презентации и данные</a></li>
+<!--        <li><a href="evaluation_criteria.html">Критерии оценки домашних заданий</a></li>
+-->
+        <li class="dropdown">
+          <a href="appendix" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Полезности<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+<!--             <li><a href="supplement.html">Дополнительные темы</a></li>-->
+             <li><a href="resources.html">Ссылки и ресурсы</a></li>
+             <li><a href="coding_practices.html">Правила хорошего кода</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Отчет о домашнем задании</h1>
+<h4 class="author">Сандра Алексеевна Мирошниченко</h4>
+<h4 class="date">2025</h4>
+
+</div>
+
+
+<div id="точечный-график" class="section level1">
+<h1>Точечный график</h1>
+<p>Задача этого раздела - построить точечный график. Мы это сделаем с
+помощью пакета ggplot2 <span class="citation">[1]</span>. Данные были
+упорядочены с помощью пакета dplyr <span class="citation">[2]</span></p>
+<div class="figure">
+<img src="%D0%94%D0%97_files/figure-html/unnamed-chunk-2-1.png" alt="Рисунок 1. Связь между изученными признаками." width="672" />
+<p class="caption">
+Рисунок 1. Связь между изученными признаками.
+</p>
+</div>
+<p>Мы видим прекрасную связь!!!</p>
+<div id="анализ-корреляции" class="section level2">
+<h2>Анализ корреляции</h2>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  df_versicolor$Petal.Length and df_versicolor$Sepal.Length
+## t = 7.9538, df = 48, p-value = 2.586e-10
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.6020680 0.8532995
+## sample estimates:
+##      cor 
+## 0.754049</code></pre>
+<p>Между признаками есть высокая, статистически значимая корреляция.
+Пороговое значение t-критерия Стьюдента для отвержения нулевой гипотезы
+составляет 2.</p>
+<p>По результатам анализа: t в соr тесте больше чем t фактич,
+cледовательно нулевая гипотеза отвергается.</p>
+</div>
+</div>
+<div id="линейная-модель" class="section level1">
+<h1>Линейная модель</h1>
+<p>Мы хотим построить линейную модель следующего вида.</p>
+<p><span class="math display">\[
+Sepal.Length = b_0 + b_1 \times Petal.Length + \varepsilon
+\]</span></p>
+<p>Подбираем модель с помощью функции lm().</p>
+<pre class="r"><code>versi_model &lt;- lm(formula = Sepal.Length ~ Petal.Length, data = df_versicolor)</code></pre>
+<div id="анализ-валидности-модели" class="section level2">
+<h2>Анализ валидности модели</h2>
+<div class="figure">
+<img src="%D0%94%D0%97_files/figure-html/unnamed-chunk-5-1.png" alt="Квантильный график" width="672" />
+<p class="caption">
+Квантильный график
+</p>
+</div>
+<p>Отклонения от нормальности распределеиня нет.</p>
+<div class="figure">
+<img src="%D0%94%D0%97_files/figure-html/unnamed-chunk-6-1.png" alt="График рассеяния остатков" width="672" />
+<p class="caption">
+График рассеяния остатков
+</p>
+</div>
+<p>Нарушений нет.</p>
+</div>
+<div id="итоги-модели" class="section level2">
+<h2>Итоги модели</h2>
+<table>
+<caption>Таблица 1. Паармтеры регрессионной модели.</caption>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">2.407523</td>
+<td align="right">0.4462583</td>
+<td align="right">5.394909</td>
+<td align="right">2.1e-06</td>
+</tr>
+<tr class="even">
+<td align="left">Petal.Length</td>
+<td align="right">0.828281</td>
+<td align="right">0.1041364</td>
+<td align="right">7.953806</td>
+<td align="right">0.0e+00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="выводы" class="section level1">
+<h1>Выводы</h1>
+<p>Между изученными параметрами существует сильная связь, которая
+описывается следующей моделью.</p>
+<p><span class="math display">\[
+Sepal.Length = 2.41 + 0.828  \times Petal.Length + \varepsilon
+\]</span></p>
+</div>
+<div id="библиография" class="section level1 unnumbered">
+<h1 class="unnumbered">Библиография</h1>
+<div id="refs" class="references csl-bib-body" entry-spacing="0">
+<div id="ref-ggplot" class="csl-entry">
+<div class="csl-left-margin">1. </div><div
+class="csl-right-inline">Wickham H. <a
+href="https://ggplot2.tidyverse.org">ggplot2: Elegant graphics for data
+analysis</a>. Springer-Verlag New York, 2016.</div>
+</div>
+<div id="ref-dplyr" class="csl-entry">
+<div class="csl-left-margin">2. </div><div
+class="csl-right-inline">Wickham H. et al. <a
+href="https://CRAN.R-project.org/package=dplyr">Dplyr: A grammar of data
+manipulation</a>. 2023.</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

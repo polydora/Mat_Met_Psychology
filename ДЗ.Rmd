@@ -1,0 +1,125 @@
+---
+title: "Отчет о домашнем задании"
+author: "Сандра Алексеевна Мирошниченко"
+date: '2025'
+output: word_document
+bibliography: ДЗ.bib
+csl: GOST_numerical.csl
+---
+
+```{r Установки, include=FALSE}
+library(knitr)
+
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+```{r Пакеты}
+library(ggplot2)
+library(dplyr)
+library(car)
+
+```
+
+
+
+
+```{r}
+data("iris")
+
+theme_set(theme_bw())
+
+df_versicolor <-
+  iris %>% 
+  filter(Species == "versicolor")
+
+```
+
+
+# Точечный график
+
+Задача этого раздела - построить точечный график. Мы это сделаем с помощью пакета ggplot2 [@ggplot]. Данные были упорядочены с помощью пакета dplyr [@dplyr]
+
+```{r Plot1}
+versi_plot <- 
+  ggplot(data = df_versicolor, aes(x = Petal.Length, y = Sepal.Length)) +
+  geom_point()
+```
+
+
+```{r, fig.cap="Рисунок 1. Связь между изученными признаками."}
+
+versi_plot
+
+```
+
+Мы видим прекрасную связь!!!
+
+## Анализ корреляции
+
+```{r}
+
+cor.test(x=df_versicolor$Petal.Length, y=df_versicolor$Sepal.Length)
+
+```
+
+Между признаками есть высокая, статистически значимая корреляция. Пороговое значение t-критерия Стьюдента для отвержения нулевой гипотезы составляет `r round(qt(p = 0.975, df = (nrow(df_versicolor) - 1)), 1)`.
+
+По результатам анализа: t в соr тесте больше чем t фактич, cледовательно нулевая гипотеза отвергается.
+
+# Линейная модель
+
+Мы хотим построить линейную модель следующего вида.
+
+$$
+Sepal.Length = b_0 + b_1 \times Petal.Length + \varepsilon
+$$
+
+Подбираем модель с помощью функции lm(). 
+
+```{r, echo=TRUE}
+versi_model <- lm(formula = Sepal.Length ~ Petal.Length, data = df_versicolor)
+```
+
+## Анализ валидности модели
+
+```{r, fig.cap="Квантильный график"}
+qqPlot(versi_model, id = FALSE)
+```
+
+Отклонения от нормальности распределеиня нет.
+
+
+```{r, fig.cap="График рассеяния остатков"}
+diagn_df <- fortify(versi_model)
+
+ggplot(diagn_df, aes(x = .fitted, y = .stdresid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth()
+```
+
+Нарушений нет.
+
+## Итоги модели
+
+```{r}
+library(broom)
+
+df_summary <- tidy(versi_model)
+
+kable(df_summary, 
+      caption = "Таблица 1. Паармтеры регрессионной модели.")
+
+
+```
+
+# Выводы
+
+Между изученными параметрами существует сильная связь, которая описывается следующей моделью.
+
+$$
+Sepal.Length = 2.41 + 0.828  \times Petal.Length + \varepsilon
+$$
+
+# Библиография
