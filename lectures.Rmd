@@ -612,7 +612,7 @@ kable(hw)
  
  Источник данных: http://www.statsci.org/data/general/fev.html
 
-Датасет: [fev.xls](Data/fev.xls). лист «tidy_data»
+Датасет: [fev.xls](data/fev.xls). лист «tidy_data»
 
  Структура данных
  
@@ -646,7 +646,7 @@ kable(hw)
  Rosner, B. (1990). Fundamentals of Biostatistics, 3rd Edition. PWS-Kent, Boston, Massachusetts.
  Источник данных: http://www.statsci.org/data/general/fev.html
 
-Датасет: [fev.xls](Data/fev.xls). лист «tidy_data»
+Датасет: [fev.xls](data/fev.xls). лист «tidy_data»
 
  Структура данных
 
@@ -677,7 +677,7 @@ kable(hw)
  Данные из работы
  Secher et al. (1987), European Journal of Obstetrics, Gynecology, and Reproductive Biology, 24: 1–11.
 
- Датасет  [secher.xls](Data/secher.xls)
+ Датасет  [secher.xls](data/secher.xls)
 
  На УЗИ у плода измеряли  межтеменной и абдоминальный диаметр. После рождения измеряли вес младенца.
 
@@ -737,7 +737,7 @@ kable(hw)
 ### Проект №5.
 Вам нужно проанализировать емкость легких у разных групп людей.
 
-Датасет: [tlc.csv](Data/tlc.csv)
+Датасет: [tlc.csv](data/tlc.csv)
 
 Переменные:
 - `age` -- возраст.
@@ -766,7 +766,7 @@ kable(hw)
 
 Вам нужно проанализировать вес новорожденных детей у курящих и некурящих матерей.
 
-Датасет [birthwt.csv](Data/birthwt.csv).
+Датасет [birthwt.csv](data/birthwt.csv).
 
 Переменные
 
