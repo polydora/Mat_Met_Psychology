@@ -1,0 +1,166 @@
+---
+title: "Итоговая работа"
+author: "Василькова С.В."
+date: "2025-06-01"
+output: word_document
+bibliography: ДЗ.bib
+---
+
+```{r Установки, include=FALSE}
+
+library(knitr)
+
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+<!-- # контрл альт ай вместо апострофов 
+help markdown quick reference для помощи-->
+
+``` {r Пакеты}
+library(ggplot2)
+library(dplyr)
+library(car)
+library(readxl)
+library(broom)
+# контрл шифт энтер - чтобы все в чатре выполнилось
+```
+
+
+```{r}
+fev <- read_excel("data/fev.xls", sheet = "tidy_data", col_names = TRUE, na = "NA", skip = 1 )
+
+# str(fev)
+
+# colSums(is.na(fev)) здесь проверяю где есть энашки, но чтобы не было в итоговом документе - закомментировала
+
+fev %>% 
+  filter(!is.na(Age)) -> fev
+
+fev %>% 
+  filter(!is.na(Smoker)) -> fev
+
+```
+# Введение
+В рамках курса по математическим методам в биологии была поставлена задача изучить зависимость между объемом легких от возраста у курящих и некурящих людей с помощью полученных знаний. 
+
+
+# Материал и методика 
+В данной работе будут использоваться данные из следующих исследований (в библиографии), а также использоваться пакеты ggplot2 [@ggplot], dplyr [@dplyr], car [@car], readxl [@readxl], broom [@broom], knitr (в библоиграфии). Что касается методики, то будут использоваться линейный регрессионный анализ и t-test. 
+
+<!-- для пакета knitr сслылка на источник указана вручную -->
+
+# Результаты (ответы на 2 заданных вопроса)
+Различается ли объем легких у курящих и некурящих людей?
+
+Нулевая гипотеза: статистически значимых отличий нет (объем легких не отличается) (т.е. средние значения равны)
+Альтернативная гипотеза: статистически значимые отличия есть (наоборот, объем легких у курящих и некурящих разный) (средние значения будут отличаться)
+
+```{r}
+t_test_result <- t.test(FEV ~ Smoker, data = fev)
+t_test_result
+
+if (t_test_result$p.value <= 0.05) {
+  print("Различия есть", quote = FALSE)         ##### То есть отвергаем нулевую гипотезу, принимаем альтернативную
+} else {
+  print("Различий нет)", quote = FALSE)    ##### оставляем нулевую гипотезую, не принимаем альтернативную
+}
+```
+Так как значение p-value > 0,05, отвергаем H0 и принимаем H1.
+
+                                             
+
+Как зависит объем легких от возраста у курящих и некурящих людей?
+
+Линейная модель будет следующего вида: 
+<!-- формула линейной модели -->
+<!--FEV = b0 (свободный член, когда все независимые переменные = 0) + b1x1 (коэфициент независимой переменной и сам фактор Age) + b2x2 (коэфициент второй независимой переменной и сам фактор Smoker) + e (случайная ошибка) -->
+
+$$
+FEV = b_0 + b_1 \times Age + b_2\times Smoker + \varepsilon
+$$
+<!-- Делаем факторы факторами -->
+
+```{r}
+fev$Smoker <- factor(fev$Smoker, levels = c("Non", "Current"), 
+                     labels = c("некурящие", "курящие"))
+```
+
+
+
+<!-- Построение линейной модели -->
+
+```{r}
+model <- lm(FEV ~ Age + Smoker, data = fev)
+summary(model)
+
+fev$Smoker <- relevel(fev$Smoker, ref = "курящие")
+
+model <- lm(FEV ~ Age + Smoker, data = fev)
+summary(model)
+
+
+ggplot(fev, aes(x = Age, y = FEV, color = Smoker)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Зависимость объема легких от возраста у курящих и некурящих",
+       x = "Возраст",
+       y = "Объем легких")
+```
+
+<!-- Анализ валидности модели -->
+
+```{r, fig.cap="Квантильный график"}
+qqPlot(model, id = FALSE)
+```
+
+Отклонений от нормальности распределения почти нет.
+
+
+```{r, fig.cap="График рассеивания остатков"}
+diagn_df <- fortify(model)
+
+ggplot(diagn_df, aes(x = .fitted, y = .stdresid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth()
+```
+
+Нарушений нет.
+
+
+<!-- Итоги модели -->
+
+```{r}
+
+library(broom)
+
+df_summary <- tidy(model)
+
+kable(df_summary,
+      caption = "Таблица 1. Параметры регрессионной модели.")
+```
+
+<!-- Выводы -->
+
+Между изученными параметрами существует сильная связь, которая описывается следующей моделью. 
+
+$$
+FEV = 0.189217 + 0.229538 \times Age + b_2\times Smoker + \varepsilon
+$$
+
+# Обсуждение 
+Подводя итог, на графике мы явно видим, что у некурящих объем легких с возрастом беспрепятственно увеличивается, не замедляется, в отличие от курящих.
+
+# Библиография
+Tager, I. B., Weiss, S. T., Rosner, B., and Speizer, F. E. (1979). Effect of parental cigarette smoking on pulmonary function in children. American Journal of Epidemiology, 110, 15-26.
+
+Rosner, B. (1990). Fundamentals of Biostatistics, 3rd Edition. PWS-Kent, Boston, Massachusetts.
+
+Xie Y (2025). _knitr: A General-Purpose Package for Dynamic Report Generation in R_. R package version 1.50,
+  <https://yihui.org/knitr/>.
+
+
+
+
+
