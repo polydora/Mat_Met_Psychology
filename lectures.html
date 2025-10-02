@@ -45,103 +45,6 @@
 
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; } /* Alert */
-code span.an { color: #008000; } /* Annotation */
-code span.at { } /* Attribute */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #0000ff; } /* ControlFlow */
-code span.ch { color: #008080; } /* Char */
-code span.cn { } /* Constant */
-code span.co { color: #008000; } /* Comment */
-code span.cv { color: #008000; } /* CommentVar */
-code span.do { color: #008000; } /* Documentation */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.im { } /* Import */
-code span.in { color: #008000; } /* Information */
-code span.kw { color: #0000ff; } /* Keyword */
-code span.op { } /* Operator */
-code span.ot { color: #ff4000; } /* Other */
-code span.pp { color: #ff4000; } /* Preprocessor */
-code span.sc { color: #008080; } /* SpecialChar */
-code span.ss { color: #008080; } /* SpecialString */
-code span.st { color: #008080; } /* String */
-code span.va { } /* Variable */
-code span.vs { color: #008080; } /* VerbatimString */
-code span.wa { color: #008000; font-weight: bold; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -445,11 +348,9 @@ div.tocify {
 <div id="знакомство-с-r" class="section level1">
 <h1>1. Знакомство с R</h1>
 <p><br></p>
+<!-- -  Презентация: [01_intro_to_r.html](01_intro_to_r.html) -->
+<!-- -  Online практика: [01_intro_to_r_online_training.html](01_intro_to_r_online_training.html)  -->
 <ul>
-<li><p>Презентация: <a
-href="01_intro_to_r.html">01_intro_to_r.html</a></p></li>
-<li><p>Online практика: <a
-href="01_intro_to_r_online_training.html">01_intro_to_r_online_training.html</a></p></li>
 <li><p>Код для работы на лекции: <a
 href="01_intro_to_r_code.R">01_intro_to_r_code.R</a></p></li>
 <li><p>Данные для работы на лекции: <a
@@ -481,16 +382,10 @@ class="section level1">
 <h1>2. Данные и их визуализация с использованием пакета
 <code>ggplot2</code></h1>
 <p><br></p>
-<ul>
-<li><p>Код для работы на лекции: <a
-href="02_intro_ggplot.R">02_intro_ggplot.R</a></p></li>
-<li><p><a href="data/Titanic.csv">Данные для работы на лекции
-#1:</a></p></li>
-<li><p><a href="data/fev.xls">Данные для работы на лекции
-#2:</a></p></li>
-<li><p><a href="02_intro_ggplot.html">Презентация: Опрятные данные и
-основы визуализации данных с помощью пакета ggplot2</a></p></li>
-</ul>
+<!-- -   Код для работы на лекции: [02_intro_ggplot.R](02_intro_ggplot.R) -->
+<!-- -   [Данные для работы на лекции #1:](data/Titanic.csv) -->
+<!-- -   [Данные для работы на лекции #2:](data/fev.xls) -->
+<!-- -   [Презентация: Опрятные данные и основы визуализации данных с помощью пакета ggplot2](02_intro_ggplot.html) -->
 <!-- ### **Домашнее задание №1** -->
 <!-- #### Первая часть ДЗ -->
 <!-- **Ваша миссия:** Скачайте данные по водному тесту за [2022](data/Водный тест 2022.xlsx) или [2023](data/Водный тест 2023.xlsx) гг. В этом файле найдите лист "Север". Переделайте данные этого листа так, чтобы из него получилось два датасета: один по описанию параметров гнезд (ID гнезда, Дата,   Место,  Число яиц,  Срок насиживания, Начало насиживания,   Вылупление), второй по водному тесту (ID гнезда, У1,    У2, У3, Д1, Д2, Д3). Но! оба датасета необходимо представить в **длинном** формате с соблюдением правил **tidy data**. -->
@@ -532,109 +427,88 @@ href="02_intro_ggplot.R">02_intro_ggplot.R</a></p></li>
 <!--   labs(x = "Число яиц в гнезде", y = "Среднее значение угла в водном тесте") -->
 <!-- ``` -->
 <!-- В качестве ответа необходимо прислать код, который будет включать все этапы построения графика (включая подготовку данных) -->
-<div id="домашнее-задание-1" class="section level3">
-<h3><strong>Домашнее задание</strong></h3>
-<div id="первая-часть-дз" class="section level4">
-<h4>Первая часть ДЗ</h4>
-<p>Откройте датасет <code>iris</code>. Это данные по измерению размеров
-нескольких частей цветка у трех видов ирисов: setosa, versicolor,
-virginica.</p>
-<div class="figure" style="text-align: center">
-<img src="images/blueflagiris_flower.jpg" alt="**Строение цветка ириса**" width="400" />
-<p class="caption">
-<strong>Строение цветка ириса</strong>
-</p>
-</div>
+<!-- ### **Домашнее задание** -->
+<!-- #### Первая часть ДЗ -->
+<!-- Откройте датасет `iris`. Это данные по измерению размеров нескольких частей цветка у трех видов ирисов: setosa, versicolor, virginica. -->
+<!-- ```{r fig.cap="**Строение цветка ириса**", fig.height = 4} -->
+<!-- include_graphics("images/blueflagiris_flower.jpg") -->
+<!-- ``` -->
 <!-- ![Строение цветка ириса](images/blueflagiris_flower.jpg) -->
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">data</span>(iris)</span></code></pre></div>
-<p>Каждый должен взять себе (отфильтровать) только одну часть
-данных.</p>
-<ul>
-<li><em>Вариант 1.</em> Работает с видом “setosa”.</li>
-<li><em>Вариант 2.</em> Работает с видом “versicolor”.</li>
-<li><em>Вариант 3</em> Работает с видом “virginica”.</li>
-</ul>
-<p>Всем нужно будет (пользуясь любыми методами, хоть на бумажке)
-посчитать сколько раз в полученном датасете встретилось каждое из
-значений в переменной <code>iris$Sepal.Length</code>. После подсчета
-необходимо создать датафрейм, в котором в первой колонке будут стоять
-значения переменной <code>iris$Sepal.Length</code>, а во второй колонке
-будет указано сколько раз встретилось данное значение. Если подсчеты
-делали не с помощью R-кода, а на листочке, то результаты надо будет
-набить в экселе.</p>
-<p>Для примера, решение аналогичного задания, для вида “setosa” по
-переменной <code>iris$Sepal.Width</code> будет выглядеть вот так.</p>
-<div class="tabwid"><style>.cl-b8882baa{}.cl-b8700a34{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b87a3a18{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b87a3a22{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b87a78ac{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b87a78b6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b87a78c0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b87a78c1{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b87a78ca{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b87a78cb{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-b8882baa'><thead><tr style="overflow-wrap:break-word;"><th class="cl-b87a78ac"><p class="cl-b87a3a18"><span class="cl-b8700a34">Sepal.Width</span></p></th><th class="cl-b87a78b6"><p class="cl-b87a3a22"><span class="cl-b8700a34">Frequency</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">2.3</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">2.9</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.1</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.2</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.3</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.4</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.5</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.6</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.7</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.8</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">3.9</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">4</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">4.1</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78c0"><p class="cl-b87a3a18"><span class="cl-b8700a34">4.2</span></p></td><td class="cl-b87a78c1"><p class="cl-b87a3a22"><span class="cl-b8700a34">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b87a78ca"><p class="cl-b87a3a18"><span class="cl-b8700a34">4.4</span></p></td><td class="cl-b87a78cb"><p class="cl-b87a3a22"><span class="cl-b8700a34">1</span></p></td></tr></tbody></table></div>
-<p><strong>Полученный датасет необходимо сохранить в формате
-.csv</strong>.</p>
-<p><br> <br></p>
-</div>
-<div id="вторая-часть-дз" class="section level4">
-<h4>Вторая часть ДЗ</h4>
-<p>Используя полученный датасет, необходимо построить вот такой график
-(с соблюдением цветов и заливок) .</p>
-<p><img src="lectures_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Дедлайн, как всегда, 23:59 дня перед следующим занятием.</p>
-</div>
-</div>
+<!-- ```{r, echo=TRUE} -->
+<!-- data(iris) -->
+<!-- ``` -->
+<!-- Каждый должен взять себе (отфильтровать) только одну часть данных. -->
+<!-- + *Вариант 1.*  Работает с видом "setosa". -->
+<!-- + *Вариант 2.*  Работает с видом "versicolor". -->
+<!-- + *Вариант 3*  Работает с видом "virginica". -->
+<!-- Всем нужно будет (пользуясь любыми методами, хоть на бумажке) посчитать сколько раз в полученном датасете встретилось каждое из значений в переменной `iris$Sepal.Length`. После подсчета необходимо создать датафрейм, в котором в первой колонке будут стоять значения переменной `iris$Sepal.Length`, а во второй колонке будет указано сколько раз встретилось данное значение. Если подсчеты делали не с помощью R-кода, а на листочке, то результаты надо будет набить в экселе. -->
+<!-- Для примера, решение аналогичного задания, для вида "setosa" по переменной `iris$Sepal.Width` будет выглядеть вот так. -->
+<!-- ```{r} -->
+<!-- library(dplyr) -->
+<!-- library(flextable) -->
+<!-- df <- -->
+<!-- iris %>% -->
+<!--   filter(Species == "setosa") -->
+<!-- df2 <- as.data.frame(table(df$Sepal.Width)) -->
+<!-- names(df2) <- c("Sepal.Width", "Frequency") -->
+<!-- df2 %>% -->
+<!--   flextable() -->
+<!-- # kable(df2) -->
+<!-- ``` -->
+<!-- **Полученный датасет необходимо сохранить в формате .csv**. -->
+<!-- <br> -->
+<!-- <br> -->
+<!-- #### Вторая часть ДЗ -->
+<!-- Используя полученный датасет, необходимо построить вот такой график (с соблюдением цветов и заливок) . -->
+<!-- ```{r} -->
+<!-- library(ggplot2) -->
+<!-- df <- -->
+<!-- iris %>% -->
+<!--   filter(Species == "setosa") -->
+<!-- df2 <- as.data.frame(table(df$Sepal.Length)) -->
+<!-- ggplot(df2, aes(x = Var1, y = Freq)) + -->
+<!--   geom_col(color = "black", fill = "green") + -->
+<!--   theme_bw() + -->
+<!--   labs(x = "Значение Sepal.Length", y = "Количество") -->
+<!-- ``` -->
+<!-- Дедлайн, как всегда, 23:59 дня перед следующим занятием. -->
 </div>
 <div id="описательная-статистика" class="section level1">
 <h1>3. Описательная статистика</h1>
 <p><br></p>
-<p><a href="03.1_descriptive_statistics_Part_1.html">Презентация</a></p>
-<div id="домашнее-задание-2" class="section level3">
-<h3>Домашнее задание</h3>
-<p><strong>Часть 1.</strong></p>
-<p><strong>Ваша миссия:</strong> Напишите код, который будет выводить
-следущие значения для тех переменных, которые даны ниже (в каждом
-варианте будет свой набор данных).</p>
-<ul>
-<li>медиана</li>
-<li>1-й и 3-й квартили (без медианы)</li>
-<li>Одновременно минимум,максимум, 1-й, медиану и 3-й квартили</li>
-</ul>
-<p>В каждом датасете есть несколько категорий, для каждой из них надо
-вывести указанные выше описательные статистики (например, для каждого
-вида нужно дать отдельные характеристики).</p>
-<p><u> <strong>Датасеты:</strong> </u></p>
-<ul>
-<li><p><em>Вариант 1.</em> Переменная <code>Petal.Length</code> для
-каждого из видов из датасета <code>iris</code></p></li>
-<li><p><em>Вариант 2.</em> Вес цыплят <code>weight</code> на 21-й день
-наблюдения (переменная <code>Time</code>) для каждого из четырех типов
-диет (Diet) из датасета <code>ChickWeight</code>.</p></li>
-<li><p><em>Вариант 3.</em> Расход топлива <code>mpg</code> у автомобилей
-с разным количеством цилиндров (переменная <code>cyl</code>) из датасета
-<code>mtcars</code>. <strong>Важно!</strong> переменную <code>cyl</code>
-необходимо сделать фактором (используйте функцию
-<em>as.factor()</em>).</p></li>
-</ul>
-<p><strong>Часть 2.</strong></p>
-<p>Для своего датасета необходимо построить картинку подобную вот
-этой</p>
-<p><img src="lectures_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
+<!-- [Презентация](03.1_descriptive_statistics_Part_1.html) -->
+<!-- ### Домашнее задание -->
+<!-- **Часть 1.** -->
+<!-- **Ваша миссия:** Напишите код, который будет выводить следущие значения для тех переменных, которые даны ниже (в каждом варианте будет свой набор данных). -->
+<!-- + медиана -->
+<!-- + 1-й и 3-й квартили (без медианы) -->
+<!-- + Одновременно минимум,максимум, 1-й, медиану и 3-й квартили -->
+<!-- В каждом датасете есть несколько категорий, для каждой из них надо вывести указанные выше описательные статистики (например, для каждого вида нужно дать отдельные характеристики). -->
+<!-- <u> **Датасеты:** </u> -->
+<!-- - *Вариант 1.* Переменная `Petal.Length` для каждого из видов из датасета `iris` -->
+<!-- - *Вариант 2.* Вес цыплят `weight` на 21-й день наблюдения (переменная `Time`) для каждого из четырех типов диет (Diet) из датасета `ChickWeight`. -->
+<!-- - *Вариант 3.* Расход топлива `mpg` у автомобилей с разным количеством цилиндров (переменная `cyl`) из датасета `mtcars`. **Важно!** переменную `cyl` необходимо сделать фактором (используйте функцию *as.factor()*). -->
+<!-- **Часть 2.** -->
+<!-- Для своего датасета необходимо построить картинку подобную вот этой -->
+<!-- ```{r} -->
+<!-- df <- data.frame(Category = rep(c("Категория 1", "Категория 2", "Категория 3"), each = 10), Value = c(rnorm(10, 10, 1), rnorm(10, 15, 2), rnorm(10, 17, 2)) ) -->
+<!-- library(ggplot2) -->
+<!-- ggplot(df, aes(x = Category, y = Value)) + -->
+<!--   geom_boxplot(fill = "gray") + -->
+<!--   theme_bw() -->
+<!-- ``` -->
 </div>
 <div
 id="модель-нрмального-распределения-как-основа-для-тестирования-статистических-гипотез"
 class="section level1">
 <h1>4. Модель нрмального распределения, как основа для тестирования
 статистических гипотез</h1>
-<p><br></p>
-<p><a href="03.2_descriptive_statistics_normal_d.html">Презентация о
-свойствах нормального распределения</a></p>
-<p><a href="04_hypothesis_testing_Part_1.html">Презентация о точечных и
-интервальных оценках параметров нормального распределения</a></p>
-<div id="домашнее-задание-3" class="section level3">
-<h3>Домашнее задание</h3>
-<p><strong>Часть 1.</strong></p>
-<p>Скачайте датасет, соответствующий вашему варианту. Это датафрейм,
-состоящий из пяти переменных. Найдите, какие из переменных подчиняются
-нормальному распределению. Ваш анализ должен быть отражен в скрипте.
-Ответ о том, подчиняется ли та или иная переменная нормальному
-распределению, приведите в виде комментария в скрипте. В этом же
-комментарии постарайтесь оценить, что именно не соотвествует модели
-нормального распределения.</p>
+<!-- <br> -->
+<!-- [Презентация о свойствах нормального распределения](03.2_descriptive_statistics_normal_d.html) -->
+<!-- [Презентация о точечных и интервальных оценках параметров нормального распределения](04_hypothesis_testing_Part_1.html) -->
+<!-- ### Домашнее задание -->
+<!-- **Часть 1.** -->
+<!-- Скачайте датасет, соответствующий вашему варианту. Это датафрейм, состоящий из пяти переменных. Найдите, какие из переменных подчиняются нормальному распределению. Ваш анализ должен быть отражен в скрипте. Ответ о том, подчиняется ли та или иная переменная нормальному распределению,  приведите в виде комментария в скрипте. В этом же комментарии постарайтесь оценить, что именно не соотвествует модели нормального распределения. -->
 <!-- ```{r, echo=FALSE, eval=FALSE} -->
 <!-- Var1 <- c(rnorm(n = 100, mean = 10, sd = 4), rnorm(n = 100, mean = 30, sd = 4)) -->
 <!-- Var2 <- rnorm(n = 200, mean = 10, sd = 3) -->
@@ -647,203 +521,110 @@ class="section level1">
 <!-- names(df) <- c("Var1", "Var2", "Var3", "Var4", "Var5") -->
 <!-- write.table(x = df, file = "Data/dataset_variant_3.csv", sep = ";", row.names = FALSE) -->
 <!-- ``` -->
-<p>Вариант 1. <a href="data/dataset_variant_1.csv">Датасет для варианта
-1</a></p>
-<p>Вариант 2. <a href="data/dataset_variant_2.csv">Датасет для варианта
-2</a></p>
-<p>Вариант 3. <a href="data/dataset_variant_3.csv">Датасет для варианта
-3</a></p>
-<p><strong>Часть 2.</strong></p>
-<p>Используя датасеты из предыдущего задания (там, где мы строили
-боксплоты), вычислите выборочные средние и среднеквадратичные отклонения
-для каждой из групп категорий, которые представлены в этих
-датасетах.</p>
-<ul>
-<li><p><em>Вариант 1.</em> Переменная <code>Petal.Length</code> для
-каждого из видов из датасета <code>iris</code></p></li>
-<li><p><em>Вариант 2.</em> Вес цыплят <code>weight</code> на 21-й день
-наблюдения (переменная <code>Time</code>) для каждого из четырех типов
-диет (Diet) из датасета <code>ChickWeight</code>.</p></li>
-<li><p><em>Вариант 3.</em> Расход топлива <code>mpg</code> у автомобилей
-с разным количеством цилиндров (переменная <code>cyl</code>) из датасета
-<code>mtcars</code>. <strong>Важно!</strong> переменную <code>cyl</code>
-необходимо сделать фактором (используйте функцию
-<em>as.factor()</em>).</p></li>
-</ul>
-<p><strong>Часть 3.</strong></p>
-<p>Используя датасеты <strong>Части 2</strong> (для своего варианта),
-определите границы 95% доверительного интервала для каждой из
-категорий.</p>
-<p>Доверительный интервал вычислется как <span
-class="math inline">\(\bar{x} \pm t\cdot SE\)</span></p>
-<p>Величину <span class="math inline">\(t\)</span> (это 2.5% или 97.5%
-квантили t-распределиния Стьюдента) пока определяем по <a
-href="https://statpsy.ru/t-student/t-test-tablica/">таблице</a>.</p>
-<p>В этой таблице: <span class="math inline">\(df = n - 1\)</span>, где
-<span class="math inline">\(n\)</span> - объем выборки. Берем столбец
-для p = 0.05 (доверительная вероятность: P = 1 - p = 0.95). Зная <span
-class="math inline">\(n\)</span>, находим величину t.</p>
-<p>Кроме того, вам нужно вычислить величину стандартной ошибки, которая
-вычисляется по следующей формуле:</p>
-<p><span class="math display">\[
-SE = \frac{Sd}{\sqrt{n}}
-\]</span></p>
-<p><span class="math inline">\(Sd\)</span> - стандартное отклонение.</p>
-</div>
+<!-- Вариант 1. [Датасет для варианта 1](data/dataset_variant_1.csv) -->
+<!-- Вариант 2. [Датасет для варианта 2](data/dataset_variant_2.csv) -->
+<!-- Вариант 3. [Датасет для варианта 3](data/dataset_variant_3.csv) -->
+<!-- **Часть 2.** -->
+<!-- Используя датасеты из предыдущего задания (там, где мы строили боксплоты), вычислите выборочные средние и среднеквадратичные отклонения для каждой из групп категорий, которые представлены в этих датасетах. -->
+<!-- - *Вариант 1.* Переменная `Petal.Length` для каждого из видов из датасета `iris` -->
+<!-- - *Вариант 2.* Вес цыплят `weight` на 21-й день наблюдения (переменная `Time`) для каждого из четырех типов диет (Diet) из датасета `ChickWeight`. -->
+<!-- - *Вариант 3.* Расход топлива `mpg` у автомобилей с разным количеством цилиндров (переменная `cyl`) из датасета `mtcars`. **Важно!** переменную `cyl` необходимо сделать фактором (используйте функцию *as.factor()*). -->
+<!-- **Часть 3.** -->
+<!-- Используя датасеты **Части 2** (для своего варианта), определите границы 95% доверительного интервала для каждой из категорий. -->
+<!-- Доверительный интервал вычислется как $\bar{x} \pm t\cdot SE$ -->
+<!-- Величину $t$ (это 2.5% или 97.5% квантили t-распределиния Стьюдента) пока определяем по [таблице](https://statpsy.ru/t-student/t-test-tablica/). -->
+<!-- В этой таблице: $df = n - 1$, где $n$ - объем выборки. Берем столбец для p = 0.05 (доверительная вероятность: P = 1 - p = 0.95). Зная $n$, находим величину t. -->
+<!-- Кроме того,  вам нужно вычислить величину стандартной ошибки, которая вычисляется по следующей формуле: -->
+<!-- $$ -->
+<!-- SE = \frac{Sd}{\sqrt{n}} -->
+<!-- $$ -->
+<!-- $Sd$ - стандартное отклонение. -->
 </div>
 <div
 id="тестирования-статистических-гипотез-с-помощью-t-критерия-стьюдента"
 class="section level1">
 <h1>5. Тестирования статистических гипотез с помощью t-критерия
 Стьюдента</h1>
-<p><br></p>
-<p><a href="04_hypothesis_testing_Part_2.html">Презентация про
-t-критерий</a></p>
-<div id="домашнее-задание-4" class="section level2">
-<h2>Домашнее задание</h2>
-<p>Выполняем предыдущее ДЗ часть 3.</p>
-</div>
-<div id="домашнее-задание-по-теме-двухвыборочный-t-критерий"
-class="section level2">
-<h2>Домашнее задание по теме двухвыборочный t-критерий</h2>
-<div class="figure" style="text-align: center">
-<img src="images/elves.png" alt="**Размерная струкутра народов Срдиземья по Дж.Р.Р.Толкиену **" width="302" />
-<p class="caption">
-<strong>Размерная струкутра народов Срдиземья по Дж.Р.Р.Толкиену
-</strong>
-</p>
-</div>
-<p>Представьте себе, что вы идете по лесам Средиземья с отрядом эльфов.
-Все участники похода были независимо и случайно отобраны из числа этого
-народа. И вдруг, вдалеке, вы заметили отряд неких существ. Вам
-необходимо принять решение о том, свои это или чужие. Вы (с помощью
-магии, наверное) смогли как-то измерить рост фигур из этого отряда.
-Сделайте обоснованный вывод на основе данных, которые у вас имеются.
-Результаты необходимо описать в виде текста (комментарии в скрипте с
-решением, в котором надо сформулировать нулевую и альтернативную
-гипотезы и сделать выбор между ними) и визуализировать в виде столбчатой
-диаграммы (необходимо написать код, который ее построит).</p>
-<p><strong>Вариант 1.</strong></p>
-<p>Рост эльфов из вашего отряда (см): 182, 183, 184, 181, 178, 181, 180,
-185, 186, 187, 187, 183, 176, 181, 180</p>
-<p>Рост фигур (см): 164, 174, 167, 165, 164, 164, 167, 169, 164, 163,
-161</p>
-<p><strong>Вариант 2.</strong></p>
-<p>Рост эльфов из вашего отряда (см): 177, 181, 179, 177, 187, 176, 184,
-174, 179, 178, 180, 180, 189, 181, 175</p>
-<p>Рост фигур (см): 207, 188, 184, 194, 191</p>
-<p><strong>Вариант 3.</strong></p>
-<p>Рост эльфов из вашего отряда (см): 178, 181, 186, 172, 178, 180, 183,
-174, 178, 176, 181, 177, 182, 182, 183</p>
-<p>Рост фигур (см): 144, 149, 146, 144, 162, 154, 153</p>
-</div>
+<!-- <br> -->
+<!-- [Презентация про t-критерий](04_hypothesis_testing_Part_2.html) -->
+<!-- ## Домашнее задание -->
+<!-- Выполняем предыдущее ДЗ часть 3. -->
+<!-- ## Домашнее задание по теме двухвыборочный t-критерий -->
+<!-- ```{r fig.cap="**Размерная струкутра народов Срдиземья по Дж.Р.Р.Толкиену **", fig.height = 4} -->
+<!-- include_graphics("images/elves.png") -->
+<!-- ``` -->
+<!--  Представьте себе, что вы идете по лесам Средиземья с отрядом эльфов. Все участники похода были независимо и случайно отобраны из числа этого народа. И вдруг, вдалеке, вы заметили отряд неких существ. Вам необходимо принять решение о том, свои это или чужие. Вы (с помощью магии, наверное) смогли как-то измерить рост фигур из этого отряда. Сделайте обоснованный вывод на основе данных, которые у вас имеются. Результаты необходимо описать в виде текста (комментарии в скрипте с решением, в котором надо сформулировать нулевую и альтернативную гипотезы и сделать выбор между ними) и визуализировать в виде столбчатой диаграммы (необходимо написать код, который ее построит). -->
+<!-- **Вариант 1.** -->
+<!-- Рост эльфов из вашего отряда (см):  187, 183, 181, 180, 178, 175, 185, 174, 179, 174, 186, 183, 184, 183, 183 -->
+<!-- Рост фигур (см): 166, 162, 166, 167, 173, 159, 175, 160, 164, 165, 170, 172, 157, 171, 171 -->
+<!-- **Вариант 2.** -->
+<!-- Рост эльфов из вашего отряда (см):  179, 181, 175, 177, 183, 184, 178, 185, 175, 179, 188, 176, 188, 172, 185 -->
+<!-- Рост фигур (см): 188, 191, 171, 194, 201, 187, 189, 196, 192, 190 -->
+<!-- **Вариант 3.** -->
+<!-- Рост эльфов из вашего отряда (см):  177, 177, 190, 180, 167, 188, 184, 184, 186, 181, 181, 186, 182, 181, 186 -->
+<!-- Рост фигур (см): 153, 152, 159, 146, 154, 154, 153, 150 -->
 </div>
 <div id="однофакторный-дисперсионный-анализ" class="section level1">
 <h1>6. Однофакторный дисперсионный анализ</h1>
 <p><br></p>
-<p><a href="05_anova1.html">Презентация про ANOVA</a></p>
-<div id="домашнее-задание-5" class="section level2">
-<h2>Домашнее задание</h2>
-<p>Скачайте файл, в котором находятся данные по метеорологическим
-наблюдениям на территории Кандалакшского заповедника. Файл поместите в
-папку <code>Data</code> (ну или как она у вас называется)</p>
-<ul>
-<li><a href="data/hydrology_2022.xls">Данные</a></li>
-</ul>
-<p><strong>Ваша миссия</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Необходимо выяснить наблюдаются ли различия между тремя летними
-месяцами (нужно будет провести дисперсионный анализ) в том параметре,
-котоый будет у вашего варианта.</p></li>
-<li><p>Проведите анализ остатков и оцените, выполняются ли условия
-применимости ANOVA.</p></li>
-<li><p>Визуализируйте с помощью столбчатой диаграммы (с доверительными
-интервалами) средние значения. Проведя post-hoc сравнение средних,
-обозначьте на рисунке те средние, которые отличаются друг от друга по
-критерию Тьюки.</p></li>
-</ol>
-<!-- 4. Результаты ваших действий с соответствующими текстовыми комментариями должны быть оформлены в виде **html-файла** (именно его и надо прислать!), который вы сгенерируете из RMD файла. При этом, код из чанков должен быть виден в итоговом html-файле (в настроечном чанке оставьте `echo = TRUE`). -->
-<p><em>Варианты:</em></p>
-<p>Вариант 1. Анализ солености (переменная <strong>S</strong>)</p>
-<p>Вариант 2. Анализ температуры воздуха (переменная
-<strong>Air_T</strong>)</p>
-<p>Вариант 3. Анализ температуры воды (переменная
-<strong>Water_T</strong>)</p>
-</div>
-</div>
-<div id="двухфакторный-дисперсионный-анализ" class="section level1">
-<h1>7. Двухфакторный дисперсионный анализ</h1>
-<p><br> - <a href="06_anova2.html">Презентация про двухфакторный
-ANOVA</a></p>
-<ul>
-<li><a href="data/eysenck.csv">Данные для работы</a></li>
-</ul>
-<div id="домашнее-задание-6" class="section level2">
-<h2>Домашнее задание</h2>
-<p><strong>Ваша миссия</strong></p>
-<p>Во всех случаях надо провести двухфакторный дисперсионный анализ.</p>
-<p>Все результаты надо сопроводить короткими текстами с рассказом что вы
-увидели и что это означает (вставляете в виде комментариев). Во всех
-случаях надо не забыть произвести проверку на условия применимости
-анализа.</p>
-<p>Рекомендуется ознакомиться с оригинальными работами, на базе которых
-были получены датасеты. Ссылки на работы даются в комментариях к
-скрипту.</p>
-<p>Задания</p>
-<ul>
-<li><a href="Home_work_Pinguins.R">Вариант 1</a></li>
-<li><a href="Home_work_ris.R">Вариант 2</a></li>
-<li><a href="Home_work_Sendvich.R">Вариант 3</a></li>
-</ul>
-</div>
+<!-- [Презентация про ANOVA](05_anova1.html) -->
+<!-- ## Домашнее задание -->
+<!-- Скачайте файл, в котором находятся данные по метеорологическим наблюдениям на территории Кандалакшского заповедника. Файл поместите в папку `Data` (ну или как она у вас называется) -->
+<!-- - [Данные](data/hydrology_2022.xls) -->
+<!-- **Ваша миссия** -->
+<!-- 1. Необходимо выяснить наблюдаются ли различия между тремя летними месяцами (нужно будет провести дисперсионный анализ) в том параметре, котоый будет у вашего варианта. -->
+<!-- 2. Проведите анализ остатков и оцените, выполняются ли условия применимости ANOVA. -->
+<!-- 3. Визуализируйте с помощью столбчатой диаграммы (с доверительными интервалами) средние значения. Проведя post-hoc сравнение средних, обозначьте на рисунке те средние, которые отличаются друг от друга по критерию Тьюки. -->
+<!-- <!-- 4. Результаты ваших действий с соответствующими текстовыми комментариями должны быть оформлены в виде **html-файла** (именно его и надо прислать!), который вы сгенерируете из RMD файла. При этом, код из чанков должен быть виден в итоговом html-файле (в настроечном чанке оставьте `echo = TRUE`). -->
+<p>–&gt;</p>
+<!-- *Варианты:* -->
+<!-- Вариант 1. Анализ солености (переменная **S**) -->
+<!-- Вариант 2. Анализ температуры воздуха (переменная **Air_T**) -->
+<!-- Вариант 3. Анализ температуры воды (переменная **Water_T**) -->
+<!-- # 7. Двухфакторный дисперсионный анализ -->
+<!-- <br> -->
+<!-- - [Презентация про двухфакторный ANOVA](06_anova2.html) -->
+<!-- - [Данные для работы](data/eysenck.csv) -->
+<!-- ## Домашнее задание -->
+<!-- **Ваша миссия** -->
+<!-- Во всех случаях надо провести двухфакторный дисперсионный анализ.  -->
+<!-- Все результаты надо сопроводить короткими текстами с рассказом что вы увидели и что это означает (вставляете в виде комментариев). Во всех случаях надо не забыть произвести проверку на условия применимости анализа.  -->
+<!-- Рекомендуется ознакомиться с оригинальными работами, на базе которых были получены датасеты. Ссылки на работы даются в комментариях к скрипту. -->
+<!-- Задания -->
+<!-- - [Вариант 1](Home_work_Pinguins.R) -->
+<!-- - [Вариант 2](Home_work_ris.R) -->
+<!-- - [Вариант 3](Home_work_Sendvich.R) -->
 </div>
 <div id="регрессионный-анализ" class="section level1">
 <h1>8. Регрессионный анализ</h1>
-<p><br></p>
-<ul>
-<li><a href="07_LM.html">Презентация про суть регрессионного
-анализа</a></li>
-<li><a href="07_model_description_and_validation.html">Презентация для
-самостоятельного изучения о методах диагностики и описания регрессионных
-моделей</a></li>
-</ul>
-<p><strong>Ваша миссия</strong></p>
-<p>Вы будуте работать с датасетом <code>iris</code>.</p>
-<p>Во всех случаях надо построить линейную модель, описывающую связь
-между двумя частями цветка у растений рода <em>Iris</em>. Нужно выяснить
-как зависит Sepal.Length от Petal.Length (не перепутайте!) у того вида,
-который будет у вашего варианта.</p>
-<p>Вам нужно сделать следующее:</p>
-<ol style="list-style-type: decimal">
-<li>Построить график в виде точечной диаграммы.</li>
-<li>Построить линейную модель.</li>
-<li>Проверить условия применимости модели.</li>
-<li>Оценить наличие/отсуствие статистической значимости связи между
-переменной-откликом и переменной-предиктором.</li>
-<li>Дать трактовку полученным результатам.</li>
-<li>Построить линию регрессии с 95% доверительной областью (это
-необходимо наложить на точечный график, построенный в п. 1).<br />
-</li>
-<li>Предсказать чему будет равно значение переменной отклика, если взять
-величину переменной-предиктора равной значениям 30% и 99% ее
-перцентилей.</li>
-</ol>
-<p>Варианты:</p>
-<ul>
-<li>Вариант 1: работает с видом “virginica”</li>
-<li>Вариант 2: работает с видом “versicolor”</li>
-<li>Вариант 3: работает с видом “setosa”</li>
-</ul>
-<p>Все результаты надо сопроводить короткими текстами с рассказом что вы
-увидели и что это означает (вставляете в виде комментариев).</p>
+<!-- <br> -->
+<!-- - [Презентация про суть регрессионного анализа](07_LM.html) -->
+<!-- - [Презентация для самостоятельного изучения о методах диагностики и описания регрессионных моделей](07_model_description_and_validation.html) -->
+<!-- **Ваша миссия** -->
+<!-- Вы будуте работать с датасетом `iris`. -->
+<!-- ```{r eval=FALSE} -->
+<!-- data(iris) -->
+<!-- ``` -->
+<!-- Во всех случаях надо построить линейную модель, описывающую связь между двумя частями цветка у растений рода *Iris*. Нужно выяснить как зависит Sepal.Length от Petal.Length (не перепутайте!) у того вида, который будет у вашего варианта. -->
+<!-- Вам нужно сделать следующее: -->
+<!-- 1. Построить график в виде точечной диаграммы. -->
+<!-- 2. Построить линейную модель. -->
+<!-- 3. Проверить условия применимости модели. -->
+<!-- 4. Оценить наличие/отсуствие статистической значимости связи между переменной-откликом и переменной-предиктором. -->
+<!-- 5. Дать трактовку полученным результатам. -->
+<!-- 6. Построить линию регрессии с 95% доверительной областью (это необходимо наложить на точечный график, построенный в п. 1).   -->
+<!-- 7. Предсказать чему будет равно значение переменной отклика, если взять величину переменной-предиктора равной значениям 30% и 99% ее перцентилей. -->
+<!-- Варианты: -->
+<!-- + Вариант 1: работает с  видом "virginica" -->
+<!-- + Вариант 2: работает с  видом "versicolor" -->
+<!-- + Вариант 3: работает с  видом "setosa" -->
+<!-- Все результаты надо сопроводить короткими текстами с рассказом что вы увидели и что это означает (вставляете в виде комментариев).  -->
 </div>
 <div id="введение-в-литературное-программирование."
 class="section level1">
 <h1>9. Введение в литературное программирование.</h1>
 <p><br></p>
-</div>
-<div id="проекты" class="section level1">
-<h1><strong>Проекты</strong></h1>
+<!-- # **Проекты** -->
 <!-- ```{r fig.align='center', fig.cap="Рисунок на тему задания, созданный ИИ"} -->
 <!-- include_graphics("images/Sendvich_and_Pings.jpg") -->
 <!-- ``` -->
@@ -860,186 +641,16 @@ class="section level1">
 <!-- - [Феликс](Felix_Pinguins.R) -->
 <!-- - [Вероника](Veronika_Sendvich.R) -->
 <!-- - [Мария](Maria_ris.R) -->
-<p><strong>Дальнейшие планы корректируются…</strong></p>
+<!-- **Дальнейшие планы корректируются...** -->
 </div>
 <div id="финальные-оценки" class="section level1">
 <h1>Финальные оценки</h1>
-<table>
-<colgroup>
-<col width="19%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="19%" />
-<col width="4%" />
-<col width="3%" />
-<col width="15%" />
-<col width="11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="right">ДЗ_1</th>
-<th align="right">Д_2</th>
-<th align="left">ДЗ_3</th>
-<th align="right">ДЗ_4</th>
-<th align="right">ДЗ_5</th>
-<th align="right">ДЗ_6</th>
-<th align="right">ДЗ_7</th>
-<th align="right">ДЗ_8</th>
-<th align="right">ДЗ_9</th>
-<th align="right">Итоговая оценка к экзамену за ДЗ</th>
-<th align="right">Проект</th>
-<th align="right">Тест</th>
-<th align="right">Итог проценты от максимума</th>
-<th align="left">Итог оценка</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Василькова Софья Владимировна</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">44.444444</td>
-<td align="right">100</td>
-<td align="right">62.50</td>
-<td align="right">68.981482</td>
-<td align="left">Хорошо</td>
-</tr>
-<tr class="even">
-<td align="left">Демиденко Елизавета Романовна</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="left">NA</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">44.444444</td>
-<td align="right">100</td>
-<td align="right">50.00</td>
-<td align="right">64.814815</td>
-<td align="left">Хорошо</td>
-</tr>
-<tr class="odd">
-<td align="left">Колесникова Анастасия Алексеевна</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">44.444444</td>
-<td align="right">100</td>
-<td align="right">68.75</td>
-<td align="right">71.064815</td>
-<td align="left">Отлично</td>
-</tr>
-<tr class="even">
-<td align="left">Малина Лада Николаевна</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="left">NA</td>
-<td align="right">50</td>
-<td align="right">NA</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">38.888889</td>
-<td align="right">100</td>
-<td align="right">62.50</td>
-<td align="right">67.129630</td>
-<td align="left">Хорошо</td>
-</tr>
-<tr class="odd">
-<td align="left">Мирошниченко Сандра Алексеевна</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="left">NA</td>
-<td align="right">50</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">83.333333</td>
-<td align="right">100</td>
-<td align="right">62.50</td>
-<td align="right">81.944444</td>
-<td align="left">Отлично</td>
-</tr>
-<tr class="even">
-<td align="left">Низовцева Милана Владимировна</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">22.222222</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">7.407407</td>
-<td align="left">Неудовлетворительно</td>
-</tr>
-<tr class="odd">
-<td align="left">Паулюкайтис Максим Гинтарасович</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.000000</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">Толкачев Данила Владимирович</td>
-<td align="right">60</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">6.666667</td>
-<td align="right">30</td>
-<td align="right">68.75</td>
-<td align="right">35.138889</td>
-<td align="left">Удовлетворительно</td>
-</tr>
-</tbody>
-</table>
+<!-- ```{r echo=FALSE} -->
+<!-- library(knitr) -->
+<!-- library(readxl) -->
+<!-- hw <- read_excel("data/Classes_2025.xlsx") -->
+<!-- kable(hw) -->
+<!-- ``` -->
 <!-- ### Комментарии к ДЗ_1 -->
 <!-- 1. Очень хорошо сделали те, кто подробно комментировал ход решения. -->
 <!-- 2. Не нужно было разбивать пример, для которого написан код на отдельные переменные -->
