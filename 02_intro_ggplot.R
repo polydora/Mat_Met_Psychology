@@ -158,18 +158,10 @@ ggplot(data = fev, mapping = aes(x = Age, y = FEV)) +
 
 #Задача: построить точечную диаграмму, где по оси OX отложен Age, а по оси OY отложен FEV
 
-ggplot(data = fev, mapping = aes(x = Age, y = FEV)) +
-  geom_point() +
-  ggtitle("График, отражающий связь объема легких и возраста") +
-  labs(x = "Возраст", y = "Объем легких")
 
 #####
 
 
-
-
-
-ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point()
 
 # Убираем серый фон
 
@@ -197,18 +189,10 @@ ggplot(data = fev, aes(x = Age, y = FEV)) + geom_point()
 
 # Изменяем подписи осей
 
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point() +
-  labs(x = "Возраст пациента", y = "Объем легких")
-
-
 
 
 #Создаем верхний заголовок рисунка
 
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point() +
-  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \nвозрастом и \nобъемом легких")
 
 # \n
 # \t
@@ -223,50 +207,25 @@ ggplot(data = fev, aes(x = Age, y = FEV)) +
 # Меняем размер точек
 
 #Крупнее
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point(size = 3) +
-  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
-  theme(plot.title = element_text(hjust = 0.5))
 
 
 
 #Мельче
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point(size = 0.1) +
-  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
-  theme(plot.title = element_text(hjust = 0.5, size = 12), axis.title = element_text(size = 10, angle = 0))
 
 
 
 # Меняем цвет и форму точек
 
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point(color = "red") +
-  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point(shape = 22, color = "red", fill = "yellow", size = 2) +
-  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
-  theme(plot.title = element_text(hjust = 0.5))
 
 
 
 #Сохраняем рисунок в файл
-
-ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point(shape = 22, color = "red", fill = "yellow", size = 2) +
-  labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") +
-  theme(plot.title = element_text(hjust = 0.5))
 
 
 ggsave("MyPicture.jpg", plot = last_plot())
 
 #Рисунок можно, и это правильно, поместить в специальную переменную
 Plot_1 <-
-  ggplot(data = fev, aes(x = Age, y = FEV)) +
-  geom_point(shape = 22, color = "red", fill = "yellow", size = 2)
 
 Plot_1
 
@@ -332,16 +291,10 @@ Plot_1 #в этом трудно разобраться
 
 #Используем фасетирование
 
-Plot_1 + facet_wrap( ~ Smoker) #уже лучше
-
-Plot_1 + facet_grid(Sex ~ Smoker)
 
 
 #В нашем датафрейме есть еще и данные по росту.
 
-Plot_1 <- ggplot(data = fev, aes(x = Age, y = FEV, shape = Sex, color = Smoker, size = Height)) + geom_point() + labs(x = "Возраст", y = "Объем легких", title = "Зависимость между \n возрастом и объемом легких") + theme(plot.title = element_text(hjust = 0.5))
-
-Plot_1 + facet_grid(Sex ~ Smoker)
 
 
 # Шуточный пример, из которого можно почерпнуть некоторые возможности ggplot
