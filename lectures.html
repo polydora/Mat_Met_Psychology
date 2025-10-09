@@ -45,6 +45,104 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -397,51 +495,51 @@ href="02_intro_ggplot.R">02_intro_ggplot.R</a></li>
 <li><a href="data/fev.xls">Данные для работы на лекции #2:</a></li>
 </ul>
 <!-- -   [Презентация: Опрятные данные и основы визуализации данных с помощью пакета ggplot2](02_intro_ggplot.html) -->
-<!-- ### **Домашнее задание** -->
-<!-- #### Первая часть ДЗ -->
-<!-- Откройте датасет `iris`. Это данные по измерению размеров нескольких частей цветка у трех видов ирисов: setosa, versicolor, virginica. -->
-<!-- ```{r fig.cap="**Строение цветка ириса**", fig.height = 4} -->
-<!-- include_graphics("images/blueflagiris_flower.jpg") -->
-<!-- ``` -->
+<div id="домашнее-задание-1" class="section level3">
+<h3><strong>Домашнее задание</strong></h3>
+<div id="первая-часть-дз" class="section level4">
+<h4>Первая часть ДЗ</h4>
+<p>Откройте датасет <code>iris</code>. Это данные по измерению размеров
+нескольких частей цветка у трех видов ирисов: setosa, versicolor,
+virginica.</p>
+<div class="figure" style="text-align: center">
+<img src="images/blueflagiris_flower.jpg" alt="**Строение цветка ириса**" width="400" />
+<p class="caption">
+<strong>Строение цветка ириса</strong>
+</p>
+</div>
 <!-- ![Строение цветка ириса](images/blueflagiris_flower.jpg) -->
-<!-- ```{r, echo=TRUE} -->
-<!-- data(iris) -->
-<!-- ``` -->
-<!-- Каждый должен взять себе (отфильтровать) только одну часть данных. -->
-<!-- + *Вариант 1.*  Работает с видом "setosa". -->
-<!-- + *Вариант 2.*  Работает с видом "versicolor". -->
-<!-- + *Вариант 3*  Работает с видом "virginica". -->
-<!-- Всем нужно будет (пользуясь любыми методами, хоть на бумажке) посчитать сколько раз в полученном датасете встретилось каждое из значений в переменной `iris$Sepal.Length`. После подсчета необходимо создать датафрейм, в котором в первой колонке будут стоять значения переменной `iris$Sepal.Length`, а во второй колонке будет указано сколько раз встретилось данное значение. Если подсчеты делали не с помощью R-кода, а на листочке, то результаты надо будет набить в экселе. -->
-<!-- Для примера, решение аналогичного задания, для вида "setosa" по переменной `iris$Sepal.Width` будет выглядеть вот так. -->
-<!-- ```{r} -->
-<!-- library(dplyr) -->
-<!-- library(flextable) -->
-<!-- df <- -->
-<!-- iris %>% -->
-<!--   filter(Species == "setosa") -->
-<!-- df2 <- as.data.frame(table(df$Sepal.Width)) -->
-<!-- names(df2) <- c("Sepal.Width", "Frequency") -->
-<!-- df2 %>% -->
-<!--   flextable() -->
-<!-- # kable(df2) -->
-<!-- ``` -->
-<!-- **Полученный датасет необходимо сохранить в формате .csv**. -->
-<!-- <br> -->
-<!-- <br> -->
-<!-- #### Вторая часть ДЗ -->
-<!-- Используя полученный датасет, необходимо построить вот такой график (с соблюдением цветов и заливок) . -->
-<!-- ```{r} -->
-<!-- library(ggplot2) -->
-<!-- df <- -->
-<!-- iris %>% -->
-<!--   filter(Species == "setosa") -->
-<!-- df2 <- as.data.frame(table(df$Sepal.Length)) -->
-<!-- ggplot(df2, aes(x = Var1, y = Freq)) + -->
-<!--   geom_col(color = "black", fill = "green") + -->
-<!--   theme_bw() + -->
-<!--   labs(x = "Значение Sepal.Length", y = "Количество") -->
-<!-- ``` -->
-<!-- Дедлайн, как всегда, 23:59 дня перед следующим занятием. -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">data</span>(iris)</span></code></pre></div>
+<p>Каждый должен взять себе (отфильтровать) только одну часть
+данных.</p>
+<ul>
+<li><em>Вариант 1.</em> Работает с видом “setosa”.</li>
+<li><em>Вариант 2.</em> Работает с видом “versicolor”.</li>
+<li><em>Вариант 3</em> Работает с видом “virginica”.</li>
+</ul>
+<p>Всем нужно будет (пользуясь любыми методами, хоть на бумажке)
+посчитать сколько раз в полученном датасете встретилось каждое из
+значений в переменной <code>iris$Sepal.Length</code>. После подсчета
+необходимо создать датафрейм, в котором в первой колонке будут стоять
+значения переменной <code>iris$Sepal.Length</code>, а во второй колонке
+будет указано сколько раз встретилось данное значение. Если подсчеты
+делали не с помощью R-кода, а на листочке, то результаты надо будет
+набить в экселе.</p>
+<p>Для примера, решение аналогичного задания, для вида “setosa” по
+переменной <code>iris$Sepal.Width</code> будет выглядеть вот так.</p>
+<div class="tabwid"><style>.cl-1fb5bc80{}.cl-1f9a69da{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-1fa5f566{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1fa5f570{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1fa663fc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1fa6641a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1fa66424{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1fa6642e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1fa6642f{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1fa66438{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-1fb5bc80'><thead><tr style="overflow-wrap:break-word;"><th class="cl-1fa663fc"><p class="cl-1fa5f566"><span class="cl-1f9a69da">Sepal.Width</span></p></th><th class="cl-1fa6641a"><p class="cl-1fa5f570"><span class="cl-1f9a69da">Frequency</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">2.3</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">2.9</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.1</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.2</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.3</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.4</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.5</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.6</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.7</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.8</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">3.9</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">4</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">4.1</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa66424"><p class="cl-1fa5f566"><span class="cl-1f9a69da">4.2</span></p></td><td class="cl-1fa6642e"><p class="cl-1fa5f570"><span class="cl-1f9a69da">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1fa6642f"><p class="cl-1fa5f566"><span class="cl-1f9a69da">4.4</span></p></td><td class="cl-1fa66438"><p class="cl-1fa5f570"><span class="cl-1f9a69da">1</span></p></td></tr></tbody></table></div>
+<p><strong>Полученный датасет необходимо сохранить в формате
+.csv</strong>.</p>
+<p><br> <br></p>
+</div>
+<div id="вторая-часть-дз" class="section level4">
+<h4>Вторая часть ДЗ</h4>
+<p>Используя полученный датасет, необходимо построить вот такой график
+(с соблюдением цветов и заливок) .</p>
+<p><img src="lectures_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Дедлайн, как всегда, 23:59 дня перед следующим занятием.</p>
+</div>
+</div>
 </div>
 <div id="описательная-статистика" class="section level1">
 <h1>3. Описательная статистика</h1>
@@ -525,14 +623,14 @@ class="section level1">
 <!-- ``` -->
 <!--  Представьте себе, что вы идете по лесам Средиземья с отрядом эльфов. Все участники похода были независимо и случайно отобраны из числа этого народа. И вдруг, вдалеке, вы заметили отряд неких существ. Вам необходимо принять решение о том, свои это или чужие. Вы (с помощью магии, наверное) смогли как-то измерить рост фигур из этого отряда. Сделайте обоснованный вывод на основе данных, которые у вас имеются. Результаты необходимо описать в виде текста (комментарии в скрипте с решением, в котором надо сформулировать нулевую и альтернативную гипотезы и сделать выбор между ними) и визуализировать в виде столбчатой диаграммы (необходимо написать код, который ее построит). -->
 <!-- **Вариант 1.** -->
-<!-- Рост эльфов из вашего отряда (см):  178, 179, 179, 180, 176, 185, 174, 186, 185, 183, 180, 178, 191, 176, 179 -->
-<!-- Рост фигур (см): 181, 169, 168, 159, 161, 165, 169, 163, 156, 167, 160, 168, 164, 166 -->
+<!-- Рост эльфов из вашего отряда (см):  178, 174, 183, 182, 186, 180, 182, 184, 192, 185, 185, 190, 180, 184, 177 -->
+<!-- Рост фигур (см): 163, 164, 165, 164, 166, 163, 158, 173, 164, 166, 167, 176, 163, 165 -->
 <!-- **Вариант 2.** -->
-<!-- Рост эльфов из вашего отряда (см):  170, 182, 174, 178, 181, 185, 186, 186, 181, 174, 175, 176, 180, 168, 187 -->
-<!-- Рост фигур (см): 184, 190, 202, 197, 179, 198, 182, 193, 187, 195, 193, 194, 195, 186 -->
+<!-- Рост эльфов из вашего отряда (см):  170, 180, 189, 178, 176, 172, 175, 178, 178, 182, 179, 176, 186, 181, 179 -->
+<!-- Рост фигур (см): 187, 185, 183, 188, 180, 199, 190, 193, 200, 187 -->
 <!-- **Вариант 3.** -->
-<!-- Рост эльфов из вашего отряда (см):  177, 183, 169, 181, 172, 181, 175, 181, 183, 177, 185, 175, 189, 172, 178 -->
-<!-- Рост фигур (см): 155, 155, 148, 146, 149, 158, 156, 156, 153, 152, 155, 143, 151, 157, 155, 140, 146, 156 -->
+<!-- Рост эльфов из вашего отряда (см):  177, 172, 178, 182, 187, 184, 179, 179, 178, 177, 190, 173, 177, 179, 179 -->
+<!-- Рост фигур (см): 143, 142, 144, 159, 151, 154, 158, 130, 151, 150, 153, 169, 152, 148, 150, 155 -->
 </div>
 <div id="однофакторный-дисперсионный-анализ" class="section level1">
 <h1>6. Однофакторный дисперсионный анализ</h1>
@@ -621,64 +719,79 @@ class="section level1">
 <thead>
 <tr class="header">
 <th align="left">Name</th>
-<th align="left">HW_1</th>
+<th align="right">HW_1</th>
+<th align="left">HW_2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">Авакян Кристина Зауровна</td>
+<td align="right">NA</td>
 <td align="left">Вариант 1</td>
 </tr>
 <tr class="even">
 <td align="left">Васина Анна Дмитриевна</td>
+<td align="right">100</td>
 <td align="left">Вариант 2</td>
 </tr>
 <tr class="odd">
 <td align="left">Дубинина Анна Сергеевна</td>
-<td align="left">Вариант 1</td>
+<td align="right">NA</td>
+<td align="left">Вариант 3</td>
 </tr>
 <tr class="even">
 <td align="left">Егорова Татьяна Андреевна</td>
-<td align="left">Вариант 2</td>
+<td align="right">NA</td>
+<td align="left">Вариант 1</td>
 </tr>
 <tr class="odd">
 <td align="left">Емельянова Екатерина Викторовна</td>
-<td align="left">Вариант 1</td>
+<td align="right">100</td>
+<td align="left">Вариант 2</td>
 </tr>
 <tr class="even">
 <td align="left">Ковалева Александра Борисовна</td>
-<td align="left">Вариант 2</td>
+<td align="right">100</td>
+<td align="left">Вариант 3</td>
 </tr>
 <tr class="odd">
 <td align="left">Кузнецов Никита Сергеевич</td>
+<td align="right">100</td>
 <td align="left">Вариант 1</td>
 </tr>
 <tr class="even">
 <td align="left">Куликова Светлана Сергеевна</td>
+<td align="right">100</td>
 <td align="left">Вариант 2</td>
 </tr>
 <tr class="odd">
 <td align="left">Панкратова Ксения Артемовна</td>
-<td align="left">Вариант 1</td>
+<td align="right">NA</td>
+<td align="left">Вариант 3</td>
 </tr>
 <tr class="even">
 <td align="left">Сарнэт Виктория Павловна</td>
-<td align="left">Вариант 2</td>
+<td align="right">NA</td>
+<td align="left">Вариант 1</td>
 </tr>
 <tr class="odd">
 <td align="left">Синицкая Юлия Сергеевна (Захарова)</td>
-<td align="left">Вариант 1</td>
+<td align="right">NA</td>
+<td align="left">Вариант 2</td>
 </tr>
 <tr class="even">
 <td align="left">Харламова Мария Андреевна</td>
-<td align="left">Вариант 2</td>
+<td align="right">NA</td>
+<td align="left">Вариант 3</td>
 </tr>
 <tr class="odd">
 <td align="left">Цуранова Елизавета Алексеевна</td>
+<td align="right">100</td>
 <td align="left">Вариант 1</td>
 </tr>
 <tr class="even">
 <td align="left">Чернышова Александра Алексеевна</td>
+<td align="right">NA</td>
 <td align="left">Вариант 2</td>
 </tr>
 </tbody>
