@@ -4,7 +4,7 @@
     <title>Тестирование статистических гипотез</title>
     <meta charset="utf-8" />
     <meta name="author" content="Марина Варфоломеева, Юта Тамберг, Вадим Хайтов" />
-    <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
     <link href="site_libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
     <link href="site_libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="site_libs/tile-view-0.2.6/tile-view.js"></script>
@@ -42,7 +42,7 @@ class: middle, left, inverse, title-slide
 ### Марина Варфоломеева, Юта Тамберг, Вадим Хайтов
 ]
 .date[
-### Осень 2024
+### Осень 2025
 ]
 
 ---
@@ -288,115 +288,12 @@ class: middle, center, inverse
 
 ---
 
-## Если выполняется центральная предельная теорема... &lt;br/&gt;&lt;br/&gt;
-
-.pull-left-60[
-
-![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
-
-]
-.pull-right-40[
-
-Было 
-
-`$$\bar X \sim N(\mu, \sigma/ \sqrt{n})$$`
-
-После стандартизации:
-
-`$$\frac{\bar X - \mu}{\sigma / \sqrt{n}} \sim N(0, 1)$$`
-
-Стандартизованное распределение выборочных средних — это стандартное нормальное распределение.
-
-]
-
----
-
-##  Доверительный интервал &lt;br/&gt;из нормального распределения
-
-.pull-left-60[
-![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
-
-
-]
-.pull-right-40[
-
---- это интервал, в который попадает заданный процент выборочных средних.
-
-В 95% доверительный интервал попадает выборочное среднее в 95% *повторных* выборок.
-
-&lt;br/&gt;
-
-Как найти этот интервал?
-
-]
-
----
-
-##  Доверительный интервал &lt;br/&gt;из нормального распределения
-
-.pull-left-60[
-
-![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
-
-]
-.pull-right-40[
-
-`$$\bar {x} \pm z_{\alpha} \cdot \sigma / \sqrt{n}$$`
-
-Чтобы найти границы 95% доверительного интервала, нужно найти квантили стандартного нормального распределения, которые соответствуют вероятностям 0.025 и 0.975
-
-
-```r
-qnorm(p = c(0.025, 0.975))
-```
-
-```
-[1] -1.96  1.96
-```
-
-
-`\(z_{0.05} = 1.96\)`
-
-95% выборочных средних в повторных выборках будут лежать в пределах `\(\pm 1.96\)` стандартных ошибок вокруг среднего значения.
-
-]
-
----
-
-## Условия применимости нормального распределения для доверительного интервала
-
-1.Должна быть известна `\(\sigma\)` в генеральной совокупности.
-
-2.Должны выполняться условия, при которых справедлива ЦПТ:
-
-- Наблюдения в выборке должны быть независимы друг от друга.
-
-- Большой объем выборки **или** нормальное распределение `\(x\)`
-
----
-
-## Если `\(\pmb \sigma\)` не известна
-
-Если `\(\sigma\)` в генеральной совокупности не известна, ее можно оценить по выборочному стандартному отклонению `\(sd\)`.
-
-`$$\sigma / \sqrt{n} \approx sd/\sqrt{n}$$`
-
-После стандартизации:
-
-`$$\frac{\bar X - \mu}{SE_{\bar x}} = \frac{\bar X - \mu}{sd / \sqrt{n}} \sim t_{df = n - 1}$$`
-
-
-стандартизованное распределение выборочных средних подчиняется `\(t\)`-распределению с числом степеней свободы `\(df = n - 1\)`
-
----
-
 ## _t_-распределение, или распределение Стьюдента
 
 .pull-left-55[
 
-![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
-- Симметричное колоколообразное распределение с "толстыми хвостами". 
 - Единственный параметр — число степеней свободы (для доверительного интервала `\(df = n - 1\)`).
 - При увеличении объема выборки `\(t\)`-распределение приближается к нормальному.
 
@@ -415,7 +312,7 @@ William Sealy Gosset
 
 .pull-left-55[
 
-![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ]
 .pull-right-45[
@@ -425,7 +322,7 @@ William Sealy Gosset
 - Объем выборки мал.
 - `\(\sigma\)` не известна.
 
-`$$\bar {x} \pm t_{\alpha, df} \cdot s / \sqrt{n}$$`
+`$$\bar {x} \pm t_{\alpha, df} \cdot sd / \sqrt{n}$$`
 
 `\(df = n - 1\)`
 
@@ -433,8 +330,6 @@ William Sealy Gosset
 ]
 
 Условия применимости
-
-Выполняются условия, при которых справедлива ЦПТ:
 
 - Наблюдения в выборке независимы друг от друга.
 - Большой объем выборки и нет "выбросов" **или** нормальное распределение `\(x\)`
@@ -469,7 +364,7 @@ William Sealy Gosset
 ## Расчет и изображение доверительного интервала в R
 
 
-```r
+``` r
 ## library(ggplot2)
 data("diamonds")
 
@@ -488,7 +383,7 @@ err
 [1] 103
 ```
 
-```r
+``` r
 # Границы доверительного интервала
 .mean - err
 ```
@@ -497,7 +392,7 @@ err
 [1] 3826
 ```
 
-```r
+``` r
 .mean + err
 ```
 
@@ -513,13 +408,13 @@ err
 ## Строим доверительные интервалы в ggplot
 
 
-```r
+``` r
 ## theme_set(theme_bw())
 ggplot(data = diamonds, aes(x = cut, y = price)) +
   stat_summary(geom = 'pointrange', fun.data = mean_cl_normal)
 ```
 
-![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+![](04_hypothesis_testing_Part_1_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -532,9 +427,9 @@ ggplot(data = diamonds, aes(x = cut, y = price)) +
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="assets/macros.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "googlecode",
-"highlightLines": true,
-"countIncrementalSlides": false
+  "highlightStyle": "googlecode",
+  "highlightLines": true,
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
