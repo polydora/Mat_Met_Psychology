@@ -144,6 +144,13 @@ gg_sample_means(population = diamonds$price, n_samples = 500, size = 3)
 
 # # Доверительный интервал ##########################################
 
+n = 10
+
+
+qt(p = c(0.025, 0.975), df = n-1 )
+
+
+
 load("data/population.RData")
 
 library(dplyr)
@@ -157,7 +164,7 @@ mu <- round(mean(x), 0)
 
 n = 10
 
-my_sample <- sample(population, size = 10)
+my_sample <- sample(population, size = n)
 
 mean(my_sample)
 
@@ -184,9 +191,15 @@ sample_mean_ci <- function(x, size){
 }
 
 
+my_sample <- sample(population, size = 100)
+
+
+sample_mean_ci(x = my_sample, size = 100)
+
+
 n_samples <- 100
 
-sample_size <- 5
+sample_size <- 20
 
 means_ci <- replicate(n = n_samples, expr = sample_mean_ci(x, size = sample_size))
 
@@ -273,12 +286,17 @@ library(dplyr)
 # Представьте, что в одной статье сказано, что средняя плодовитость черепах определенного вида --- mu яиц в кладке. У вас есть выборка черепах, где средняя плодовитость другая.
 # Отличается ли реальная плодовитость в обследованной вами популяции черепах от того, что указано в статье?
 
-mu <- 8
+mu <- 170
 
 
 
 X <- c(10, 11, 10, 7, 8, 7, 9, 8, 11, 11, 12, 8, 6, 7, 10, 11, 9,
        10, 7, 11, 11, 12, 11, 9, 4, 12, 9, 6, 9, 6, 9, 7, 8, 10, 9)
+
+
+X = my_sample
+
+quantile(X, probs = seq(0, 0.9, 0.01))
 
 mean(X)
 
@@ -293,19 +311,27 @@ library(car)
 qqPlot(X)
 
 # t = (наблюдаемое - ожидаемое) / (станд.ошибка наблюдаемого)
-t_emp <- (mean(X) - 8)/(sd(X)/(sqrt(length(X))))
+t_emp <- (mean(X) - 170)/(sd(X)/(sqrt(length(X))))
 
 
 # число степеней свободы
 df <- length(X) - 1
 
-qt( p=0.975, df = df)
+qt(p=0.975, df = df)
 
-1 - pt(q = t_emp, df = df)
+1 - pt(q = -t_emp, df = df)
+
+
+
 
 
 # уровень значимости
-p <-
+p <- 2*(1 - pt(q = -t_emp, df = df))
+
+
+
+
+
 
 
 # # Двухвыборочный t-тест ####################################################
@@ -369,6 +395,65 @@ tt
 #############################################
 # Пермутационные оценки значимости различий #
 #############################################
+
+set.seed(12345)
+male <- rnorm(100, 130, 5)
+female <- rnorm(100, 129,5)
+
+t <- t.test(male, female)
+t
+
+SE_m <- sd(male) / sqrt(length(male))
+SE_f <- sd(female) / sqrt(length(female))
+t_initial <- (mean(male) - mean(female))/sqrt(SE_m^2 + SE_f^2)
+
+
+f <- female
+m <- male
+num_perm <- sample(1:100, 1)
+
+order_m <- sample(1:100, num_perm)
+order_f <- sample(1:100, num_perm)
+
+f[order_f] <- male[order_f]
+
+m[order_m] <- female[order_f]
+SE_m <- sd(m) / sqrt(length(m))
+SE_f <- sd(f) / sqrt(length(f))
+t_p <- (mean(m) - mean(f)) / sqrt(SE_m^2 + SE_f^2)
+
+t_p
+
+Nperm = 10000
+tperm <- rep(NA, Nperm)
+set.seed(12345)
+for (i in 1:(Nperm-1))
+{
+  BOX <- c(male ,female)
+  ord <- sample(1:200, 200)
+  f <- BOX[ord[1:100]]
+  m <- BOX[ord[101:200]]
+  SE_m <- sd(m) / sqrt(length(m))
+  SE_f <- sd(f) / sqrt(length(f))
+  tperm[i]=(mean(m) - mean(f))/sqrt(SE_m^2 + SE_f^2)
+}
+head(tperm)
+
+tail(tperm)
+
+tperm[Nperm] <- t_initial
+
+library(ggplot2)
+ggplot(data.frame(tperm), aes(x = tperm)) +
+  geom_histogram() +
+  geom_vline(xintercept = c(t_initial, -t_initial), color = "blue")
+
+mean(abs(tperm) >= t_initial)
+
+t
+
+
+###############################
 
 a = Cushings$Tetrahydrocortisone[Cushings$Type == 'a']
 b = Cushings$Tetrahydrocortisone[Cushings$Type == 'b']
