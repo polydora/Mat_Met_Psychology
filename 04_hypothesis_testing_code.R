@@ -368,8 +368,16 @@ qqPlot(Cushings$Tetrahydrocortisone[Cushings$Type == 'b'])
 
 tt <- t.test(x = Cushings$Tetrahydrocortisone[Cushings$Type == 'a'],
              y = Cushings$Tetrahydrocortisone[Cushings$Type == 'b'])
+
+sd(Cushings$Tetrahydrocortisone[Cushings$Type == 'a'])
+sd(Cushings$Tetrahydrocortisone[Cushings$Type == 'b'])
+
 tt
 
+library(ggplot2)
+ggplot(data = Cushings[Cushings$Type %in% c('a', 'b'), ],
+       aes(x = Type, y = Tetrahydrocortisone)) +
+  stat_summary(fun.data = mean_cl_normal)
 
 
 # Задание 3------------------------------------------------------------------
@@ -427,6 +435,7 @@ t_p
 Nperm = 10000
 tperm <- rep(NA, Nperm)
 set.seed(12345)
+
 for (i in 1:(Nperm-1))
 {
   BOX <- c(male ,female)
@@ -437,6 +446,7 @@ for (i in 1:(Nperm-1))
   SE_f <- sd(f) / sqrt(length(f))
   tperm[i]=(mean(m) - mean(f))/sqrt(SE_m^2 + SE_f^2)
 }
+
 head(tperm)
 
 tail(tperm)
@@ -469,7 +479,7 @@ n_b <- length(b)
 se_b <- sd_b/sqrt(n_b)
 
 t_emp <- abs(mean_a - mean_b)/sqrt(se_a^2 + se_b^2)
-
+tt
 
 # Пермутируем векторы
 
