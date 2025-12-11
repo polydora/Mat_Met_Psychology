@@ -39,7 +39,7 @@ test_res
 test_res$p.value < 0.05
 
 # Так как p-value < 0.05 (alpha), отвергаем H0 и считаем, что отряды различаются по росту.
-# Средний рост фигур статистически значимо отличается от роста эльфов. 
+# Средний рост фигур статистически значимо отличается от роста эльфов.
 # Скорее всего, это чужой отряд (фигуры ниже).
 
 # ==================================================================
@@ -61,7 +61,7 @@ mean_ci <- function(x, percent = 0.95){
     upper = Mean + t_krit * SE)
 }
 
-# Считаем статистику и 95% ДИ для среднего 
+# Считаем статистику и 95% ДИ для среднего
 ci_elves   <- mean_ci(elves)
 ci_figures <- mean_ci(figures)
 
@@ -86,7 +86,7 @@ ggplot(df, aes(x = group, y = mean_height)) +
   labs(title = "Сравнение среднего роста (95% ДИ)",
        x = NULL,
        y = "Средний рост, см") +
-  ylim(0, max(df_plot$upper) + 15) +
+  ylim(0, max(df$upper) + 15) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "none") -> plot_elves_height
 

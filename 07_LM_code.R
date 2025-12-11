@@ -48,31 +48,13 @@ brain_model <- lm(PIQ ~ MRINACount, data = brain)
 
 ## Прогнозируем величину IQ для человека с размером мозга 900000
 
-1.7437570 + 0.0001203 * 900000
-
-1.7437570 + 0.0001203 * 70000
-
 
 #Находим остатки
 
-brain
-
-predicted <- 1.7437570 + 0.0001203 *955466
-
-observed <- 147
-
-residual <- observed - predicted
-
-
-hist(residuals(brain_model))
-
-qqPlot(brain_model)
-
-summary(brain_model)
 
 ##Находим доверительные интервалы для параметров
 
-
+confint(brain_model)
 
 ##Рисуем графики для разных уровней значимости
 

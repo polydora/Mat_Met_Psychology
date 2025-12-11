@@ -8,9 +8,9 @@ library(dplyr)
 
 ## Прочитаем файл, убедимся, что переменная месяца – фактор, очистим от пропусков ###
 
-dat <- read_xls("D:/Mat_Met_2025/Data/hydrology_2022.xls")
+dat <- read_xls("Data/hydrology_2022.xls")
 dat$Month <- factor(dat$Month)
-dat_clean <- dat[!is.na(hydrology$Air_T), ]
+dat_clean <- dat[!is.na(dat$Air_T), ]
 
 ## Преобразуем данные переменной в числовые для корректной работы ANOVA ##
 
@@ -66,7 +66,7 @@ TukeyHSD(fit)
 
 library(multcompView)
 
-tuk <- TukeyHSD(fit, "Month")  
+tuk <- TukeyHSD(fit, "Month")
 
 ## Преобразуем p‑values Тьюки в буквенные группы ###
 
