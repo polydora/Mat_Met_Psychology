@@ -1,0 +1,94 @@
+---
+title: "Играем в крестики-нолики"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+d <- data.frame(zero = round(runif(30, 15, 30)), t = round(runif(30, -1, 20)))
+b0 <- sample(0:10, 1)
+b1 <- sample(c(-1, 1), 1) * sample(c(0, 5, 1), 1)
+b2 <- sample(c(-1, 1), 1) * sample(c(0.05, 0.1), 1)
+
+if(b1 <0) b1 <- b1 * -1
+
+d$crest <- round(b0 + b1 * d$zero + b2*d$t + rnorm(30, sd = 1))
+
+for(i in 1:3) {
+if(d$crest[i] < 0) d$crest[i] <- 0   
+}
+
+
+df <- data.frame(Mixture = rep(NA, 30))
+
+for(i in 1:30){
+  symbols <- sample(c(rep("0", times = d$zero[i]), rep("x", times = d$crest[i])))
+  df$Mixture[i]  <- paste(symbols, collapse = "")
+  }
+
+df$t <- d$t
+
+df$Day <- 1:30
+
+df<-
+  df %>% 
+  select(Day, t, Mixture)
+  
+```
+
+
+Представьте, что вы изучаете взаимоотношения двух видов животных (крестиков и ноликов) во время их миграции, а также связь их с температурой среды. Предположим, вы, учитывая миграционное поведение, записывали вид особи, которая проходила перед вами в определенный день. В этот день вы фиксировали среднюю  температуру. В результате полевой работы вы получили вот такую запись в журнале наблюдений.
+
+
+
+```{r}
+library(flextable)
+library(magrittr)
+
+ft <- flextable(df)
+
+ft <-
+ft %>% 
+   set_header_labels(
+    Mixture = "Вид",
+    t = "Температура",
+    Day = "День наблюдений"
+    ) %>% 
+   width(j = 3, width = 2) %>% 
+  set_caption("Учет обилия крестиков и ноликов, мигрирующих при разной темереатуре воздуха") %>%
+  autofit()
+  
+# save_as_image(ft, path = "table_krestiki_noliki.png")
+
+# knitr::include_graphics("table_krestiki_noliki.png") 
+
+ft
+```
+
+<!-- ![](table_krestiki_noliki.png) -->
+
+
+**Ваша миссия**
+
+1. Постройте линейную модель, описывающую зависимость численности крестиков от численности  ноликов и от температуры воздуха.
+
+2. Проведите диагностику полученной модели. Есть ли какие-нибудь проблемы в построенной модели?
+
+3. Визуализируйте зависимость численности крестиков от двух изученных предикторов.
+
+
+
+

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Играем в крестики-нолики</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/mathmethr/">Mathmethr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">О курсе</a></li>
+        <li><a href="lectures.html">Презентации и данные</a></li>
+<!--        <li><a href="evaluation_criteria.html">Критерии оценки домашних заданий</a></li>
+-->
+        <li class="dropdown">
+          <a href="appendix" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Полезности<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+<!--             <li><a href="supplement.html">Дополнительные темы</a></li>-->
+             <li><a href="resources.html">Ссылки и ресурсы</a></li>
+             <li><a href="coding_practices.html">Правила хорошего кода</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Играем в крестики-нолики</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<p>Представьте, что вы изучаете взаимоотношения двух видов животных
+(крестиков и ноликов) во время их миграции, а также связь их с
+температурой среды. Предположим, вы, учитывая миграционное поведение,
+записывали вид особи, которая проходила перед вами в определенный день.
+В этот день вы фиксировали среднюю температуру. В результате полевой
+работы вы получили вот такую запись в журнале наблюдений.</p>
+<div class="tabwid"><style>.cl-12faf338{}.cl-12e13fb0{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-12e95c18{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-12e95c2c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-12e9c4a0{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4b4{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4be{width:14.742in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4bf{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4c8{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4d2{width:14.742in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4d3{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4dc{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4dd{width:14.742in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4e6{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4f0{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-12e9c4f1{width:14.742in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-12faf338'><caption style="margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>Учет обилия крестиков и ноликов, мигрирующих при разной темереатуре воздуха</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-12e9c4a0"><p class="cl-12e95c18"><span class="cl-12e13fb0">День наблюдений</span></p></th><th class="cl-12e9c4b4"><p class="cl-12e95c18"><span class="cl-12e13fb0">Температура</span></p></th><th class="cl-12e9c4be"><p class="cl-12e95c2c"><span class="cl-12e13fb0">Вид</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">1</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">5</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxx000xxxxxxx0xx0xxxx0xxxxxxxxxxxxxxxxxxxx0xxxxxx0x0xxxxxxxxxxxxxxxxx0xxxxxxxx0xxx0x0x00xxxxx0xxxxx0xxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">2</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">5</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxx0xxx0xxxx0xxxx0xxxxxxxxx0xxxxxxxxx00xxxxxxxxxxxxxxx0xxxx0xxxxx0xxx0xxxxxxxxxxx00xxxxxxxxxxxxxxxx00xxxxxxxxxxxxxxx0xxx0xxxxxxxxxxxxx0xx0xx000xx0xx0xxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4d3"><p class="cl-12e95c18"><span class="cl-12e13fb0">3</span></p></td><td class="cl-12e9c4dc"><p class="cl-12e95c18"><span class="cl-12e13fb0">16</span></p></td><td class="cl-12e9c4dd"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxxxxxxxxxxxxx0x0xxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxx0xx0x00x0x0x0xxxx0x0xxx0xxx0x0xxxxxxxxxx0xxxxx000xxx0xx0xx0x00x0xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">4</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">16</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxx0xxxxxxxxx0xxxxxxxxxxx0xxxxxxxx0xxxxxxxxxxxxxx0xxxx0x0xxxx0xxxx0xxxxxxx0xxx0xxxx0xxxx0x0xx0xxxxx0xx0xxxxxxxx0xxxxxxxxxxxxx00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">5</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">8</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxx0xx00xxxxxxxxxxxxx0xxx0xxxxxxxx0xxxxxxxxxxxxxx0xxxxxx0xxxxxxxx00xxxxxxxx0xxxxxxxx0xxxxxxxxxxxxxxxxxx0xxxxxxxx0xxxx00xxx0xxxxx0xxxxx0xx0x0xxx0xx0x0xxxxx0xxx0xx0xxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">6</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">11</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">x0x0xxxx0xxx0xxxxxxxxxxxx0xxxx0xxxxxx0xx0xxxx0xxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxx000xxxxxxxxxx0xxxxxxxx0x0xx0xx0xxxx0xxxx0xxx0xxxxxxxxx0x0xxx0xxxxxxx00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">7</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">15</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xx0xx0xxxxxxxx0xxxxxx0x0xxxxxx0xx00x0xxxx0xxxxxx00xxxxxx0xxx0xxxxxxxxxxxxxxxxxxx0xxxxx0x0xxxxxxxxxxxxxxxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">8</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">2</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxx00xxxxxxxxxxxxxxxxxxxxx0xxxx000xxxxx0x0xxx0xxx0xxxxxxxx0xxxx0xxxxx0xxxxx0xx0xxxx0xxx0xxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxx0x0xxxxx0xxxx0x0xx0xxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">9</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">7</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxx0xxxxxx00xxxxxxxxxxxxxx0xx0xxxx0xxxxxxxxxxxxx0xxx0xxxxx0xxxx0xxxxxxxx0xxxx0xxxxxxxxxx0xxxxxxxx0xx00xxxxxxxxxxxxxxxxxx0x00x0xx0xxxx0xxxxxxxxx00xx0xxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">10</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">20</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxx0xxxxxxxxxxxxxxxxx0xxxxxx0xxxxxxxx0xx0xxxxxxxx0xxx0xxxxxxxxxx00x00x0xxxxx0xxxxx0xxx0xxxxxxxxxx0xx0xx0xxxxx0xxxxxxxxxxxxxxxx0xxxx0x0xxxxxxxxxxxxxxxxxx00xx00xxxxxxxxxx00xxxx0xxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">11</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">17</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxx0xxxxxxxxxx0xxx0xx0xxxxxxxx0xxxxxx0xxxx0xxxxxxxxxxxxxxxxxxx00xxxxxx0x0xxxxxxxxxxxxx0xx0xxxxxx0xxxxxx0xxxxxxxxxx00xxxx0xxxxxx0xxxx0xxxxxxxx00xxxx000x0xxxxx0xxxxxxxxxx0xxxxxxxxxxxxx0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">12</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">6</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">0x00xxxx0xxxxxxx0xxxxxxxxxxxx0xxxxxxxxxx0xxx0xxxxxxxxx0xxxx0xxxxxxxxxxxxxxxxxxxx0xxxxx0xxxxxxxxxxx0xxxxxxxxx00xxxx0xxxxxxxxx00xxx0x0xxxxxxxxxxxx0xx0xxx0xxx000xxx0xxxxxx0xxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4d3"><p class="cl-12e95c18"><span class="cl-12e13fb0">13</span></p></td><td class="cl-12e9c4dc"><p class="cl-12e95c18"><span class="cl-12e13fb0">5</span></p></td><td class="cl-12e9c4dd"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxx00xxxxxxxxxxx00xxxxxxxx0xxxxxxx0xxxxxxxxxxxx00xxxxx0xxxxxxxx000xxxxxxxxxx0x0xxxxxxxxxxxx0xxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">14</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">7</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xx0xxxxxxxxxxx00xxxx0xxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxx0xxxxxxx00xxxxx0xxxx00xxxx0xx0xxxxx0x0xxxxxxxxxxx0xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">15</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">19</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxx00xxxxxx00xx0xx00xxxxxxxx0xxxxxxxx0xxxxxx0xxxxxxx0xxxx0xxxxxxxx0xx0xxxxxxx0xxxxxx0xxxxxxxx0xxxxxxxxx0xx0000xxxxxxxxxxxxxx0x0xxxxxxxxxxxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">16</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">4</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">0xxxxxxxxxxx0xxxxxx0xxxxxxxxxxxxxxxxxxxx0x0xxxxx0xxxxxxxxx0xxxxxxxxxxxxxx0x0xxx0xxxxxxxxxxxxxxxxxx000xxx00xxxxxxxx0xxxxxx0xxxxx00xxxxxxxx0x0xxxx000xxxxxxxxxxxxxxx00xxxxx0xxxxx0xxx0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4d3"><p class="cl-12e95c18"><span class="cl-12e13fb0">17</span></p></td><td class="cl-12e9c4dc"><p class="cl-12e95c18"><span class="cl-12e13fb0">13</span></p></td><td class="cl-12e9c4dd"><p class="cl-12e95c2c"><span class="cl-12e13fb0">0xx000xxxxxxxx0xxx0xx0xx0xx0xxxxxxxx0xxxxxxx00xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx00xxx0xxx0xxxxx0xxxxxxxxxxxxx0xxxxxxx0xxxx00xxxxxxxxx0xxxxx0xxxxxxxx0xx0xxxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">18</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">18</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxx0xxxxxxxxxxxxxxxxxx00xxxxxxxxxx0xxxxxx0x0xxxxxxx00x0xxxx0x0xxxxx0x0xxxxx0xxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxx00xxxxx0xxxxxxxxx00xxxxx0xx0xxx0x00xxxxxxxx0xxxxxxxxxxxxxxx0xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">19</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">2</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">0xx0xxxx0xxxxxx0xx0xxxxxxxxxxxxxxxx0xxxx0x00x00xxx0xxxxxxxxx0xxxxxxxxxxx0xxxxxxxxxxxxxxxx0xxxxxxxx0xxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">20</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">8</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxxx0xxxxx0xxxxxx0xx0xxxxxxxxxxxxxxxxxxxxx0x0x0xxxxx0x0xxxxxxxxxxxxxxxxxxx0xx0xxxxxxxx0xxx00x0xx0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">21</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">19</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxxxxxxxxxxx0xx00xxx0xxxx0x0xx0x0x0xxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxx0xxxx0xxxx00xx00xx0xxxxx0xxxx0xxx0xxxx0xxxxxxxxx0x0xxxxxxxxxxxxxxxxxxxx00xxxxxxxxxxx0xxx0xxxxxxxxxxxx0xxxxxx0xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">22</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">18</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">0xxxx0xxx0xxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxx0xx0xxxxxxxxxx0xx0xxx0x0xxx0xxxxxxxxx0xxx00xxxxxx0xxxxxxxxxxxxxxxx0xxx00xxxxxxxxxxxxxxxxx0xxxxxx00xxxxx0xxxxxxxxx0xxxxxxxxxxxx00xx0x0xx0xx0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4d3"><p class="cl-12e95c18"><span class="cl-12e13fb0">23</span></p></td><td class="cl-12e9c4dc"><p class="cl-12e95c18"><span class="cl-12e13fb0">9</span></p></td><td class="cl-12e9c4dd"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxx0xxx0xxx0xxxx00xxx0xxx0xxxxxxx0xx0xxxxx0xxxxxxx0xxxxxxx0xxxxxxx0xxx0xxxx0xxxxxxxxxxxxxx0xxxxxxxx0xxxxxxxxxxxx0xxxxxx0x0xxxxxxx0xxxxxxx0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">24</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">17</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxx0xx0xx0xxxxxxxxxxxx0xxxxxxxxx0xxxxxxxxx00xx0x0xxxxxxxxxxxx0xxxxxxxx000xxxx00xxxxxxxxxxxxxxx0xx0xxxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4d3"><p class="cl-12e95c18"><span class="cl-12e13fb0">25</span></p></td><td class="cl-12e9c4dc"><p class="cl-12e95c18"><span class="cl-12e13fb0">3</span></p></td><td class="cl-12e9c4dd"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxxxxxxxxxxx00xxxx0xxxxx0xxxx0xx0xxxxxxxxxxxxxxx00xxx0xxx00xxxxxxxxxxxxxxxx0xx0x0xxxxxxxxxx0xxxxxxxx0xxxxxxxxxx0xxxx0xxxxx00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">26</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">6</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxx0x0xxxxxxxxxxxx0xxxxxxxx00xxxxxxx0xxxxxxxxx0xxxx0x0xxxxxxxxxxxxx0xxxx0x0xxx0xxxxxxxxx000xxxxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">27</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">4</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxx00xxxxxxxxx0xxxx0xxxx00xxxxxxxxxxxx0xxxxxx0000xxx0xxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxx0xx0xxx0xxxx0xxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">28</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">6</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxx0xxxxxxxxxxxxxxxxxxx0x0xxx0x0xxxxxxxx0x0xx0xxxxxxx0xx0xxxxxx0xx00xxxx0x0xxxxxxxxxx0xxx0xx0xx0xxxxxxxxxxxxxxxxxx00xxxx0xxxxxx0xxxxxxxxxxxxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4bf"><p class="cl-12e95c18"><span class="cl-12e13fb0">29</span></p></td><td class="cl-12e9c4c8"><p class="cl-12e95c18"><span class="cl-12e13fb0">20</span></p></td><td class="cl-12e9c4d2"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxxxxx0x0xxxxx0xxxxxxxxxxxxxxx0xxxxx0xxxx0xxxxxx0xxxxx0xxx0x0xxxxx0xxxx0xxxxxxxxxxx0xxxx0xxxxxxxxxx0xxxxx0xxxxx0xxxxx0xxxxx0xxxx0xxx0x0xxx0xxxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-12e9c4e6"><p class="cl-12e95c18"><span class="cl-12e13fb0">30</span></p></td><td class="cl-12e9c4f0"><p class="cl-12e95c18"><span class="cl-12e13fb0">2</span></p></td><td class="cl-12e9c4f1"><p class="cl-12e95c2c"><span class="cl-12e13fb0">xxxxxx00xxxxxxxxx0xxxxxxxxxxxxxxxx0xxxxxxxxxxxxxx0xxxxxxx00xxxxxx0xxx00xxxxxxxx0xx00xx0xxx0xxx0xxxxxxx0xxxxxxxxx00xxxx0xxxxx0xxx0xxxxxxxxxxxxxxx0x0xxxxxx</span></p></td></tr></tbody></table></div>
+<!-- ![](table_krestiki_noliki.png) -->
+<p><strong>Ваша миссия</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Постройте линейную модель, описывающую зависимость численности
+крестиков от численности ноликов и от температуры воздуха.</p></li>
+<li><p>Проведите диагностику полученной модели. Есть ли какие-нибудь
+проблемы в построенной модели?</p></li>
+<li><p>Визуализируйте зависимость численности крестиков от двух
+изученных предикторов.</p></li>
+</ol>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

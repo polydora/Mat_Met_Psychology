@@ -397,7 +397,24 @@ include_graphics("images/elves.png")
 <br>
 
 - [Презентация про суть регрессионного анализа](07_LM.html)
-<!-- - [Презентация для самостоятельного изучения о методах диагностики и описания регрессионных моделей](07_model_description_and_validation.html) -->
+- [Презентация о методах диагностики и описания регрессионных моделей](07_model_description_and_validation.html)
+- [Презентация о множественной регрессии](07_multiple_LM_short.html)
+
+
+
+## Домашнее задание № 7
+
+- [Вариант 1](Home_work_linear_model_Var1.html)
+- [Вариант 2](Home_work_linear_model_Var2.html)
+- [Вариант 3](Home_work_linear_model_Var3.html)
+- [Вариант 4](Home_work_linear_model_Var4.html)
+- [Вариант 5](Home_work_linear_model_Var5.html)
+- [Вариант 6](Home_work_linear_model_Var6.html)
+- [Вариант 7](Home_work_linear_model_Var7.html)
+- [Вариант 8](Home_work_linear_model_Var8.html)
+
+
+
 
 
 <!-- **Ваша миссия** -->

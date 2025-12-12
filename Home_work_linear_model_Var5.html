@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Играем в крестики-нолики</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/mathmethr/">Mathmethr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">О курсе</a></li>
+        <li><a href="lectures.html">Презентации и данные</a></li>
+<!--        <li><a href="evaluation_criteria.html">Критерии оценки домашних заданий</a></li>
+-->
+        <li class="dropdown">
+          <a href="appendix" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Полезности<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+<!--             <li><a href="supplement.html">Дополнительные темы</a></li>-->
+             <li><a href="resources.html">Ссылки и ресурсы</a></li>
+             <li><a href="coding_practices.html">Правила хорошего кода</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Играем в крестики-нолики</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<p>Представьте, что вы изучаете взаимоотношения двух видов животных
+(крестиков и ноликов) во время их миграции, а также связь их с
+температурой среды. Предположим, вы, учитывая миграционное поведение,
+записывали вид особи, которая проходила перед вами в определенный день.
+В этот день вы фиксировали среднюю температуру. В результате полевой
+работы вы получили вот такую запись в журнале наблюдений.</p>
+<div class="tabwid"><style>.cl-8c20535c{}.cl-8c04cb3c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-8c0f5e26{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-8c0f5e3a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-8c10045c{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c100470{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c10047a{width:5.431in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c10047b{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c100484{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c100485{width:5.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c10048e{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c10048f{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c100498{width:5.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c100499{width:1.57in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c1004a2{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8c1004a3{width:5.431in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-8c20535c'><caption style="margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>Учет обилия крестиков и ноликов, мигрирующих при разной темереатуре воздуха</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-8c10045c"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">День наблюдений</span></p></th><th class="cl-8c100470"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">Температура</span></p></th><th class="cl-8c10047a"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">Вид</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">1</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">6</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">x0xxx0xxxx000xxxx0000xx0xxxx0xx000000xx0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">2</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">11</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx0x0x0x000x0x0000xxxxxx000xxxx0x0xxx00xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10048e"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">3</span></p></td><td class="cl-8c10048f"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">12</span></p></td><td class="cl-8c100498"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx0x000x00x0x0xx00x0xxx0x00xxxx00x0xx0x0x00xxx0x0xx00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">4</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">1</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xxx0x0xxx00x00x0xx0000xxx0x000xx0xxx0x00xx0x00xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">5</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">19</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xxx00xx000x0x0x0x000x0x0x0xx00xxxxxx0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">6</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">4</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">00x0x00xxx0x0xx000x0xxxx0xxx0x0x0xx0xx0xx0x0x000xx0000x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">7</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">4</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">x000x0x0x000000xxxxxxx000x000xxx0x00xxxxx0xxxxxx0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">8</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">1</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">000xx0xxx00x000xxxx00xx00x000xxxxx0x0xx0x0xxxx0x00xxxxx00x00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10048e"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">9</span></p></td><td class="cl-8c10048f"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">3</span></p></td><td class="cl-8c100498"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xxx0xx0000xx0xx0xx0x0xx00x00000xxxx000xxxxx0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">10</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">2</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">0x0x0xxxxxxxxxxx00xx0x0x0x000x00x00xx000xx0x00x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">11</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">10</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">0xxxxx00xx000xxx0000xxxxx0x0x0xxx00x000xxxx000x0xx0xx00x00x0x0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">12</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">2</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">00xx0xxx0x00000xxxx000xx0xx0x0x0xxx00xxxxxxx0xx0000x0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10048e"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">13</span></p></td><td class="cl-8c10048f"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">-1</span></p></td><td class="cl-8c100498"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">000xxx00xx00000x0x0xx0xxx0xx0000x0xxx00xxxxxx0xxxxxx00x0x0000x0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">14</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">16</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">x00000xxxx00xxxx0xxxx0x0000x00xxx0xx0x00x0xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">15</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">6</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">x00x0x0x0xxxxxxxxx00x000xxx0x0xx00xx0x0xx0x0x00xx00x0x00x0x00x0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">16</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">17</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xxx0x0000xx0x0000x0xxx0xx0xxx0xxxx00xxxxx00000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10048e"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">17</span></p></td><td class="cl-8c10048f"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">13</span></p></td><td class="cl-8c100498"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">00x00xx00xxxxx0x00x00xxxxx0xxx0x00x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">18</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">8</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">x000x0x0xxxxxx00xxxxxx000x00xx00xxxx00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">19</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">-1</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">0xx0000x0000xx0x00xxx0x00xxxx0xxxxx00xx000x0xxxxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">20</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">6</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">x0xxxx0xx00x00x0x00xxxxxx0xx0x0x0000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">21</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">5</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">00xxx00x0xxx00x00x0xxxxxxxxxx00x0000x000x0xx0x0x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">22</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">7</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx00xx00000xxxxx0x0x0xxxx0x00xxx00x00x00x000xxx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10048e"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">23</span></p></td><td class="cl-8c10048f"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">5</span></p></td><td class="cl-8c100498"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">0xx00xx0xx00xx00xxxxxx0xx000x0x0x0x00x0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">24</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">11</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx0xx000xxxxxx0xx0x0x0xxxxx00x000x00000xxxx00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">25</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">15</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">0x0x0x00xx000xx0x00xxxxxxx0xxx000xxx0x0x00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">26</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">1</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx00x00xx0x0xx0xxxx0xx00xxxx00xxxxx00x0x0x000x00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">27</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">14</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xxxxx0xx00x0x0x0xx0x0x0xx0xxx00xx000xxxxxx0x00xxx00x000000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">28</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">7</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx00000x0xxx00xxxx0x00xxx0x0xx00x</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c10047b"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">29</span></p></td><td class="cl-8c100484"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">-1</span></p></td><td class="cl-8c100485"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">0xxxx0xxxx0x00000x0x000xx0x0000xx0xxxxxx0xx</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8c100499"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">30</span></p></td><td class="cl-8c1004a2"><p class="cl-8c0f5e26"><span class="cl-8c04cb3c">-1</span></p></td><td class="cl-8c1004a3"><p class="cl-8c0f5e3a"><span class="cl-8c04cb3c">xx0xxx0x000xx0xx0xx0000x0x00xxx00x0xxx00xx0xx0x0x00xx0</span></p></td></tr></tbody></table></div>
+<!-- ![](table_krestiki_noliki.png) -->
+<p><strong>Ваша миссия</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Постройте линейную модель, описывающую зависимость численности
+крестиков от численности ноликов и от температуры воздуха.</p></li>
+<li><p>Проведите диагностику полученной модели. Есть ли какие-нибудь
+проблемы в построенной модели?</p></li>
+<li><p>Визуализируйте зависимость численности крестиков от двух
+изученных предикторов.</p></li>
+</ol>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
