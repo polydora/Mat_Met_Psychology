@@ -1,84 +1,139 @@
 ---
-title: "Вот написал такой я скрипт"
-author: "В. М. Хайтов"
-date: "`r Sys.Date()`"
-output: html_document
+title: "Обработка данных"
+author: "Сандра Алексеевна Мирошниченко"
+date: "2025-12-25"
+output: word_document
 ---
 
 ```{r setup, include=FALSE}
+library(knitr)
+
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+
 ```
 
 
-Результаты нашей работы
-
-```{r}
-sleep <- read.table('data/sleep.csv', header = TRUE, sep = '\t')
-
-
-sleep$Danger <- factor(sleep$Danger, levels = 1:5, labels = c('очень низкий', 'низкий', 'средний', 'высокий', 'очень высокий'))
-
-
-sl <- sleep[!is.na(sleep$TotalSleep), ]
-
+```{r pack}
+library(ggplot2)
 library(dplyr)
 
-sl <- 
-sleep %>% 
-  filter(!is.na(TotalSleep))
+
+```
 
 
 
-library(ggplot2)
+# Введение
 
-ggplot(sl, aes(x = Danger, y = TotalSleep)) +
-  geom_point()
+**Тема**: *Регрессионный анализ*
 
-
-sl_anova <- aov(TotalSleep ~ Danger, data = sl)
-
-
-summary(sl_anova)
-
-sl_diag <- fortify(sl_anova)
+В этом домашнем задании мы изучали **связи** между *крестиками* и ноликами и температурой. 
+В этом домашнем задании мы изучали связи между крестиками и ноликами и температурой. 
 
 
-ggplot(sl_diag, aes(x = .fitted, y = .resid)) +
-  geom_point() +
-  geom_hline(yintercept = 0)
+В этом домашнем задании мы изучали связи между крестиками и ноликами и температурой.
+В этом домашнем задании мы изучали связи между крестиками и ноликами и температурой. 
+
+В этом домашнем задании мы изучали связи между крестиками и ноликами и температурой. 
+В этом домашнем задании мы изучали связи между крестиками и ноликами и температурой. 
+
+# Загрузка и подготовка данных
+
+Мы прочитали таблицу данных и подготовили численные оценки обилия крестиков и ноликов.
 
 
-ggplot(data = sl_diag, aes(x = Danger, y = .resid)) + geom_boxplot() + geom_hline(yintercept = 0)
+```{r}
+# Чтение таблицы 
+data <- read.csv2("V_4.csv",
+  stringsAsFactors = FALSE,
+  fileEncoding = "UTF-8",
+  check.names = FALSE
+)
+
+# Переименование столбцов для удобства
+names(data) <- c("Day", "Temp", "String")
+
+# Убираем лишние кавычки из столбца String
+data$String <- gsub('^"+|"+$', '', data$String)
 
 
-library(car)
-qqPlot(sl$TotalSleep)
 
-qqPlot(sl_diag$.resid)
+# Подсчёт крестиков ("x")
+data$Crosses <- vapply(
+  data$String,
+  function(x) sum(strsplit(x, "")[[1]] == "x"),
+  integer(1)
+)
 
-TukeyHSD(sl_anova)
-
-
-Pl_sl <-
-  sl %>% 
-  group_by(Danger) %>% 
-  summarise(Mean = mean(TotalSleep),
-            Sd = sd(TotalSleep),
-            n = n(),
-            SE = Sd/sqrt(n),
-            CI_low = Mean - qt(p = 0.975, df = n - 1) * SE,
-            CI_up = Mean + qt(p = 0.975, df = n - 1) * SE) %>% 
-  ggplot(aes(x = Danger, y = Mean)) +
-  geom_col(fill = "gray") +
-  geom_errorbar(aes(ymin = CI_low, ymax = CI_up), width = 0.2)
-
-  
-  Pl_sl +
-    geom_segment(aes(y = 16.6, yend = 16.6, x = "очень высокий", xend = "очень низкий")) +
-    geom_segment(aes(y = 16.4, yend = 16.4, x = "очень высокий", xend = "низкий")) +
-    geom_segment(aes(y = 16.2, yend = 16.2, x = "очень высокий", xend = "средний"))
-
+# Подсчёт ноликов ("0")
+data$Zeros <- vapply(
+  data$String,
+  function(x) sum(strsplit(x, "")[[1]] == "0"),
+  integer(1)
+)
 
 
 ```
 
+
+# Линейная модель
+
+Была построена линейная модель следующего вида
+
+$$
+y = b_0 + b_1 \cdot Z + b_2 \cdot t + \varepsilon
+$$
+
+
+```{r, echo=TRUE}
+model <- lm(Crosses ~ Zeros + Temp, data = data)
+
+```
+
+```{r}
+library(broom)
+
+summary_df <- tidy(model)
+
+```
+
+
+```{r}
+kable(summary_df, col.names = c("Член модели", "Оценка парамтера", "SE", "t", "p-value"))
+```
+
+
+
+То же самое но с помощью синтаксиса RMD
+
+|term        |   estimate| std.error| statistic|   p.value|
+|:-----------|----------:|---------:|---------:|---------:|
+|(Intercept) |  5.6179323| 1.2442183|  4.515230| 0.0001120|
+|Zeros       |  0.9826224| 0.0534547| 18.382343| 0.0000000|
+|Temp        | -0.0597747| 0.0394050| -1.516932| 0.1409062|
+
+
+
+| ascs | vsdvs | vssdv | svdv |   |   |   |
+|------|-------|-------|------|---|---|---|
+| vs   | vs    | sdv   |      |   |   |   |
+| vs   | vs    | sv    | sv   |   |   |   |
+
+
+# Визуализация зависимости
+
+```{r}
+ggplot(data, aes(Zeros, Crosses, color = Temp)) +
+  geom_point(size = 3) +
+  scale_color_gradient(low = "blue", high = "red") +
+  labs(
+    title = "Зависимость численности крестиков от ноликов и температуры",
+    x = "Численность ноликов",
+    y = "Численность крестиков",
+    color = "Температура"
+  ) +
+  theme_minimal()
+
+```
+
+Ура получилось!!!

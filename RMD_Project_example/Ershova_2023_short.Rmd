@@ -1,7 +1,9 @@
 ---
 title: "Влияние *Fucus vesiculosus* и *Ascophyllum nodosum* на прикрепление *Mytilus edulis* и *Mytilus trossulus*"
 author: "Татьяна Ершова"
-output: html_document
+output:
+  word_document:
+    reference_docx: article_template.docx
 bibliography: bibliography.bib
 csl: meps.csl
 ---
@@ -30,7 +32,9 @@ opts_chunk$set(echo = FALSE)
 
 В этой работе мы применяли разделение мидий на морфотипы по полосе конхеалинового слоя рядом с лигаментом. По этому признаку мидии были разделены на две группы: Т-морфотип (соответствует *M. trossulus*) и Е-морфотип (соответствует *M. edulis*) [@khaitov_2021]. Мидии Е-морфотипа обладали перламутровым слоем, плотно прилегающем к лигаменту, в то время как у Т-морфотипа лигамент отделялся от перламутрового слоя конхеалиновым (рис. 1). 
 
+
 ![Рис. 1. Морфотипы мидий](Pictures/Morphotypes_m1.jpg){width=60%}
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(readxl)
