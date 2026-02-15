@@ -1,0 +1,243 @@
+---
+title: "Факторы, влияющие на объем грудного молока"
+author: "Ковалева Александра, группа ББ5А23/10"
+output: 
+  word_document: default
+  html_document: default
+bibliography: references.bib
+
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(ISwR)
+library(ggplot2)
+library(dplyr)
+library(broom)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+##### Кормление грудью - важный фактор раннего развития ребенка. Объем потребляемого молока  зависит от индивидуальных характеристик ребенка и антропометрических показателей матери. Было проведено исследование для оценки влияния пола ребенка, веса ребенка и массы матери на объем высосанного молока.
+
+# Введение
+
+Объем потребляемого молока зависит от физиологических особенностей ребенка и матери. Более крупные дети могут потреблять больше молока, а масса и рост матери влиять на выработку молока.  
+Целью работы является изучение факторов, влияющих на объем высосанного молока.[@dalgaard2008]
+
+# Материалы и методы
+
+## Датасет
+
+Использовался датасет `kfm` из пакета ISwR, содержащий данные о 50 кормящих матерях и их детях. [@dalgaard2008]
+
+**Переменные:**  
+- `dl.milk` — объем высосанного молока (dl/24h)  
+- `sex` — пол ребенка  
+- `weight` — вес ребенка (kg)  
+- `ml.suppl` — объем докорма (ml/24h)  
+- `mat.weight` — вес матери (kg)  
+- `mat.height` — рост матери (cm)  
+
+## Статистические методы
+
+Для анализа использовались:  
+
+- **Описательная статистика** (summary, str)  [@dalgaard2008]  
+- **двухвыборочный t-тест для независимых выборок** для сравнения потребляемого объема молока у мальчиков и девочек  [@dalgaard2008]  
+- **Линейная регрессия** для оценки зависимости потребляемого объема молока от веса ребенка и веса матери  [@crawley2012]
+- **Программная среда R** использовалась для обработки данных и построения графиков [@Rcore2023]
+
+# Математические методы
+
+Среднеквадратичное отклонение вычислялось по формуле[@dalgaard2008]:
+
+$$
+sd = \sqrt{\frac{\sum{(x_i - \bar{x})^2}}{n-1}}
+$$
+
+Линейная регрессия описывается формулой [@crawley2012] :
+
+$$
+\text{dl.milk} = \beta_0 + \beta_1 \cdot X
+$$
+
+где \(X\) — исследуемый фактор (вес ребенка или матери).
+
+# Результаты
+
+## Описательная статистика
+
+Перед проведением статистического сравнения был выполнен описательный анализ данных, включающий расчёт среднего значения, стандартного отклонения, медианы, квартилей и диапазона значений для всех количественных переменных.
+
+```{r desc_table, echo=FALSE}
+library(dplyr)
+library(tidyr)
+library(knitr)
+
+# Вычисляем основные статистики
+desc_stats <- kfm %>%
+  select(dl.milk, weight, mat.weight) %>%
+  summarise(across(everything(),
+                   list(N = ~sum(!is.na(.)),
+                        Min = ~min(., na.rm=TRUE),
+                        Q1 = ~quantile(., 0.25, na.rm=TRUE),
+                        Median = ~median(., na.rm=TRUE),
+                        Mean = ~mean(., na.rm=TRUE),
+                        SD = ~sd(., na.rm=TRUE),
+                        Q3 = ~quantile(., 0.75, na.rm=TRUE),
+                        Max = ~max(., na.rm=TRUE)
+                        ))) %>%
+  pivot_longer(everything(),
+               names_to = c("Variable","Statistic"),
+               names_sep = "_",
+               values_to = "Value") %>%
+  pivot_wider(names_from = Statistic, values_from = Value) %>%
+  mutate(across(where(is.numeric), ~round(.,2)))
+
+# Выводим таблицу
+kable(desc_stats, caption = "Описательная статистика количественных переменных")
+
+```
+
+Таблица 1 показывает распределение объема потребляемого молока, веса ребенка и веса матери. Средний объем молока составляет 7,5 dl/24h, средний вес ребенка — 5,3 кг, средний вес матери — 60 кг. Значения Min и Max указывают на диапазон наблюдений, а квартильные значения показывают медиану и разброс данных.
+Для проверки статистически значимых различий объема потребляемого молока
+между мальчиками и девочками был выполнен двухвыборочный t-тест Уэлча для независимых выборок.
+
+
+
+## Сравнение объема потребляемого молока у мальчиков и девочек
+
+
+```{r milk_sex_calc, include=FALSE}
+library(broom)
+
+t_test <- t.test(dl.milk ~ sex, data = kfm)
+
+mean_boy  <- mean(kfm$dl.milk[kfm$sex == "boy"],  na.rm = TRUE)
+mean_girl <- mean(kfm$dl.milk[kfm$sex == "girl"], na.rm = TRUE)
+p_sex <- t_test$p.value
+```
+
+```{r milk_sex_table, echo=FALSE}
+library(knitr)
+
+tidy(t_test) |>
+  kable(digits = 3, caption = "Результаты t-теста для сравнения объема потребляемого молока у мальчиков и девочек"
+  )
+```
+
+Результаты t-теста показывают, что средний объем потребляемого молока у мальчиков `r round(mean_boy, 2)` dl/24h,
+выше, чем у девочек — `r round(mean_girl, 2)` dl/24h.
+Различия между группами оказались статистически значимыми [@dalgaard2008]
+(t = `r round(t_test$statistic,2)`, df = `r round(t_test$parameter,1)`, p = `r signif(p_sex,3)`), что согласуется с предположением о физиологических различиях.
+
+На рисунке 1 показано распределение потребляемого объема молока у детей разных полов.
+
+```{r boxplot, fig.cap="Рисунок 1. Объем потребляемого молока у мальчиков и девочек"}
+ggplot(kfm, aes(x = sex, y = dl.milk, fill = sex)) +
+  geom_boxplot(width = 0.5) +
+  scale_fill_manual(values = c("lightblue", "pink")) +
+  labs(x = "Пол ребенка", y = "Потребляемый объем молока (dl/24h)") +
+  theme_bw(base_size = 14) +
+  theme(legend.position = "none")
+```
+
+## Зависимость объема потребляемого молока от веса ребенка
+
+```{r lm_child, echo=FALSE}
+model_child <- lm(dl.milk ~ weight, data = kfm)
+library(broom)
+
+tidy_child <- tidy(model_child)
+p_child <- tidy_child$p.value[tidy_child$term == "weight"]
+
+tidy(model_child) |> kable(digits = 3, caption = "Коэффициенты линейной регрессии: зависимость объема молока от веса ребенка"
+  )
+```
+
+Линейная регрессия использовалась для оценки зависимости потребляемого объема молока
+от массы тела ребенка.[@crawley2012]
+
+Формула линейной регрессии имеет вид:
+
+$$
+\text{dl.milk} =
+`r round(coef(model_child)[1],2)` +
+`r round(coef(model_child)[2],2)` \cdot \text{weight}
+$$
+
+где *dl.milk* — потребляемый объем молока (dl/24h),*weight* — масса тела ребенка (кг).
+
+Коэффициент при переменной *weight* показывает, что при увеличении массы тела ребенка
+на 1 кг потребляемый объем молока увеличивается в среднем на
+
+**`r round(coef(model_child)[2],2)` dl/24h** (*p* = `r signif(p_child, 3)`).
+
+
+
+```{r scatter_child, fig.cap= "Рисунок 2. Объем потребляемого молока в зависимости от веса ребенка"}
+ggplot(kfm, aes(x = weight, y = dl.milk)) +
+  geom_point(color = "darkgreen", size = 3) +
+  geom_smooth(method = "lm", color = "red", se = FALSE, linetype = "dashed", size = 1) +
+  labs(x = "Вес ребенка (kg)", y = "Объем молока (dl/24h)") +
+  theme_bw(base_size = 14)
+```
+
+## Зависимость объема молока от веса матери
+
+Для оценки зависимости потребляемого объема молока от массы тела матери
+была использована линейная регрессия.[@crawley2012]
+
+Формула регрессии имеет вид:
+
+```{r lm_mother}
+model_mother <- lm(dl.milk ~ mat.weight, data = kfm)
+coef_mother <- coef(model_mother)
+```
+
+```{r lm_mother_pvalue, include=FALSE}
+tidy_mother <- tidy(model_mother)
+
+p_mother <- tidy_mother$p.value[tidy_mother$term == "mat.weight"]
+```
+
+$$
+\text{dl.milk} =
+`r round(coef_mother[1],2)` +
+`r round(coef_mother[2],2)` \cdot \text{mat.weight}
+$$
+
+где *dl.milk* — потребляемый объем молока (dl/24h),
+*mat.weight* — масса тела матери (кг).
+
+Коэффициент при переменной *mat.weight* показывает, что при увеличении массы тела матери
+на 1 кг потребляемый объем молока увеличивается в среднем на
+**`r round(coef_mother[2],2)` dl/24h** (*p* = `r signif(p_mother, 3)`).
+
+
+```{r scatter_mother, fig.cap= "Рисунок 3. Объем молока в зависимости от веса матери"}
+ggplot(kfm, aes(x = mat.weight, y = dl.milk)) +
+  geom_point(color = "purple", size = 3) +
+  geom_smooth(method = "lm", color = "red", se = FALSE, linetype = "dashed", size = 1) +
+  labs(x = "Вес матери (kg)", y = "Объем молока (dl/24h)") +
+  theme_bw(base_size = 14)
+```
+
+# Обсуждение
+
+Полученные результаты показывают, положительную зависимость объема молока от веса ребенка и массы матери.[@dalgaard2008; @crawley2012] При увеличении веса ребенка на 1 кг объем молока увеличивается в среднем на 
+**`r round(coef(model_child)[2],2)` dl/24h** (**p** = `r signif(p_child,3)`), 
+а при увеличении веса матери на 1 кг — **`r round(coef_mother[2],2)` dl/24h** (**p** = `r signif(p_mother,3)`).
+
+Формулы регрессий наглядно демонстрируют влияние каждого фактора:
+
+- Для веса ребенка: \(\text{dl.milk} = `r round(coef(model_child)[1],2)` + `r round(coef(model_child)[2],2)`·weight\)  
+- Для веса матери: \(\text{dl.milk} = `r round(coef_mother[1],2)` + `r round(coef_mother[2],2)`·mat.weight\)  
+
+Эти закономерности согласуются с физиологическими наблюдениями грудного вскармливания и подчеркивают важность учета антропометрических характеристик.
+
+# Заключение
+
+Работа показала, что объем молока зависит как от пола и веса ребенка, так и от массы матери. Эти результаты могут использоваться для более точной оценки кормления и планирования питания.
+
+# Список литературы
