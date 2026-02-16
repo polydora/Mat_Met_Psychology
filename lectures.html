@@ -348,9 +348,11 @@ div.tocify {
 <div id="знакомство-с-r" class="section level1">
 <h1>1. Знакомство с R</h1>
 <p><br></p>
-<!-- -  Презентация: [01_intro_to_r.html](01_intro_to_r.html) -->
-<!-- -  Online практика: [01_intro_to_r_online_training.html](01_intro_to_r_online_training.html) -->
 <ul>
+<li><p>Презентация: <a
+href="01_intro_to_r.html">01_intro_to_r.html</a></p></li>
+<li><p>Online практика: <a
+href="01_intro_to_r_online_training.html">01_intro_to_r_online_training.html</a></p></li>
 <li><p>Код для работы на лекции: <a
 href="01_intro_to_r_code.R">01_intro_to_r_code.R</a></p></li>
 <li><p>Данные для работы на лекции: <a
@@ -363,14 +365,24 @@ href="data/hydrology_2022.xls">hydrology_2022.xls</a></p></li>
 <p><a
 href="data/%D0%9C%D0%B8%D0%BD%D0%B8%D0%BC%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BD%D0%B0%D0%B1%D0%BE%D1%80%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8%20%D0%B2%20R.doc"><strong>Самые
 ходовые функции языка R</strong></a></p>
-<!-- ### Домашнее задание №1 -->
-<!-- -   Домашнее задание:[Вариант 1](01_intro_to_R_HW1_Var_1.html) -->
-<!-- -   Домашнее задание:[Вариант 2](01_intro_to_R_HW1_Var_2.html) -->
-<!-- -   Данные для выполнения домашнего задания: [catsM.xls](data/catsM.xlsx) -->
-<!-- <br> -->
-<!-- <br> -->
-<!-- **Ваша миссия:** Необходимо создать файл скрипта (с обязательным комментированием действий), в котором будут решены задачи одного из вариантов ДЗ. Распределение вариантов см. в таблице внизу страницы. -->
-<!-- Работы необходимо прислать на электронную почту polydora[]rambler.ru не позднее **23:59 среды 8.10.2025**. -->
+</div>
+<div id="домашнее-задание-1" class="section level3">
+<h3>Домашнее задание №1</h3>
+<ul>
+<li>Домашнее задание:<a href="01_intro_to_R_HW1_Var_1.html">Вариант
+1</a></li>
+<li>Домашнее задание:<a href="01_intro_to_R_HW1_Var_2.html">Вариант
+2</a></li>
+<li>Данные для выполнения домашнего задания: <a
+href="data/catsM.xlsx">catsM.xls</a></li>
+</ul>
+<p><br> <br></p>
+<p><strong>Ваша миссия:</strong> Необходимо создать файл скрипта (с
+обязательным комментированием действий), в котором будут решены задачи
+одного из вариантов ДЗ. Распределение вариантов см. в таблице внизу
+страницы.</p>
+<p>Работы необходимо прислать на электронную почту polydora[]rambler.ru
+не позднее <strong>23:59 воскресенья 1.03.2026</strong>.</p>
 </div>
 </div>
 <div id="данные-и-их-визуализация-с-использованием-пакета-ggplot2"
@@ -517,14 +529,14 @@ class="section level1">
 <!-- ``` -->
 <!--  Представьте себе, что вы идете по лесам Средиземья с отрядом эльфов. Все участники похода были независимо и случайно отобраны из числа этого народа. И вдруг, вдалеке, вы заметили отряд неких существ. Вам необходимо принять решение о том, свои это или чужие. Вы (с помощью магии, наверное) смогли как-то измерить рост фигур из этого отряда. Сделайте обоснованный вывод на основе данных, которые у вас имеются. Результаты необходимо описать в виде текста (комментарии в скрипте с решением, в котором надо сформулировать нулевую и альтернативную гипотезы и сделать выбор между ними) и визуализировать в виде столбчатой диаграммы (необходимо написать код, который ее построит). -->
 <!-- **Вариант 1.** -->
-<!-- Рост эльфов из вашего отряда (см):  176, 182, 180, 179, 184, 189, 183, 179, 179, 171, 167, 183, 177, 180, 187 -->
-<!-- Рост фигур (см): 163, 161, 158, 161, 168, 160, 159 -->
+<!-- Рост эльфов из вашего отряда (см):  178, 174, 176, 178, 186, 177, 182, 175, 171, 174, 172, 185, 187, 183, 179 -->
+<!-- Рост фигур (см): 172, 160, 165, 167, 169 -->
 <!-- **Вариант 2.** -->
-<!-- Рост эльфов из вашего отряда (см):  176, 181, 180, 181, 180, 185, 183, 174, 179, 179, 174, 188, 177, 177, 181 -->
-<!-- Рост фигур (см): 199, 186, 182, 203, 192, 194, 197 -->
+<!-- Рост эльфов из вашего отряда (см):  176, 184, 185, 182, 170, 187, 184, 180, 189, 181, 170, 179, 179, 184, 182 -->
+<!-- Рост фигур (см): 189, 200, 193, 196, 200, 185, 180, 188 -->
 <!-- **Вариант 3.** -->
-<!-- Рост эльфов из вашего отряда (см):  186, 186, 177, 180, 178, 176, 172, 178, 185, 191, 187, 176, 176, 180, 178 -->
-<!-- Рост фигур (см): 156, 135, 153, 161, 149, 140, 141, 142, 159, 145, 156, 144, 145, 152, 148 -->
+<!-- Рост эльфов из вашего отряда (см):  173, 189, 186, 176, 177, 176, 182, 180, 187, 181, 179, 180, 181, 182, 182 -->
+<!-- Рост фигур (см): 154, 147, 143, 148, 140, 145, 156, 151, 154, 160, 156, 145, 159 -->
 </div>
 <div id="дисперсионный-анализ" class="section level1">
 <h1>6. Дисперсионный анализ</h1>
@@ -801,281 +813,169 @@ class="section level1">
 <li>Сумма баллов по всем трем позициям &lt; 20% -
 <strong>неудовлетворительно</strong></li>
 </ul>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="22%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
+<col width="50%" />
 <col width="7%" />
-<col width="5%" />
-<col width="10%" />
-<col width="3%" />
-<col width="8%" />
-<col width="8%" />
-<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">Name</th>
-<th align="right">HW_1</th>
-<th align="right">HW_2</th>
-<th align="right">HW_3</th>
-<th align="right">HW_4</th>
-<th align="right">HW_5</th>
-<th align="right">HW_6</th>
-<th align="right">HW_7</th>
-<th align="right">Summary_HW</th>
-<th align="right">Projects</th>
-<th align="right">Summary_Project</th>
-<th align="right">Test</th>
-<th align="right">Summary_Test</th>
-<th align="right">Final_Summary</th>
-<th align="left">Final_Score</th>
+<th align="left">HW_1</th>
+<th align="left">HW_2</th>
+<th align="left">HW_3</th>
+<th align="left">HW_4</th>
+<th align="left">HW_5</th>
+<th align="left">HW_6</th>
+<th align="left">HW_7</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Авакян Кристина Зауровна</td>
-<td align="right">100</td>
-<td align="right">130</td>
-<td align="right">100</td>
-<td align="right">90</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">20.57143</td>
-<td align="right">95</td>
-<td align="right">57</td>
-<td align="right">12</td>
-<td align="right">15.00</td>
-<td align="right">93</td>
-<td align="left">Отлично</td>
+<td align="left">Акжигитова Екатерина Александровна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Васина Анна Дмитриевна</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">120</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">17.71429</td>
-<td align="right">100</td>
-<td align="right">60</td>
-<td align="right">12</td>
-<td align="right">15.00</td>
-<td align="right">93</td>
-<td align="left">Отлично</td>
+<td align="left">Баркова Марина Владимировна</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">Дубинина Анна Сергеевна</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.00000</td>
-<td align="right">90</td>
-<td align="right">54</td>
-<td align="right">11</td>
-<td align="right">13.75</td>
-<td align="right">68</td>
-<td align="left">Хорошо</td>
+<td align="left">Говор Светлана Алексеевна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Егорова Татьяна Андреевна</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">11.42857</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">11</td>
-<td align="right">13.75</td>
-<td align="right">25</td>
-<td align="left">Удовлетворительно</td>
+<td align="left">Давыдовская Ульяна Артемовна</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">Емельянова Екатерина Викторовна</td>
-<td align="right">100</td>
-<td align="right">90</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">90</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">19.42857</td>
-<td align="right">80</td>
-<td align="right">48</td>
-<td align="right">13</td>
-<td align="right">16.25</td>
-<td align="right">84</td>
-<td align="left">Отлично</td>
+<td align="left">Ким София Германовна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Ковалева Александра Борисовна</td>
-<td align="right">100</td>
-<td align="right">130</td>
-<td align="right">130</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">21.71429</td>
-<td align="right">80</td>
-<td align="right">48</td>
-<td align="right">11</td>
-<td align="right">13.75</td>
-<td align="right">83</td>
-<td align="left">Отлично</td>
+<td align="left">Костромин Архип Артурович</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">Кузнецов Никита Сергеевич</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">130</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">15.14286</td>
-<td align="right">80</td>
-<td align="right">48</td>
-<td align="right">10</td>
-<td align="right">12.50</td>
-<td align="right">76</td>
-<td align="left">Отлично</td>
+<td align="left">Маркова Мария Александровна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Куликова Светлана Сергеевна</td>
-<td align="right">100</td>
-<td align="right">130</td>
-<td align="right">130</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">21.71429</td>
-<td align="right">95</td>
-<td align="right">57</td>
-<td align="right">12</td>
-<td align="right">15.00</td>
-<td align="right">94</td>
-<td align="left">Отлично</td>
+<td align="left">Морозова Полина Дмитриевна</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">Панкратова Ксения Артемовна</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0.00</td>
-<td align="right">0</td>
-<td align="left">Не зачтено</td>
+<td align="left">Орлянская Майя Константиновна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Сарнэт Виктория Павловна</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">100</td>
-<td align="right">20.00000</td>
-<td align="right">95</td>
-<td align="right">57</td>
-<td align="right">10</td>
-<td align="right">12.50</td>
-<td align="right">90</td>
-<td align="left">Отлично</td>
+<td align="left">Полякова Дарья Сергеевна</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">Синицкая Юлия Сергеевна (Захарова)</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0.00</td>
-<td align="right">0</td>
-<td align="left">Не зачтено</td>
+<td align="left">Романова Полина Романовна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Харламова Мария Андреевна</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0.00</td>
-<td align="right">0</td>
-<td align="left">Не зачтено</td>
+<td align="left">Тарасова Мария Михайловна</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">Цуранова Елизавета Алексеевна</td>
-<td align="right">100</td>
-<td align="right">110</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">6.00000</td>
-<td align="right">80</td>
-<td align="right">48</td>
-<td align="right">12</td>
-<td align="right">15.00</td>
-<td align="right">69</td>
-<td align="left">Хорошо</td>
+<td align="left">Чернышева Маргарита Николаевна</td>
+<td align="left">Вар1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Чернышова Александра Алексеевна</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0.00</td>
-<td align="right">0</td>
-<td align="left">Не зачтено</td>
+<td align="left">Шарипова Рената Владимировна</td>
+<td align="left">Вар2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 </tbody>
 </table>
