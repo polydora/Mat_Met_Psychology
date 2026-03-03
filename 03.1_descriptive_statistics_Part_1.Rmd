@@ -7,7 +7,7 @@ author:
   - Анастасия Лянгузова
 output:
   xaringan::moon_reader:
-    self-contained: true
+    self-contained: false
     lib_dir: libs
     css: [default, tamu-fonts, ninjutsu, "assets/xaringan-themer.css", "assets/xaringan.css"]
     df_print: default

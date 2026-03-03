@@ -163,7 +163,7 @@ ggplot(df2, aes(x = Var1, y = Freq)) +
 
 <br>
 
-[Презентация](03.1_descriptive_statistics_Part_1.html)
+[Презентация](03.1_descriptive_statistics.html)
 
 ### Домашнее задание №3
 
