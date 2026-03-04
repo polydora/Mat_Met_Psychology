@@ -7,16 +7,17 @@ author:
   - Анастасия Лянгузова
 output:
   xaringan::moon_reader:
-    self-contained: false
+    self-contained: false  # Временно отключаем самодостаточность
     lib_dir: libs
     css: [default, tamu-fonts, ninjutsu, "assets/xaringan-themer.css", "assets/xaringan.css"]
-    df_print: default
     nature:
       highlightStyle: vs
       highlightLines: true
       countIncrementalSlides: false
       titleSlideClass: [middle, left, inverse]
       beforeInit: "assets/cols_macro.js"
+      # Добавьте эту строку для загрузки Remark.js из CDN:
+      sourceURL: "https://remarkjs.com/downloads/remark-latest.min.js"
     includes:
       in_header: "assets/xaringan_in_header.html"
       after_body: "assets/xaringan_after_body.html"
