@@ -7,10 +7,10 @@ setwd("D:/Text/MatMet_MIP_2026/Data")
 
 
 
-library(ggplot2)     
+library(ggplot2)
 
 
-df <- read.csv2("dataset_variant_2.csv", header = TRUE, sep = ";", dec = ".")
+df <- read.csv2("Data/dataset_variant_2.csv", header = TRUE, sep = ";", dec = ".")
 df <- as.data.frame(lapply(df, function(x) as.numeric(as.character(x))))
 
 # Функции для расчета статистик
@@ -29,15 +29,15 @@ kurtosis <- function(x) {
 }
 
 
-  
+
   # Гистограмма
-  hist(x, main = paste(var_name, "- Гистограмма"), 
-       xlab = var_name, ylab = "Плотность", 
+  hist(x, main = paste(var_name, "- Гистограмма"),
+       xlab = var_name, ylab = "Плотность",
        col = "lightblue", freq = FALSE, breaks = 15)
   curve(dnorm(x, mean(x), sd(x)), add = TRUE, col = "red", lwd = 2)
-  
+
   # Q-Q график
-  qqnorm(x, main = paste(var_name, "- Q-Q график"), 
+  qqnorm(x, main = paste(var_name, "- Q-Q график"),
          xlab = "Теоретические квантили", ylab = "Выборочные квантили",
          col = "blue", pch = 19)
   qqline(x, col = "red", lwd = 2)
@@ -50,7 +50,7 @@ results <- list()
 for(i in 1:ncol(df)) {
   var_name <- names(df)[i]
   x <- df[[i]][!is.na(df[[i]])]
-  
+
   # Соборка результатов в список
   results[[var_name]] <- list(
     mean = mean(x),
@@ -125,10 +125,10 @@ all_stats <- all_stats[order(-all_stats$Mean), ]
 results <- list(
   # Основные выборочные средние и среднеквадратичные отклонения
   sample_statistics = all_stats[, c("Diet", "Count", "Mean", "SD")],
-  
+
   # Полные описательные статистики
   descriptive_stats = all_stats,
-  
+
   # Детальные данные по каждой диете
   diet_data = list(
     diet1 = diet1,
@@ -136,7 +136,7 @@ results <- list(
     diet3 = diet3,
     diet4 = diet4
   ),
-  
+
   # Сравнение среднего и медианы (для оценки нормальности)
   mean_vs_median = data.frame(
     Diet = all_stats$Diet,
@@ -144,7 +144,7 @@ results <- list(
     Median = all_stats$Median,
     Difference = abs(all_stats$Mean - all_stats$Median)
   ),
-  
+
   # Правило 68-95-99.7 для каждой диеты
   empirical_rule = list(
     diet1 = c(
@@ -168,7 +168,7 @@ results <- list(
       within_3sd = mean(diet4 > mean(diet4) - 3*sd(diet4) & diet4 < mean(diet4) + 3*sd(diet4)) * 100
     )
   ),
-  
+
   # Z-оценки (стандартизация) для каждой диеты
   z_scores = list(
     diet1 = scale(diet1),
@@ -181,23 +181,23 @@ results <- list(
 # Добавляем итоговое заключение
 results$conclusion <- list(
   summary = "На 21-й день наблюдения:",
-  best_diet = paste("Наибольший средний вес у диеты", 
-                    all_stats[1, "Diet"], 
-                    ":", 
-                    round(all_stats[1, "Mean"], 1), 
+  best_diet = paste("Наибольший средний вес у диеты",
+                    all_stats[1, "Diet"],
+                    ":",
+                    round(all_stats[1, "Mean"], 1),
                     "г"),
-  worst_diet = paste("Наименьший средний вес у диеты", 
-                     all_stats[4, "Diet"], 
-                     ":", 
-                     round(all_stats[4, "Mean"], 1), 
+  worst_diet = paste("Наименьший средний вес у диеты",
+                     all_stats[4, "Diet"],
+                     ":",
+                     round(all_stats[4, "Mean"], 1),
                      "г"),
-  most_variable = paste("Наибольшая вариабельность (SD =", 
-                        round(all_stats[which.max(all_stats$SD), "SD"], 1), 
-                        ") у", 
+  most_variable = paste("Наибольшая вариабельность (SD =",
+                        round(all_stats[which.max(all_stats$SD), "SD"], 1),
+                        ") у",
                         all_stats[which.max(all_stats$SD), "Diet"]),
-  least_variable = paste("Наименьшая вариабельность (SD =", 
-                         round(all_stats[which.min(all_stats$SD), "SD"], 1), 
-                         ") у", 
+  least_variable = paste("Наименьшая вариабельность (SD =",
+                         round(all_stats[which.min(all_stats$SD), "SD"], 1),
+                         ") у",
                          all_stats[which.min(all_stats$SD), "Diet"])
 )
 
@@ -242,17 +242,17 @@ calc_ci <- function(x) {
   n <- length(x)                    # объем выборки
   mean_x <- mean(x)                  # выборочное среднее (x̄)
   sd_x <- sd(x)                      # стандартное отклонение (Sd)
-  
+
   # Вычисляем стандартную ошибку по формуле: SE = Sd/√n
   se_x <- sd_x / sqrt(n)
-  
+
   # Квантиль t-распределения для 95% доверительного интервала
   t_val <- qt(0.975, df = n - 1)
-  
+
   # Границы доверительного интервала: x̄ ± t·SE
   ci_lower <- mean_x - t_val * se_x
   ci_upper <- mean_x + t_val * se_x
-  
+
   # Возвращаем все вычисленные значения
   list(
     n = n,
