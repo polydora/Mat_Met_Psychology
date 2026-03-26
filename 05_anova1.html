@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Дисперсионный анализ, часть 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Марина Варфоломеева" />
+    <meta name="author" content="Анастасия Лянгузова" />
+    <script src="libs/header-attrs-2.23/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/tamu-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/mark.js-8.11.1/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search-0.0.1/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <script src="libs/freezeframe-5.0.2/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <!-- https://github.com/fnaufel/xaringan-smartify-->
+    <script
+    			  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    			  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    			  crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/fnaufel/xaringan-smartify/smartify.min.js"></script>
+    <link rel="stylesheet" href="assets/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="assets/xaringan.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, left, inverse, title-slide
+
+.title[
+# Дисперсионный анализ, часть 1
+]
+.subtitle[
+## Математические модели в зоологии
+]
+.author[
+### Марина Варфоломеева
+]
+.author[
+### Анастасия Лянгузова
+]
+
+---
+
+
+
+
+
+
+
+## Знакомимся c дисперсионным анализом
+
+### Вы сможете
+
+- Объяснить, в чем опасность множественных сравнений, и как с ними можно бороться
+- Рассказать, из каких частей состоит общая изменчивость
+- Перечислить и проверить условия применимости дисперсионного анализа
+- Интерпретировать и описать результаты, записанные в таблице дисперсионного анализа
+- Провести множественные попарные сравнения при помощи post hoc теста Тьюки, представить и описать их результаты
+
+---
+
+class: middle, center, inverse
+
+## Разведочный анализ данныx (EDA)
+
+---
+
+## Пример: сон у млекопитающих
+
+Известно, что у разных млекопитающих продолжительность сна сильно варьирует. Ленивцы спят , коалы спят, а  кому-то достаточно. Условия жизни у всех тоже разные. Давайте проверим, есть ли связь между продолжительностью сна и уровнем опасности среды.
+
+- `TotalSleep` - общая продолжительность сна. В нашем анализе это будет зависимая переменная
+- `Danger`  - уровень опасности среды для вида, пять градаций (1 - 5)
+
+.tiny[ 
+Данные: Allison, Cicchetti (1976), электронная версия [Statlib database](http://lib.stat.cmu.edu)
+]
+
+---
+
+## Читаем данные из файла одним из способов
+
+### Чтение из xlsx
+
+```r
+library(readxl)
+sleep &lt;- read_excel(path = 'data/sleep.xlsx', sheet = 1)
+```
+
+### Чтение из csv
+
+
+```r
+sleep &lt;- read.table('data/sleep.csv', header = TRUE, sep = '\t')
+```
+
+---
+
+## Все ли правильно открылось?
+
+
+```r
+str(sleep) # Структура данных
+```
+
+```
+'data.frame':	62 obs. of  11 variables:
+ $ Species    : chr  "Africanelephant" "Africangiantpouchedrat" "ArcticFox" "Arcticgroundsquirrel" ...
+ $ BodyWt     : num  6654 1 3.38 0.92 2547 ...
+ $ BrainWt    : num  5712 6.6 44.5 5.7 4603 ...
+ $ NonDreaming: num  NA 6.3 NA NA 2.1 9.1 15.8 5.2 10.9 8.3 ...
+ $ Dreaming   : num  NA 2 NA NA 1.8 0.7 3.9 1 3.6 1.4 ...
+ $ TotalSleep : num  3.3 8.3 12.5 16.5 3.9 9.8 19.7 6.2 14.5 9.7 ...
+ $ LifeSpan   : num  38.6 4.5 14 NA 69 27 19 30.4 28 50 ...
+ $ Gestation  : num  645 42 60 25 624 180 35 392 63 230 ...
+ $ Predation  : int  3 3 1 5 3 4 1 4 1 1 ...
+ $ Exposure   : int  5 1 1 2 5 4 1 5 2 1 ...
+ $ Danger     : int  3 3 1 3 4 4 1 4 1 1 ...
+```
+
+```r
+head(sleep, 2)     # Первые несколько строк файла
+```
+
+```
+                 Species BodyWt BrainWt NonDreaming Dreaming TotalSleep LifeSpan
+1        Africanelephant   6654  5712.0          NA       NA        3.3     38.6
+2 Africangiantpouchedrat      1     6.6         6.3        2        8.3      4.5
+  Gestation Predation Exposure Danger
+1       645         3        5      3
+2        42         3        1      3
+```
+
+
+
+```r
+# Сделаем sleep$Danger фактором
+sleep$Danger &lt;- factor(sleep$Danger, levels = 1:5, labels = c('очень низкий', 'низкий', 'средний', 'высокий', 'очень высокий'))
+```
+
+---
+
+## Знакомимся с данными
+
+Есть ли пропущенные значения (особенно, в переменных, которые нас интересуют)?
+
+
+```r
+colSums(is.na(sleep))
+```
+
+```
+    Species      BodyWt     BrainWt NonDreaming    Dreaming  TotalSleep    LifeSpan 
+          0           0           0          14          12           4           4 
+  Gestation   Predation    Exposure      Danger 
+          4           0           0           0 
+```
+
+К счастью, про уровень опасности (`Danger`) информация есть для всех объектов.
+
+Но есть пропущенные значения продолжительности сна (`TotalSleep`). 
+
+---
+
+## Каков объем выборки?
+
+В одной из переменных, которые нам интересны, есть пропущенные значения. Это нужно учесть при рассчете объема выборки.
+
+Удалим из датафрейма `sleep` строки, где `TotalSleep` принимает значение `NA`.
+
+
+```r
+sl &lt;- sleep[!is.na(sleep$TotalSleep), ]
+```
+
+
+Дальше будем работать с датафреймом `sl`. В нем нет пропущенных значений в интересующих нас переменных.
+
+
+```r
+nrow(sl)
+```
+
+```
+[1] 58
+```
+
+Каков объем выборки в каждой группе?
+
+
+```r
+table(sl$Danger)
+```
+
+```
+
+ очень низкий        низкий       средний       высокий очень высокий 
+           18            14            10             9             7 
+```
+
+---
+
+## Задание 1
+
+А теперь хорошо бы посмотреть на данные...
+
+Дополните код, чтобы построить точечный график зависимости общей продолжительности сна (`TotalSleep`) от уровня опасности среды (`Danger`).
+
+
+
+```r
+library( )
+theme_set(theme_bw())
+
+ggplot(data = , aes(x = , y = )) + 
+  geom_ (position = position_jitter(width = 0.05))
+```
+
+![](05_anova1_files/figure-html/gg-points-1.png)&lt;!-- --&gt;
+
+---
+
+## Решение 1
+
+
+```r
+library(ggplot2)
+theme_set(theme_bw())
+ggplot(data = sl, aes(x = Danger, y = TotalSleep)) + 
+  geom_point(position = position_jitter(width = 0.05))
+```
+
+![](05_anova1_files/figure-html/gg-points-1.png)&lt;!-- --&gt;
+
+Точечный график --- не самый удобный способ представления таких данных, хотя он показывает их все.
+
+---
+
+## Задание 2
+
+Точечный график --- не самый удобный способ представления таких данных. Лучше было бы изобразить средние значения и их 95% доверительные интервалы.
+
+Замените в графике из прошлого задания все геомы на этот стат:
+
+
+```r
+  stat_summary(geom = 'pointrange', fun.data = mean_cl_normal) 
+```
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-1.png)&lt;!-- --&gt;
+
+---
+
+## Решение 2
+
+
+```r
+ggplot(data = sl, aes(x = Danger, y = TotalSleep)) + 
+  stat_summary(geom = 'pointrange', fun.data = mean_cl_normal)
+```
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-1.png)&lt;!-- --&gt;
+
+---
+
+## Задание 3
+
+Раскрасьте график в зависимости от уровня опасности среды (используйте эстетику `colour`)
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-coloured-1.png)&lt;!-- --&gt;
+
+---
+
+## Решение 3
+
+
+```r
+ggplot(data = sl, aes(x = Danger, y = TotalSleep, colour = Danger)) + 
+  stat_summary(geom = 'pointrange', fun.data = mean_cl_normal)
+```
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-coloured-1.png)&lt;!-- --&gt;
+
+---
+
+## Задание 4
+
+Создайте подписи к осям и легенде, при помощи слоя подписей labs(). Отредактируйте этот код и добавьте его к графику с предыдущего шага
+
+
+```r
+  labs(x = ,  = 'Продолжительность сна', colour = )
+```
+
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-coloured-labs-1.png)&lt;!-- --&gt;
+
+---
+
+## Решение 4
+
+
+```r
+ggplot(data = sl, aes(x = Danger, y = TotalSleep, colour = Danger)) + 
+  stat_summary(geom = 'pointrange', fun.data = mean_cl_normal) +
+  labs(x = 'Уровень опасности', 
+       y = 'Продолжительность сна',
+       colour = 'Уровень опасности')
+```
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-coloured-labs-1.png)&lt;!-- --&gt;
+
+---
+
+class: middle, center, inverse
+
+# Множественные сравнения
+
+---
+
+## Множественные сравнения: &lt;br&gt; число возможных сравнений
+
+Мы могли бы сравнить среднюю продолжительность сна в разных группах при помощи t-критерия. У нас всего 5 групп. Сколько возможно между ними попарных сравнений?
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-coloured-labs-1.png)&lt;!-- --&gt;
+
+--
+
+Всего возможно 10 сравнений.
+
+---
+
+## Множественные сравнения: &lt;br&gt; вероятность совершить ошибку I рода
+
+Всего возможно 10 сравнений. Если для каждого вероятность ошибки I рода будет `\(\alpha_{per\ comparison} = 0.05\)`, то для всей группы из 10 сравнений --- ?
+
+![](05_anova1_files/figure-html/gg-mean-conf-limit-coloured-labs-1.png)&lt;!-- --&gt;
+
+--
+
+Для независимых тестов вероятность совершить хотя бы одну ошибку I рода в группе сравнений будет `\(\alpha_{family\ wise} = 1 - (1 - 0.05)^{10} = 0.4013\)` (т.е. 40%).
+
+Для зависимых тестов (например, для попарных сравнений) эта вероятность чуть ниже (Winer et al. 1991), но лучше внести поправку в `\(\alpha_{per\ comparison}\)`.
+
+
+&lt;!-- зависимость между тестами снижает степень раздутия альфы (Winer et al. 1991), поэтому даже если тесты зависимы, можно действовать как для независимых тестов. --&gt;
+&lt;!-- Winer, B. J., Brown, D. R., &amp; Michels, K. M. (1991). Statistical principles in experimental design, 3rd ed. New York, NY: McGraw-Hill. --&gt;
+
+---
+
+## Поправка Бонферрони
+
+Если все-таки приходится делать много сравнений, нужно снизить `\(\alpha _{per\ comparison}\)` до обычного уровня. Для этого фиксируем уровень `\(\alpha _{family\ wise}\)` --- уровень значимости для одного сравнения. 
+
+`$$\alpha _{per\ comparison} = \frac{\alpha _{family\ wise}}{n}$$`
+
+--
+
+Например, если хотим зафиксировать `\(\alpha _{family\ wise} = 0.05\)`.
+
+С поправкой Бонферрони `\(\alpha _{per\ comparison} = 0.05 / 10 = 0.005\)`.
+
+Это очень жесткая поправка! Мы рискуем не найти значимых различий, даже там, где они есть (ошибка II рода)...
+
+Просто так всё сравнивать не получится. Как раз-таки дисперсионный анализ позволит избежать такого рода поправок, поскольку будем тестировать гипотезу о том, что хотя бы _одно_ среднее значение значимо отлично от других средних. 
+
+---
+
+class: middle, center, inverse
+
+# Дисперсионный анализ
+
+
+
+---
+
+## Дисперсионный анализ (Analysis Of Variance, ANOVA)
+
+__Дисперсионный анализ в широком смысле__ --- анализ изменений непрерывной зависимой переменной в связи с разными источниками изменчивости (предикторами). 
+
+Мы использовали его для тестирования значимости предикторов в линейных моделях.
+
+--
+
+__Дисперсионный анализ в узком смысле__ --- это частный случай, когда в линейной модели используются только дискретные предикторы (факторы). 
+
+Он используется для сравнения средних значений зависимой переменной в дискретных группах, заданных факторами.
+
+---
+
+## Общая изменчивость
+
+Общая изменчивость `\(SS_t\)` --- это сумма квадратов отклонений наблюдаемых значений `\(y_i\)` от общего среднего `\(\bar y\)`. 
+
+![](05_anova1_files/figure-html/gg-tot-1.png)&lt;!-- --&gt;
+
+---
+
+## Отклонения от общего среднего
+
+.pull-left[
+**Межгрупповые отклонения** --- отклонения внутригрупповых средних от общего среднего ("эффекты" групп) --- факторная изменчивость. 
+![](05_anova1_files/figure-html/gg-between-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+**Внутригрупповые отклонения** --- отклонения наблюдаемых значений от внутригрупповых средних --- случайная изменчивость.
+![](05_anova1_files/figure-html/gg-inner-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+## Структура общей изменчивости
+
+Общая изменчивость `\(SS_t\)` складывается из изменчивости связанной с фактором `\(SS_x\)` и случайной изменчивости `\(SS_e\)`.
+
+`$$SS_t = SS_x + SS_e$$`
+
+![](05_anova1_files/figure-html/gg-ss-1.png)&lt;!-- --&gt;
+
+---
+
+## Средние квадраты отклонений
+
+.pull-left[.center[
+`\(SS_t = SS_r + SS_e\)`
+]
+]
+
+.pull-right[
+.center[
+`\(MS_t \ne MS_r + MS_e\)`
+]
+]
+
+![](05_anova1_files/figure-html/gg-ss-1.png)&lt;!-- --&gt;
+
+.small[
+.pull-left-33[
+Общая  
+изменчивость  
+`\(SS_{t}= \sum{(y_i - \bar{y})^2}\)`  
+
+`\(df_{t} = n - 1\)`  
+
+Общая дисперсия  
+`\(MS_{t} = \frac {SS_{t}}{df_{t}}\)`
+]
+
+.pull-right-66[
+
+.pull-left[
+Факторная изменчивость  
+`\(SS_{x}=\sum{(\hat{y}-\bar{y})^2}\)`  
+
+`\(df_{x} = a - 1\)`  
+
+Факторная дисперсия
+`\(MS_{x} = \frac {SS_{x}}{df_{x}}\)`
+]
+
+.pull-right[
+Остаточная изменчивость  
+`\(SS_{e}= \sum{(y_i - \hat{y})^2}\)`  
+
+`\(df_{e} = n - a\)`
+
+Остаточная дисперсия  
+`\(MS_{e} = \frac{SS_{e}}{df_{e}}\)`]
+]
+]
+
+- `\(a\)` — количество уровней фактора
+
+---
+
+##  Если выборки из одной совокупности, то  
+
+Если выборки из одной совокупности, то наблюдения из разных групп будут отличаться друг от друга не больше, чем наблюдения из одной группы,  
+т.е. факторная дисперсия будет близка к случайной дисперсии `\(MS_x \sim MS_e\)`. Их равенство можно проверить при помощи F-критерия
+
+`$$F_{df_x, df_e} = \frac{MS _{x}}{MS_{e}}$$`
+
+
+![](05_anova1_files/figure-html/gg-ss-1.png)&lt;!-- --&gt;
+
+---
+
+## F-критерий
+
+.center[
+`\(F_{df_x, df_e} = \frac{MS _{x}}{MS_{e}}\)`
+]
+
+Гипотезы: 
+
+`\(H _0\)`: все выборки взяты из одной совокупности --- `\(\mu_1 = \mu_2  = \dots = \mu_a\)`. Тогда `\(MS _x = MS _e\)`
+
+`\(H _A\)`: какая-то из выборок из другой совокупности, т.е. какое-то (даже одно) среднее значение `\(\mu_k\)` отличается от других. Тогда `\(MS _x &gt; MS _e\)`.
+
+F-статистика подчиняется F-распределению. Форма F-распределения зависит от двух параметров: `\(df_{x} = a - 1\)` и `\(df_{e} = n - a\)`.
+
+![](05_anova1_files/figure-html/f-distribution-1.png)&lt;!-- --&gt;
+
+---
+
+## Таблица дисперсионного анализа 
+
+| Источник &lt;br/&gt; изменчивости  | SS | df | MS | F  |
+| ---------------------------- | -- | -- | -- | --- |
+| Название фактора | `\(SS _x = \sum{(\hat y_i - \bar y)^2}\)` | `\(df _x = a - 1\)` | `\(MS _x = \frac{SS _x}{df _x}\)` | `\(F _{df _x df _e} = \frac{MS _x}{MS _e}\)` |
+| Случайная | `\(SS _e = \sum{(y _i - \hat y _i)^2}\)` | `\(df _e = n - a\)` | `\(MS _e = \frac{SS _e}{df _e}\)` |
+| Общая | `\(SS _t = \sum {(y _i - \bar y)^2}\)` | `\(df _t = n - 1\)` | | |
+
+
+
+.Large[
+Минимальное упоминание результатов в тексте должно содержать `\(F _{df _x, df _e}\)` и `\(p\)`.
+]
+
+---
+
+class: middle, center, inverse
+
+## Кодирование дискретных предикторов
+
+---
+
+## Параметризация 
+
+.pull-left[
+
+__Параметризация индикаторных переменных__
+
+Так же известна как
+
+- dummy coding
+- treatment parametrisation
+- reference cell model
+
+&lt;br/&gt;
+
+- В R обозначается __contr.treatment__ и используется по умолчанию.
+
+]
+
+.pull-right[
+
+__Параметризация эффектов__ &lt;br/&gt;&lt;br/&gt;
+
+Так же известна как
+
+- effects coding
+- sum-to-zero parameterisation
+
+&lt;br/&gt;&lt;br/&gt;
+
+- В R обозначается __contr.sum__.
+
+"Классическая" параметризация для дисперсионного анализа. 
+
+Нужна, если хочется использовать т.н. III тип сумм квадратов в многофакторном дисперсионном анализе со взаимодействием факторов.]
+
+---
+
+## Параметризация индикаторов
+
+Основная идея --- присвоить уникальные значения различным значениям фактора, используя __дихотомию__ 0 и 1. Записать это можно в форме модельной матрицы. 
+
+| очень низкий &lt;br/&gt; `\(x_1\)` | низкий &lt;br/&gt; `\(x_2\)` | средний &lt;br/&gt; `\(x_3\)` | высокий &lt;br/&gt; `\(x_4\)` | очень высокий &lt;br/&gt; `\(x_5\)`
+---- | ----- | ----- | ----- | ------
+очень низкий | 1 | 0 | 0 | 0 | 0
+низкий | 0 | 1 | 0 | 0 | 0
+средний | 0 | 0 | 1 | 0 | 0
+высокий | 0 | 0 | 0 | 1 | 0
+очень высокий | 0 | 0 | 0 | 0 | 1
+
+Такая форма записи избыточна! Можем принять первый фактор за референсное значение. 
+
+---
+
+## Параметризация индикаторов
+
+Запись модельный матрицы нормального человека: 
+
+| низкий &lt;br/&gt; `\(x_1\)` | средний &lt;br/&gt; `\(x_2\)` | высокий &lt;br/&gt; `\(x_3\)` | очень высокий &lt;br/&gt; `\(x_4\)`
+---- | ----- | ----- | ----- 
+очень низкий | 0 | 0 | 0 | 0 
+низкий | 1 | 0 | 0 | 0
+средний | 0 | 1 | 0 | 0
+высокий | 0 | 0 | 1 | 0
+очень высокий | 0 | 0 | 0 | 1
+
+Уровень фактора очень низкий будет базовым, а переменных-индикаторов всегда на 1 меньше, чем уровней фактора.
+
+---
+
+## Запись уравнения модели с параметризацией индикаторов
+
+Сначала построим модель :) 
+
+
+```r
+sl_mod &lt;- lm(TotalSleep ~ Danger, data = sl)
+round(coef(sl_mod), 2)
+```
+
+```
+        (Intercept)        Dangerнизкий       Dangerсредний       Dangerвысокий 
+              13.08               -1.33               -2.77               -4.27 
+Dangerочень высокий 
+              -9.01 
+```
+
+
+`$$\widehat{TotalSleep}_i = 13.08 - 1.33 Danger_{\text{низкий}\ i} - 2.77 Danger_{\text{средний}\ i} - \\ - 4.27 Danger_{\text{высокий}\ i} - 9.01 Danger_{\text{очень высокий}\ i}$$`
+
+---
+
+## Как получить предсказанные значения для каждой из групп?
+
+`$$\widehat{TotalSleep}_i = 13.08 - 1.33 Danger_{\text{низкий}\ i} - 2.77 Danger_{\text{средний}\ i} - \\ - 4.27 Danger_{\text{высокий}\ i} - 9.01 Danger_{\text{очень высокий}\ i}$$`
+
+Что это всё значит????? 
+
+Первый коэффициент среднее значение общей продолжительности сна для базового уровня (очень низкого уровня опасности). 
+
+Другие коэффициенты --- разница между другими уровнями --- степени опасности (отклонения от базового уровня).
+
+Например, для низкого уровня предсказанное значение продолжительности сна будет равно
+
+`\(\widehat{TotalSleep}_i = 13.08 - 1.33 Danger_{\text{низкий}\ i} = 11.75\)`  
+
+Посчитайте предсказанные значения для других уровней факторов! 
+
+---
+
+class: middle, center, inverse
+
+## Дисперсионный анализ в R
+
+---
+
+## Дисперсионный анализ в R
+
+Используем Anova из пакета car, хотя есть и другие функции. Зачем? Когда факторов будет больше одного, эта функция сможет правильно оценить значимость каждого из них независимо от других.
+
+Anova(результат_функции_lm) --- дисперсионный анализ.
+
+
+```r
+library(car)
+sl_anova &lt;- Anova(sl_mod)
+sl_anova
+```
+
+```
+Anova Table (Type II tests)
+
+Response: TotalSleep
+          Sum Sq Df F value   Pr(&gt;F)    
+Danger       457  4    8.05 0.000038 ***
+Residuals    752 53                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+
+
+Уровень опасности среды обитания видов животных влияет на их общую продолжительность сна `\((F _{4,53} = 8.05\)`, `\(p &lt; 0.01\)`).
+
+---
+
+## Описание результатов дисперсионного анализа
+
+Результаты дисперсионного анализа можно представить в виде таблицы
+
+- Общая продолжительность сна различается у видов животных, которые в разной степени подвержены опасностям в течение жизни.
+
+| | SS | df | F | P |
+| -- | -- | -- | - | - | 
+| Уровень опасности | 457.3 | 4.00 | 8.1 | &lt;0.01 | 
+|  Остаточная | 752.4 | 53.00 |  |  |
+
+
+
+---
+
+## Вопрос: 
+
+Назовите условия применимости дисперсионного анализа
+
+--
+
+Подсказка: дисперсионный анализ --- линейная модель, как и регрессия.
+
+--
+
+### Условия примененимости дисперсионного анализа:
+
+- Случайность и независимость групп и наблюдений внутри групп
+- Нормальное распределение остатков
+- Гомогенность дисперсий остатков
+
+--
+
+### Другие ограничения
+
+- Лучше работает, если размеры групп примерно одинаковы (т.н. сбалансированный дисперсионный комплекс)
+- Устойчив к отклонениям от нормального распределения (при равных объемах групп или при больших выборках)
+
+---
+
+## Задание: Проверьте условия применимости
+
+Проверьте условия применимости дисперсионного анализа для модели `sl_mod`, Дополните код, чтобы построить графики остатков
+
+
+```r
+# Данные для анализа остатков
+sl_diag &lt;- fortify()
+head(sl_diag)
+# График расстояния Кука
+ggplot(data = , aes(x = 1:nrow(   ), y = )) + 
+  geom_bar(stat = 'identity')
+# График остатков от предсказанных значений
+ggplot(data = , aes(x = , y = .stdresid)) + 
+  geom_
+# Квантильный график остатков
+qqPlot
+```
+
+---
+
+## Решение:
+
+
+```r
+# Данные для анализа остатков
+sl_diag &lt;- fortify(sl_mod)
+head(sl_diag)
+```
+
+```
+  TotalSleep       Danger    .hat .sigma   .cooksd .fitted  .resid .stdresid
+1        3.3      средний 0.10000  3.663 0.0854675  10.310 -7.0100   -1.9611
+2        8.3      средний 0.10000  3.793 0.0070268  10.310 -2.0100   -0.5623
+3       12.5 очень низкий 0.05556  3.803 0.0002986  13.083 -0.5833   -0.1593
+4       16.5      средний 0.10000  3.695 0.0666417  10.310  6.1900    1.7317
+5        3.9      высокий 0.11111  3.735 0.0477829   8.811 -4.9111   -1.3825
+6        9.8      высокий 0.11111  3.801 0.0019373   8.811  0.9889    0.2784
+```
+
+---
+
+## Решение: 
+
+
+```r
+# График расстояния Кука
+ggplot(data = sl_diag, aes(x = 1:nrow(sl_diag), y = .cooksd)) + 
+  geom_bar(stat = 'identity')
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+--
+
+- Влиятельных наблюдений нет
+
+---
+
+## Решение: 
+
+
+```r
+# График остатков от предсказанных значений
+ggplot(data = sl_diag, aes(x = .fitted, y = .stdresid)) + 
+  geom_point()
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+--
+
+- В одной из групп маленький разброс.
+
+В данном случае это не страшно, т.к. дисперсионный анализ устойчив к ситуации, когда в одной из групп разброс меньше, чем в других (особенно, если данные не слишком несбалансированные) (Underwood, 1997, McGuinness, 2002).
+
+---
+
+## Решение: 
+
+Если предиктор --- дискретная переменная, то вместо обычного точечного графика остатков лучше построить боксплот остатков.
+
+
+```r
+# График остатков от значений дискретного предиктора
+ggplot(data = sl_diag, aes(x = Danger, y = .stdresid)) + geom_boxplot()
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+--
+
+- Остатки в пределах двух стандартных отклонений.
+- Подозрительно маленькая дисперсия продолжительности сна в группе с очень высоким уровнем опасности.
+
+---
+
+## Решение: 
+
+
+```r
+qqPlot(sl_mod)
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+```
+[1]  1 19
+```
+
+--
+
+- Остатки распределены нормально
+
+---
+
+## Решение: Паттерны в остатках (графики остатков от переменных в модели и вне ее).
+
+На самом деле, нужно еще построить графики остатков от переменных в модели и вне ее --- чтобы выяснить, не забыли ли мы включить другие важные предикторы.
+
+Постройте самостоятельно графики, используя код. Какие из переменных хорошо было бы добавить в модель?
+
+
+
+```r
+sl_diag_full &lt;- data.frame(sl_diag, sl)
+gg_other &lt;- ggplot(sl_diag_full, aes(y = .stdresid)) + 
+  geom_hline(yintercept = 0)
+gg_other + geom_point(aes(x = log(BodyWt)))
+gg_other + geom_point(aes(x = log(BrainWt)))
+gg_other + geom_point(aes(x = NonDreaming))
+gg_other + geom_point(aes(x = Dreaming))
+gg_other + geom_point(aes(x = log(LifeSpan)))
+gg_other + geom_point(aes(x = Gestation))
+gg_other + geom_point(aes(x = Predation))
+gg_other + geom_point(aes(x = Exposure))
+```
+
+---
+
+## Решение: Паттерны в остатках (графики остатков от переменных в модели и вне ее).
+
+![](05_anova1_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+
+--
+
+- На всех графиках, кроме Predation и Exposure, величина остатков зависит от переменных, не включенных в модель. Правильно было бы их добавить. Но сейчас, в учебных целях, мы продолжим работать с простым однофакторным дисперсионным анализом.
+
+---
+
+class: middle, center, inverse
+
+# Post hoc тесты
+
+---
+
+## Post hoc тесты
+
+Дисперсионный анализ показывает, есть ли влияние фактора (= различаются ли средние значения зависимой переменной между группами)
+
+Пост-хок тесты показывают, какие именно из возможных пар средних значений различаются.
+
+---
+
+## Какие бывают post hoc тесты
+
+Тесты без поправки на число сравнений:
+
+- Наименьшая значимая разница Фишера (Fisher's Least Significant Difference)
+
+Тесты с поправкой для уровня значимости `\(\alpha\)`:
+
+- Поправка Бонферрони (Bonferroni correction)
+- Поправка Сидака (Šidák's correction)
+
+Тесты, основанные на распределении стьюдентизированного размаха:
+
+- Тест Тьюки (Tukey's Honest Significant Difference, HSD)
+- Тест Стьюдента-Ньюмена-Кьюлса (Student-Newman-Kewls test, SNK)
+- Тест Даннета (Dunnet's test) --- используется для сравнения с контрольной группой
+- Тест Райана (REGW --- Ryan, Einot, Gabriel, Welsch procedure) --- тяжело сделать вручную
+
+Тесты, основанные на F-тестах:
+
+- Критерий Дункана (Dunkan's test)
+- Тест Шеффе (Scheffe's test)
+- Тест Райана (REGW --- Ryan, Einot, Gabriel, Welsch procedure) --- тяжело сделать вручную
+
+---
+
+## Свойства post hoc тестов для попарных сравнений средних
+
+- Применяются, если влияние фактора значимо
+- Делают поправку для снижения вероятности ошибки I рода `\(\alpha\)` (но не слишком, чтобы не снизилась мощность, и не увеличилась вероятность ошибки второго рода `\(\beta\)`)
+  - Учитывают величину различий между средними
+  - Учитывают количество сравниваемых пар
+- Различаются по степени консервативности (мы возьмём тест Тьюки --- разумный компромисс) 
+- Работают лучше при равных объемах групп, при гомогенности дисперсий
+
+---
+
+## Тест Тьюки (Tukey's Honest Significant Difference)
+
+Используется стьюдентизированный t-критерий  
+с `\(df = df_e = n - p\)` и `\(m = p\)` (общее число групп):
+
+`$$q = \frac{\bar{y}_i - \bar{y}_j}{\sqrt{MS_e\frac{1}{2} \large(\frac{1}{n_i} + \frac{1}{n_j}\large)}}$$`
+
+Требуется равенство дисперсий.
+
+---
+
+## Распределение стьюдентизированного размаха &lt;br/&gt; Studentized range distribution
+
+Это распределение стандартизованной разницы минимального и максимального средних __для любого числа выборок__ из одной генеральной совокупности (форма зависит от `\(df\)` и от числа выборок `\(m\)`).
+
+.pull-left[
+
+![](05_anova1_files/figure-html/gg-tukey-distr-1.png)&lt;!-- --&gt;
+
+
+]
+.pull-right[
+
+Формула для случая равных дисперсий и разных объемов групп:
+
+`$$q = \frac{\bar{y}_{max} - \bar{y}_{min}}{\sqrt{s^2\frac{1}{2} \large(\frac{1}{n_i} + \frac{1}{n_j}\large)}}$$`
+
+]
+
+---
+
+## Пост хок тест Тьюки в R
+
+- `glht()` - 'general linear hypotheses testing'
+- `linfct` - аргумент, задающий гипотезу для тестирования
+- `mcp()` - функция, чтобы задавать множественные сравнения (обычные пост-хоки)
+- `Danger` = 'Tukey' --- тест Тьюки по фактору `Danger`
+
+
+```r
+library(multcomp)
+sl_pht &lt;- glht(sl_mod, linfct = mcp(Danger = 'Tukey'))
+```
+
+---
+
+## Результаты попарных сравнений (тест Тьюки)
+
+
+```r
+summary(sl_pht)
+```
+
+```
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = TotalSleep ~ Danger, data = sl)
+
+Linear Hypotheses:
+                                  Estimate Std. Error t value Pr(&gt;|t|)    
+низкий - очень низкий == 0           -1.33       1.34   -0.99    0.855    
+средний - очень низкий == 0          -2.77       1.49   -1.87    0.344    
+высокий - очень низкий == 0          -4.27       1.54   -2.78    0.055 .  
+очень высокий - очень низкий == 0    -9.01       1.68   -5.37   &lt;0.001 ***
+средний - низкий == 0                -1.44       1.56   -0.92    0.885    
+высокий - низкий == 0                -2.94       1.61   -1.83    0.366    
+очень высокий - низкий == 0          -7.68       1.74   -4.40   &lt;0.001 ***
+высокий - средний == 0               -1.50       1.73   -0.87    0.907    
+очень высокий - средний == 0         -6.24       1.86   -3.36    0.012 *  
+очень высокий - высокий == 0         -4.74       1.90   -2.50    0.105    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)
+```
+
+---
+
+## Описываем результаты пост хок теста
+
+- Продолжительность сна у видов, подвергающихся очень высокому уровню опасности в течение жизни, значительно меньше, чем у тех, кто живет при среднем, низком и очень низком уровне опасности (тест Тьюки, `\(p &lt; 0.05\)`). 
+
+--
+
+Но лучше еще и нарисовать график.
+
+---
+
+## Данные для графика при помощи `predict()`
+
+
+```r
+MyData &lt;- data.frame(Danger = levels(sl$Danger))
+MyData$Danger &lt;- factor(MyData$Danger, levels = levels(sl$Danger), 
+                        labels = levels(sl$Danger))
+Predictions &lt;- predict(sl_mod, newdata = MyData, 
+                      interval = 'confidence')
+MyData &lt;- data.frame(MyData, Predictions)
+MyData
+```
+
+```
+         Danger    fit    lwr    upr
+1  очень низкий 13.083 11.302 14.865
+2        низкий 11.750  9.730 13.770
+3       средний 10.310  7.920 12.700
+4       высокий  8.811  6.292 11.330
+5 очень высокий  4.071  1.215  6.928
+```
+
+---
+
+## Задание
+
+Используя данные из датафрейма MyData, дополните код и постройте график, где разными столбиками с заливкой будут показаны предсказанные средние значения, а усами будут показаны их доверительные интервалы.
+
+![](05_anova1_files/figure-html/gg-means-1.png)&lt;!-- --&gt;
+
+
+```r
+gg_means &lt;- ggplot(data = , aes(x = , y = )) + 
+  geom_bar(stat = '', width = 0.5) + 
+  geom_errorbar(aes(ymin = , ymax = ), width = 0.1) +
+  labs()
+gg_means
+```
+
+---
+
+## Этот график можно использовать для представления результатов
+
+
+```r
+gg_means &lt;- ggplot(data = MyData, aes(x = Danger, y = fit)) + 
+  geom_bar(stat = 'identity', fill = 'turquoise', width = 0.5) + 
+  geom_errorbar(aes(ymin = lwr, ymax = upr), width = 0.1) +
+  labs(x = 'Уровень опасности', y = 'Продолжительность сна')
+gg_means
+```
+
+![](05_anova1_files/figure-html/gg-means-1.png)&lt;!-- --&gt;
+
+--
+
+Этот график можно использовать для представления результатов, но здесь не видно, какие именно группы различаются. Можно улучшить этот график.
+
+---
+
+## Значимо различающиеся группы обозначим разными буквами
+
+
+```r
+gg_means +
+  geom_text(aes(label = c('A', 'A', 'A', 'AB', 'B')), 
+            vjust = -0.3, hjust = 1.4, size = 6)
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+
+---
+
+## Другой вариант - обозначить 'гомогенные группы'
+
+
+```r
+gg_means +
+  annotate(geom = 'segment', x = 0.5, y = 16, xend = 4.5, yend = 16) +
+  annotate(geom = 'segment', x = 3.5, y = 13, xend = 5.5, yend = 13)
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+
+---
+
+## Наконец, можно показать все значимые различия
+
+
+```r
+gg_means +
+  annotate(geom = 'segment', x = 1, y = 15.3, xend = 5, yend = 15.3) +
+  annotate(geom = 'segment', x = 2, y = 14.2, xend = 5, yend = 14.2) +
+  annotate(geom = 'segment', x = 3, y = 13, xend = 5, yend = 13) +
+  annotate(geom = 'text', x = 5, y = 15.3, hjust = 0, label = '&lt; 0.001') +
+  annotate(geom = 'text', x = 5, y = 14.2, hjust = 0, label = '&lt; 0.001') +
+  annotate(geom = 'text', x = 5, y = 13, hjust = 0, label = '   0.012')
+```
+
+![](05_anova1_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+
+---
+
+## Take home messages
+
+- При множественных попарных сравнениях увеличивается вероятность ошибки первого рода. Поправка Бонферрони --- способ точно рассчитать, насколько нужно снизить уровень значимости для каждого из сравнений
+- При помощи дисперсионного анализа можно проверить гипотезу о равенстве средних значений
+- Условия применимости (должны выполняться, чтобы тестировать гипотезы)
+    - Случайность и независимость групп и наблюдений внутри групп
+    - Нормальное распределение
+    - Гомогенность дисперсий
+- Post hoc тесты --- это попарные сравнения после дисперсионного анализа, которые позволяют сказать, какие именно средние различаются
+
+---
+
+## Дополнительные ресурсы
+
+- Quinn, Keough, 2002, pp. 173-207
+- Logan, 2010, pp. 254 - 282
+- [Open Intro to Statistics](http://www.openintro.org/stat/) 
+- Sokal, Rohlf, 1995, pp. 179-260
+- Zar, 2010, pp. 189-207
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="assets/macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "vs",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<!-- https://github.com/fnaufel/xaringan-smartify-->
+<script type="text/javascript">
+  smartify();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
