@@ -30,15 +30,25 @@ cor(x = brain$PIQ, y = brain$MRINACount)
 cor.test(x = brain$PIQ, y = brain$MRINACount)
 
 
+# Найдем пороговое значение t вручную
+
+
+
+
+# Найдем значение p-value вручную
+
+
+
+
+
 #Вычисление матрицы корреляций
 
 cor(x = brain$MRINACount, y = brain$PIQ)
 
 
-cor.test(x = brain$MRINACount, y = brain$PIQ)
 
 
-qt(p = 0.975, df = (nrow(brain) - 1) )
+################### Регрессионный анализ ###########################
 
 ## Подгоняем модель с помощью функции lm()
 brain_model <- lm(formula = PIQ ~ MRINACount, data = brain)
@@ -55,6 +65,45 @@ brain_model <- lm(PIQ ~ MRINACount, data = brain)
 ##Находим доверительные интервалы для параметров
 
 confint(brain_model)
+
+
+
+
+# Что такое доверительный интервал регрессии
+
+## Зависимость в генеральной совокупности
+
+pop_x <- rnorm(1000, 10, 3)
+pop_y <- 10 + 10*pop_x + rnorm(1000, 0, 20)
+population <- data.frame(x = pop_x, y = pop_y)
+
+pop_plot <- ggplot(population, aes(x = x, y = y)) +
+  geom_point(alpha = 0.3, color = "red") +
+  geom_abline(aes(intercept = 10, slope = 10),
+              color="blue", size = 2) +
+  theme(text = element_text(size = 15))
+pop_plot
+
+## Доверительный интервал
+
+samp_coef <- data.frame(b0 = rep(NA, 100), b1=rep(NA, 100))
+
+for(i in 1:100) {
+  samp_num <- sample(1:1000, 20)
+  samp <- population[samp_num, ]
+  fit <- lm(y ~ x, data = samp)
+  samp_coef$b0[i] <- coef(fit)[1]
+  samp_coef$b1[i] <- coef(fit)[2]
+
+}
+
+ggplot(population, aes(x = x, y = y)) +
+  geom_point(alpha = 0.3, color = "red") +
+  geom_abline(aes(intercept = b0, slope = b1), data = samp_coef) +
+  geom_abline(aes(intercept = 10, slope = 10), color="blue", size = 2) +
+  theme(text = element_text(size = 18))
+
+
 
 ##Рисуем графики для разных уровней значимости
 
@@ -102,42 +151,6 @@ ggplot(diagn_df, aes(x = .fitted, y = .stdresid)) +
   geom_smooth(method = "loess")
 
 
-
-
-
-## Зависимость в генеральной совокупности
-
-
-
-pop_x <- rnorm(1000, 10, 3)
-pop_y <- 10 + 10*pop_x + rnorm(1000, 0, 20)
-population <- data.frame(x = pop_x, y = pop_y)
-
-pop_plot <- ggplot(population, aes(x = x, y = y)) +
-  geom_point(alpha = 0.3, color = "red") +
-  geom_abline(aes(intercept = 10, slope = 10),
-              color="blue", size = 2) +
-  theme(text = element_text(size = 15))
-pop_plot
-
-## Доверительный интервал
-
-samp_coef <- data.frame(b0 = rep(NA, 100), b1=rep(NA, 100))
-
-for(i in 1:100) {
-  samp_num <- sample(1:1000, 20)
-  samp <- population[samp_num, ]
-  fit <- lm(y ~ x, data = samp)
-  samp_coef$b0[i] <- coef(fit)[1]
-  samp_coef$b1[i] <- coef(fit)[2]
-
-}
-
-ggplot(population, aes(x = x, y = y)) +
-  geom_point(alpha = 0.3, color = "red") +
-  geom_abline(aes(intercept = b0, slope = b1), data = samp_coef) +
-  geom_abline(aes(intercept = 10, slope = 10), color="blue", size = 2) +
-  theme(text = element_text(size = 18))
 
 
 ## Вычисляем 95%  зону предсказания
