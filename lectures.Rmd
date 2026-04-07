@@ -395,11 +395,31 @@ include_graphics("images/elves.png")
 <br>
 
 - [Презентация про суть регрессионного анализа](05_LM.html)
+
 - [Презентация о методах диагностики и описания регрессионных моделей](07_model_description_and_validation.html)
-<!-- - [Презентация о множественной регрессии](07_multiple_LM_short.html) -->
+- [Презентация о методах диагностики и описания регрессионных моделей расширенный вариант](07_model_description_and_validation.pdf)
+
+- [Презентация о множественной регрессии](07_multiple_LM_short.html)
+- [Презентация о множественной регрессии рсаширенная версия](06_multiple_LM.pdf)
+
+<br>
+
+- [**Данные для занятия по простой регрессии**](data/IQ_brain.csv) 
+
+- [**Данные для занятия по множественной регрессии**](data/loyn.csv) 
 
 
-- [Данные для занятия](Data/IQ_brain.csv) 
+<br>
+
+- [**Код для лекции по простой регрессии**](07_LM_code.R) 
+
+- [**Код для лекции по проверке регрессионных моделей**](07_model_description_and_validation.R) 
+
+- [**Код для лекции по множественной регрессии**](08.1_multiple_LM_code.R) 
+
+
+
+
 
 
 ## Домашнее задание № 9
@@ -442,16 +462,16 @@ data(iris)
 
 
 
-<!-- ## Домашнее задание № 10 -->
+## Домашнее задание № 10
 
-<!-- - [Вариант 1](Home_work_linear_model_Var1.html) -->
-<!-- - [Вариант 2](Home_work_linear_model_Var2.html) -->
-<!-- - [Вариант 3](Home_work_linear_model_Var3.html) -->
-<!-- - [Вариант 4](Home_work_linear_model_Var4.html) -->
-<!-- - [Вариант 5](Home_work_linear_model_Var5.html) -->
-<!-- - [Вариант 6](Home_work_linear_model_Var6.html) -->
-<!-- - [Вариант 7](Home_work_linear_model_Var7.html) -->
-<!-- - [Вариант 8](Home_work_linear_model_Var8.html) -->
+- [Вариант 1](Home_work_linear_model_Var1.html)
+- [Вариант 2](Home_work_linear_model_Var2.html)
+- [Вариант 3](Home_work_linear_model_Var3.html)
+- [Вариант 4](Home_work_linear_model_Var4.html)
+- [Вариант 5](Home_work_linear_model_Var5.html)
+- [Вариант 6](Home_work_linear_model_Var6.html)
+- [Вариант 7](Home_work_linear_model_Var7.html)
+- [Вариант 8](Home_work_linear_model_Var8.html)
 
 
 

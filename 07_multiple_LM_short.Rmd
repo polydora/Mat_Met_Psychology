@@ -28,6 +28,8 @@ options(width = 70, scipen = 6, digits = 3)
 library(knitr)
 # chunk default options
 opts_chunk$set(fig.align='center', tidy = FALSE, fig.width = 7, fig.height = 3, warning = FALSE)
+
+library(car)
 ```
 
 ## Множественная регрессия
