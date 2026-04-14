@@ -863,8 +863,8 @@ library(dplyr)
 hw <- read_excel("data/Classes_2026.xlsx")
 
 hw <- 
-  hw %>% 
-  select(1:8)
+  hw 
+
 
 # hw$Final_Summary <- round(hw$Final_Summary)
 
