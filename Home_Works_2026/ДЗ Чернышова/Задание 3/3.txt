@@ -1,0 +1,156 @@
++ )# Загружаем встроенный датасет iris
+  Diet   x.Min. x.1st Qu. x.Median   x.Mean x.3rd Qu.   x.Max.
+1    1  96.0000  137.5000 166.0000 177.7500  207.5000 305.0000
+2    2  74.0000  169.0000 212.5000 214.7000  261.5000 331.0000
+3    3 147.0000  229.0000 281.0000 270.3000  317.0000 373.0000
+4    4 196.0000  204.0000 237.0000 238.5556  264.0000 322.0000
+> data(iris)
+> 
+> # Смотрим структуру датасета
+> str(iris)
+'data.frame':   150 obs. of  5 variables:
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+> 
+> # Для каждого вида ириса вычисляем:
+> # минимум, 1 квартиль, медиану,
+> # 3 квартиль и максимум переменной Petal.Length
+> 
+> aggregate(
++   iris$Petal.Length,
++   
++   # Группировка по виду ириса
++   by = list(Species = iris$Species),
++   
++   # Функция summary вычисляет нужные статистики
++   FUN = summary
++ )# Подключаем библиотеку ggplot2
+     Species x.Min. x.1st Qu. x.Median x.Mean x.3rd Qu. x.Max.
+1     setosa  1.000     1.400    1.500  1.462     1.575  1.900
+2 versicolor  3.000     4.000    4.350  4.260     4.600  5.100
+3  virginica  4.500     5.100    5.550  5.552     5.875  6.900
+> library(ggplot2)
+> 
+> # Строим boxplot
+> ggplot(
++   iris,
++   
++   # По оси X — вид ириса
++   # По оси Y — длина лепестка
++   aes(x = Species,
++       y = Petal.Length,
++       fill = Species)
++ ) +
++ 
++   # Добавляем boxplot
++   geom_boxplot() +
++ 
++   # Минималистичная тема
++   theme_minimal() +
++ 
++   # Подписи графика
++   labs(
++     title = "Petal.Length у разных видов ирисов",
++     x = "Вид ириса",
++     y = "Petal.Length"
++   )# Загружаем датасет ChickWeight
+> data(ChickWeight)
+> 
+> # Оставляем только наблюдения,
+> # сделанные на 21 день
+> 
+> cw <- subset(ChickWeight, Time == 21)
+> 
+> # Вычисляем описательные статистики
+> # веса цыплят для каждой диеты
+> 
+> aggregate(
++   cw$weight,
++   
++   # Группировка по типу диеты
++   by = list(Diet = cw$Diet),
++   
++   # Вычисляем summary
++   FUN = summary
++ )# Подключаем ggplot2
+  Diet   x.Min. x.1st Qu. x.Median   x.Mean x.3rd Qu.   x.Max.
+1    1  96.0000  137.5000 166.0000 177.7500  207.5000 305.0000
+2    2  74.0000  169.0000 212.5000 214.7000  261.5000 331.0000
+3    3 147.0000  229.0000 281.0000 270.3000  317.0000 373.0000
+4    4 196.0000  204.0000 237.0000 238.5556  264.0000 322.0000
+> library(ggplot2)
+> 
+> # Строим boxplot
+> ggplot(
++   cw,
++   
++   aes(
++     x = as.factor(Diet),
++     y = weight,
++     fill = as.factor(Diet)
++   )
++ ) +
++ 
++   # Добавляем boxplot
++   geom_boxplot() +
++ 
++   # Оформление
++   theme_minimal() +
++ 
++   # Подписи
++   labs(
++     title = "Вес цыплят на 21 день",
++     x = "Тип диеты",
++     y = "Вес"
++   )# Загружаем датасет mtcars
+> data(mtcars)
+> 
+> # Преобразуем переменную cyl в фактор
+> mtcars$cyl <- as.factor(mtcars$cyl)
+> 
+> # Считаем описательные статистики
+> # расхода топлива mpg
+> # для каждой группы цилиндров
+> 
+> aggregate(
++   mtcars$mpg,
++   
++   # Группировка по количеству цилиндров
++   by = list(Cylinders = mtcars$cyl),
++   
++   # summary вычисляет:
++   # Min, 1st Qu., Median, 3rd Qu., Max
++   FUN = summary
++ )# Подключаем ggplot2
+  Cylinders   x.Min. x.1st Qu. x.Median   x.Mean x.3rd Qu.   x.Max.
+1         4 21.40000  22.80000 26.00000 26.66364  30.40000 33.90000
+2         6 17.80000  18.65000 19.70000 19.74286  21.00000 21.40000
+3         8 10.40000  14.40000 15.20000 15.10000  16.25000 19.20000
+> library(ggplot2)
+> 
+> # Строим boxplot
+> ggplot(
++   mtcars,
++   
++   aes(
++     x = cyl,
++     y = mpg,
++     fill = cyl
++   )
++ ) +
++ 
++   # Добавляем boxplot
++   geom_boxplot() +
++ 
++   # Минималистичное оформление
++   theme_minimal() +
++ 
++   # Подписываем оси и заголовок
++   labs(
++     title = "Расход топлива у автомобилей",
++     x = "Количество цилиндров",
++     y = "mpg"
++   )

@@ -1,0 +1,64 @@
++ # Загружаем данные
++ df <- read.csv("dataset.csv")
++ 
++ # Смотрим структуру
++ str(df)
++ 
++ # Проверяем все переменные
++ for(i in names(df)){
++ 
++   cat("\n====================\n")
++   cat("Переменная:", i, "\n")
++ 
++   x <- df[[i]]
++ 
++   # Гистограмма
++   hist(x,
++        main=paste("Histogram:", i),
++        col="lightblue")
++ 
++   # QQ-plot
++   qqnorm(x)
++   qqline(x, col="red")
++ 
++   # Тест Шапиро-Уилка
++   shapiro <- shapiro.test(x)
++ 
++   print(shapiro)
++ 
++ }data(iris)
+Ошибка: неожиданный символ в:
+"
+}data"
+> 
+> aggregate(Petal.Length ~ Species,
++           data=iris,
++           FUN=function(x)
++             c(mean=mean(x),
++               sd=sd(x)))
+     Species Petal.Length.mean Petal.Length.sd
+1     setosa         1.4620000       0.1736640
+2 versicolor         4.2600000       0.4699110
+3  virginica         5.5520000       0.5518947
+> data(iris)
+> 
+> library(dplyr)
+Ошибка в library(dplyr) : нет пакета под названием ‘dplyr’
+> 
+> iris %>%
++   group_by(Species) %>%
++   summarise(
++     n = n(),
++     mean = mean(Petal.Length),
++     sd = sd(Petal.Length),
++ 
++     SE = sd / sqrt(n),
++ 
++     t = qt(0.975, df = n - 1),
++ 
++     lower = mean - t * SE,
++     upper = mean + t * SE
++   )
+Ошибка в iris %>% group_by(Species) %>% summarise(n = n(), mean = mean(Petal.Length),  : 
+  не могу найти функцию "%>%"
+> 

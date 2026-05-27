@@ -1,0 +1,12 @@
+ = rnorm(1000, 2, 5)
++ )
+> 
+> # Визуализация
+> ggplot(df, aes(x = X, y = Y)) +
++   geom_point(alpha = 0.5, color = "darkred") +
++   theme_minimal() +
++   labs(
++     title = "Двумерное нормальное распределение",
++     x = "X",
++     y = "Y"
++   )
