@@ -1,0 +1,142 @@
+---
+title: "Проект №1. Влияние курения на объем легких"
+author: "Екатерина Акжигитова"
+date: "`r Sys.Date()`"
+output: word_document
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(broom)
+```
+
+# ВВЕДЕНИЕ
+
+Объем форсированного выдоха за 1 секунду (FEV, forced expiratory volume) является важным показателем функции легких. На него могут влиять возраст, рост, пол и курение. В данном проекте используются данные о детях и подростках из исследования @tager1979, также описанного в учебнике по биостатистике @rosner1990.
+
+Цель работы — проверить, различается ли объем легких у курящих и некурящих людей, а также описать зависимость FEV от возраста у курящих и некурящих людей с помощью линейной регрессионной модели.
+
+# ДАННЫЕ
+
+Данные были загружены из файла `fev.xlsx`, лист `tidy_data`. В наборе данных использовались следующие переменные: возраст (`Age`), объем легких при выдохе (`FEV`), рост (`Height`), пол (`Sex`) и статус курения (`Smoker`).
+
+```{r load-data}
+fev <- read_excel("fev.xlsx", sheet = "tidy_data")
+
+fev <- fev %>%
+  mutate(
+    Age = as.numeric(Age),
+    FEV = as.numeric(FEV),
+    Height = as.numeric(Height),
+    Smoker = factor(Smoker),
+    Sex = factor(Sex)
+  )
+```
+
+```{r data-info, results='asis'}
+cat("Размер данных: ", nrow(fev), " наблюдения и ", ncol(fev), " переменных.\n\n", sep = "")
+cat("Курящих: ", sum(fev$Smoker == "Current"), "\n\n", sep = "")
+cat("Некурящих: ", sum(fev$Smoker == "Non"), "\n", sep = "")
+```
+
+# СТАТИСТИЧЕСКИЙ АНАЛИЗ
+
+Для сравнения FEV у курящих и некурящих людей использован t-тест для двух независимых выборок. Формула t-критерия:
+
+```{r formula-ttest, results='asis'}
+cat("$$t = \\frac{\\bar{x}_1 - \\bar{x}_2}{\\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}}}$$")
+```
+
+Для анализа зависимости FEV от возраста построена линейная регрессионная модель с взаимодействием возраста и статуса курения:
+
+```{r formula-regression, results='asis'}
+cat("$$FEV_i = \\beta_0 + \\beta_1 Age_i + \\beta_2 Smoker_i + \\beta_3(Age_i \\times Smoker_i) + \\varepsilon_i$$")
+```
+
+# РЕЗУЛЬТАТЫ
+
+## 1. Курение и объем легких
+
+```{r descriptive-table}
+summary_table <- fev %>%
+  group_by(Smoker) %>%
+  summarise(
+    N = n(),
+    Mean_FEV = round(mean(FEV, na.rm = TRUE), 2),
+    SD_FEV = round(sd(FEV, na.rm = TRUE), 2),
+    Median_FEV = round(median(FEV, na.rm = TRUE), 2),
+    .groups = "drop"
+  )
+
+kable(summary_table, caption = "Описательная статистика FEV у курящих и некурящих людей")
+```
+
+```{r boxplot, fig.cap="Распределение FEV у курящих и некурящих людей"}
+ggplot(fev, aes(x = Smoker, y = FEV, fill = Smoker)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(x = "Статус курения", y = "FEV, литры") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+```{r t-test-table}
+t_test_result <- t.test(FEV ~ Smoker, data = fev)
+t_table <- data.frame(
+  Показатель = c("t-статистика", "df", "p-value", "Среднее FEV у курящих", "Среднее FEV у некурящих"),
+  Значение = c(
+    round(unname(t_test_result$statistic), 3),
+    round(unname(t_test_result$parameter), 1),
+    signif(t_test_result$p.value, 3),
+    round(mean(fev$FEV[fev$Smoker == "Current"]), 2),
+    round(mean(fev$FEV[fev$Smoker == "Non"]), 2)
+  )
+)
+
+kable(t_table, caption = "Результаты t-теста")
+```
+
+## 2. Возраст и FEV у курящих и некурящих
+
+```{r regression-model}
+model <- lm(FEV ~ Age * Smoker, data = fev)
+model_table <- tidy(model) %>%
+  mutate(
+    estimate = round(estimate, 3),
+    std.error = round(std.error, 3),
+    statistic = round(statistic, 3),
+    p.value = round(p.value, 4)
+  )
+
+kable(model_table, caption = "Коэффициенты линейной регрессионной модели")
+```
+
+```{r regression-plot, fig.cap="Зависимость FEV от возраста у курящих и некурящих людей"}
+ggplot(fev, aes(x = Age, y = FEV, color = Smoker)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Возраст", y = "FEV, литры", color = "Статус курения") +
+  theme_minimal()
+```
+
+# ОБСУЖДЕНИЕ
+
+В исходных данных средний FEV у курящих выше, чем у некурящих. Однако этот результат нельзя интерпретировать как положительное влияние курения: в выборке курящие участники в среднем старше, а объем легких заметно увеличивается с возрастом. Поэтому для интерпретации важно учитывать линейную регрессионную модель.
+
+Регрессионная модель показывает, что FEV связан с возрастом. Наличие взаимодействия `Age:Smoker` означает, что наклон линии регрессии различается у курящих и некурящих. Данные являются наблюдательными, поэтому по ним нельзя строго доказать причинно-следственную связь. Кроме того, на FEV могут влиять рост и пол, которые в данной модели не учитывались.
+
+# ВЫВОДЫ
+
+1. По t-тесту FEV статистически значимо различается у курящих и некурящих людей.
+2. В данной выборке курящие имеют более высокий средний FEV, но это связано с возрастной структурой выборки.
+3. Линейная регрессионная модель показывает, что FEV увеличивается с возрастом, а характер зависимости от возраста различается между курящими и некурящими.
+
+# СПИСОК ЛИТЕРАТУРЫ
+
+::: {#refs}
+:::

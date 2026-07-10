@@ -1,0 +1,122 @@
+---
+title: "Анализ емкости легких у разных групп людей"
+author: "Poliakova_D.S."
+date: "09.07.2026"
+output: word_document
+bibliography: library.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(knitr)
+```
+
+# Введение
+
+Объем легких (Total Lung Capacity, TLC) — важнейший показатель функционирования дыхательной системы. Целью данного исследования является изучение того, различается ли объем легких у мужчин и женщин, а также построение регрессионных моделей для оценки зависимости объема легких от роста в этих двух гендерных группах [@silveyra2021].
+
+# Переменные
+
+Для исследования использовался встроенный набор данных по емкости легких. Анализируемые переменные:
+
+age — возраст (лет)
+
+sex — пол (1 = женский, 2 = мужской)
+
+height — рост (см)
+
+tlc — общий объем легких (л)
+```{r load_data}
+data <- data.frame(
+  age = c(35, 11, 12, 16, 32, 16, 14, 16, 35, 33, 40, 28, 23, 52, 46, 29, 30, 21, 21, 20, 34, 43, 35, 39, 43, 37, 32, 24, 20, 25, 22, 25),
+  sex = c(1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2),
+  height = c(149, 138, 148, 156, 152, 157, 165, 152, 177, 158, 166, 165, 160, 178, 169, 173, 172, 163, 164, 189, 182, 184, 174, 177, 183, 175, 173, 173, 162, 180, 173, 171),
+  tlc = c(3.4, 3.41, 3.8, 3.9, 4, 4.1, 4.46, 4.55, 4.83, 5.1, 5.44, 5.5, 5.73, 5.77, 5.8, 6, 6.3, 6.55, 6.6, 6.62, 6.89, 6.9, 7, 7.2, 7.3, 7.65, 7.8, 7.9, 8.05, 8.1, 8.7, 9.45)
+)
+data$sex_label <- ifelse(data$sex == 1, "Женский", "Мужской")
+data$sex_label <- factor(data$sex_label)
+
+size_table <- data.frame(
+  Показатель = c("Общий размер данных", "Женщин", "Мужчин"),
+  Значение = c(nrow(data), sum(data$sex == 1), sum(data$sex == 2))
+)
+kable(size_table, caption = "Информация о выборке")
+```
+
+# Статистический анализ
+
+Для оценки различий объема легких между гендерными группами применялся t-критерий Стьюдента для независимых выборок. Для моделирования связи между ростом и объемом легких использовалась простая линейная регрессия, которая описывается следующей формулой:$$TLC = \beta_0 + \beta_1 \times height + \epsilon$$Где $\beta_0$ — свободный член, $\beta_1$ — коэффициент регрессии, $\epsilon$ — случайная ошибка. Анализ проводился в среде R.
+
+# Результаты
+
+1. Сравнение объема легких у мужчин и женщин
+
+```{r t_test_comparison}
+# Описательные статистики
+agg_sex <- aggregate(tlc ~ sex_label, data = data, 
+                     function(x) c(Mean = mean(x), SD = sd(x), N = length(x)))
+agg_table <- data.frame(
+  Пол = agg_sex$sex_label,
+  Среднее = round(agg_sex$tlc[, "Mean"], 2),
+  СКВ = round(agg_sex$tlc[, "SD"], 2),
+  N = agg_sex$tlc[, "N"]
+)
+kable(agg_table, caption = "Описательная статистика объема легких по полу")
+
+tt_res <- t.test(tlc ~ sex, data = data)
+
+t_table <- data.frame(
+  Показатель = c("Среднее (Женщины)", "Среднее (Мужчины)", "t-статистика", "Степени свободы", "p-value"),
+  Значение = c(round(mean(data$tlc[data$sex == 1]), 2), 
+               round(mean(data$tlc[data$sex == 2]), 2),
+               round(tt_res$statistic, 3), 
+               round(tt_res$parameter, 1),
+               format(tt_res$p.value, digits = 3, scientific = TRUE))
+)
+kable(t_table, caption = "Результаты t-теста Стьюдента")
+
+ggplot(data, aes(x = sex_label, y = tlc, fill = sex_label)) +
+  geom_boxplot() +
+  labs(title = "Сравнение объема легких у мужчин и женщин",
+       x = "Пол", y = "Объем легких (л)") +
+  theme_minimal() +
+  scale_fill_manual(values = c("Женский" = "lightpink", "Мужской" = "lightblue")) +
+  theme(legend.position = "none")
+```
+
+  
+  2. Регрессионные модели: связь объема легких с ростом
+  
+```{r regression_and_plot}
+  data_female <- subset(data, sex == 1)
+model_female <- lm(tlc ~ height, data = data_female)
+
+data_male <- subset(data, sex == 2)
+model_male <- lm(tlc ~ height, data = data_male)
+
+reg_table <- data.frame(
+  Группа = c("Женщины (Intercept)", "Женщины (Height)", "Мужчины (Intercept)", "Мужчины (Height)"),
+  Коэффициент = c(coef(model_female)[1], coef(model_female)[2], coef(model_male)[1], coef(model_male)[2])
+)
+kable(reg_table, caption = "Коэффициенты регрессионных моделей", digits = 3)
+
+# График 2: Scatter plot с регрессионными линиями
+ggplot(data, aes(x = height, y = tlc, color = sex_label)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, lwd = 1.2) +
+  labs(title = "Связь роста и объема легких по группам",
+       x = "Рост (см)", y = "Объем легких (л)", color = "Пол") +
+  theme_minimal() +
+  scale_color_manual(values = c("Женский" = "red", "Мужской" = "blue"))
+```
+  
+# Выводы
+
+### Гендерные различия
+Объем легких статистически значимо различается между мужчинами и женщинами ($p < 0.05$). Мужчины имеют больший средний объем легких по сравнению с женщинами.
+
+### Связь с ростом
+Построенные регрессионные модели и графическая визуализация подтверждают наличие сильной положительной линейной связи между ростом человека и его общим объемом легких в обеих группах.
+
+# Список литературы

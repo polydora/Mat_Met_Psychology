@@ -1,0 +1,219 @@
+---
+title: "Влияние роста и пола на объём лёгких (TLC)"
+author: "Chernesheva_Project"
+date: "2026-06-12"
+output: word_document
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(knitr)
+```
+
+
+# ВВЕДЕНИЕ
+
+Объём лёгких (Total Lung Capacity, TLC) — важный показатель функции дыхательной системы. Известно, что на TLC влияют рост и пол человека. Цель данной работы — проверить, различается ли объём лёгких у мужчин и женщин, а также построить регрессионные модели зависимости TLC от роста отдельно для каждой группы.
+
+Данные взяты из исследования функции лёгких у здоровых людей [@miller2005].
+
+
+# ДАННЫЕ
+
+Использован датасет из 32 наблюдений. Анализируемые переменные:
+
+- **age** — возраст (лет)
+- **sex** — пол (1 = женский, 2 = мужской)
+- **height** — рост (см)
+- **tlc** — объём лёгких (л)
+
+```{r data}
+# Данные прямо в коде
+data_text <- "age;sex;height;tlc
+35;1;149;3.4
+11;1;138;3.41
+12;2;148;3.8
+16;1;156;3.9
+32;1;152;4
+16;1;157;4.1
+14;1;165;4.46
+16;2;152;4.55
+35;1;177;4.83
+33;1;158;5.1
+40;1;166;5.44
+28;1;165;5.5
+23;1;160;5.73
+52;2;178;5.77
+46;1;169;5.8
+29;2;173;6
+30;1;172;6.3
+21;1;163;6.55
+21;1;164;6.6
+20;2;189;6.62
+34;2;182;6.89
+43;2;184;6.9
+35;2;174;7
+39;2;177;7.2
+43;2;183;7.3
+37;2;175;7.65
+32;2;173;7.8
+24;2;173;7.9
+20;1;162;8.05
+25;2;180;8.1
+22;2;173;8.7
+25;2;171;9.45"
+
+df <- read.csv(text = data_text, sep = ";")
+
+# Перекодируем пол
+df$sex <- factor(df$sex, levels = c(1, 2), labels = c("Женщины", "Мужчины"))
+
+# Делим на группы
+df_f <- subset(df, sex == "Женщины")
+df_m <- subset(df, sex == "Мужчины")
+
+cat("Всего наблюдений:", nrow(df), "\n")
+cat("Женщины:", nrow(df_f), "Мужчины:", nrow(df_m), "\n")
+```
+
+
+# СТАТИСТИЧЕСКИЙ АНАЛИЗ
+
+Для сравнения средних значений TLC между полами использован t-тест Стьюдента для независимых выборок. Формула t-критерия:
+
+$$t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+где $\bar{X}_1$ и $\bar{X}_2$ — средние значения в группах, $s_1^2$ и $s_2^2$ — дисперсии, $n_1$ и $n_2$ — объёмы выборок.
+
+Для каждой группы построена линейная регрессионная модель. Модель:
+
+$$TLC = \beta_0 + \beta_1 \cdot height + \varepsilon$$
+
+Качество моделей оценено с помощью коэффициента детерминации $R^2$.
+
+
+# РЕЗУЛЬТАТЫ
+
+## 1. Сравнение объёма лёгких у мужчин и женщин
+
+```{r ttest}
+# Считаем средние и SD
+mean_f <- mean(df_f$tlc)
+sd_f   <- sd(df_f$tlc)
+mean_m <- mean(df_m$tlc)
+sd_m   <- sd(df_m$tlc)
+
+# t-тест
+tt <- t.test(tlc ~ sex, data = df)
+
+cat("Средний TLC у женщин:", round(mean_f, 2), "л (SD =", round(sd_f, 2), ")\n")
+cat("Средний TLC у мужчин:", round(mean_m, 2), "л (SD =", round(sd_m, 2), ")\n")
+cat("t-статистика:", round(tt$statistic, 3), "\n")
+cat("p-value:", format(tt$p.value, digits = 3, scientific = TRUE), "\n")
+
+if (tt$p.value < 0.05) {
+  cat("Различия СТАТИСТИЧЕСКИ ЗНАЧИМЫ.\n")
+} else {
+  cat("Различия НЕ значимы.\n")
+}
+
+# Таблица результатов
+t_table <- data.frame(
+  Показатель = c("Среднее TLC (женщины)", "Среднее TLC (мужчины)", 
+                 "t-статистика", "Степени свободы", "p-value"),
+  Значение = c(paste0(round(mean_f, 2), " л"), paste0(round(mean_m, 2), " л"),
+               round(tt$statistic, 3), round(tt$parameter, 1), 
+               format(tt$p.value, digits = 3, scientific = TRUE))
+)
+kable(t_table, caption = "Результаты t-теста Стьюдента")
+```
+
+```{r fig_boxplot}
+ggplot(df, aes(x = sex, y = tlc, color = sex)) +
+  geom_jitter(width = 0.15, size = 3, alpha = 0.7) +
+  stat_summary(fun = mean, geom = "crossbar", width = 0.3, color = "black", size = 0.5) +
+  labs(title = "Объём лёгких у мужчин и женщин",
+       x = "Пол", y = "Объём лёгких (л)") +
+  theme_classic() +
+  scale_color_manual(values = c("Женщины" = "steelblue", "Мужчины" = "forestgreen")) +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+## 2. Регрессионные модели
+
+```{r models}
+# Модели отдельно для женщин и мужчин
+mod_f <- lm(tlc ~ height, data = df_f)
+mod_m <- lm(tlc ~ height, data = df_m)
+
+# Коэффициенты
+coef_f <- coef(mod_f)
+coef_m <- coef(mod_m)
+
+cat("=== Модель для ЖЕНЩИН ===\n")
+cat(sprintf("TLC = %.3f + %.3f * height\n", coef_f[1], coef_f[2]))
+cat(sprintf("R-squared = %.3f\n\n", summary(mod_f)$r.squared))
+
+cat("=== Модель для МУЖЧИН ===\n")
+cat(sprintf("TLC = %.3f + %.3f * height\n", coef_m[1], coef_m[2]))
+cat(sprintf("R-squared = %.3f\n", summary(mod_m)$r.squared))
+
+# Таблица коэффициентов
+coef_table <- data.frame(
+  Модель = c("Женщины", "Женщины", "Мужчины", "Мужчины"),
+  Параметр = c("Intercept", "height", "Intercept", "height"),
+  Оценка = c(round(coef_f[1], 3), round(coef_f[2], 3), 
+             round(coef_m[1], 3), round(coef_m[2], 3)),
+  R_squared = c(round(summary(mod_f)$r.squared, 3), "", 
+                round(summary(mod_m)$r.squared, 3), "")
+)
+kable(coef_table, caption = "Коэффициенты регрессионных моделей")
+```
+
+## 3. График зависимости TLC от роста
+
+```{r fig_regression}
+ggplot(df, aes(x = height, y = tlc, color = sex, fill = sex)) +
+  geom_point(size = 3, shape = 21, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, alpha = 0.15) +
+  labs(x = "Рост (см)", 
+       y = "Объём лёгких (л)", 
+       color = "Пол",
+       fill = "Пол",
+       title = "Зависимость TLC от роста") +
+  theme_bw() +
+  scale_color_manual(values = c("Женщины" = "darkblue", "Мужчины" = "darkgreen")) +
+  scale_fill_manual(values = c("Женщины" = "steelblue", "Мужчины" = "lightgreen")) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+
+# ОБСУЖДЕНИЕ
+
+```{r discussion, echo=FALSE}
+cat("### Различия по полу\n")
+if (tt$p.value < 0.05) {
+  cat("Объём лёгких СТАТИСТИЧЕСКИ ЗНАЧИМО различается у мужчин и женщин. ")
+  cat("Средний TLC у мужчин выше на", round(mean_m - mean_f, 2), "л.\n\n")
+} else {
+  cat("Значимых различий в объёме лёгких между полами не обнаружено ")
+  cat("(p =", round(tt$p.value, 4), ").\n\n")
+}
+
+cat("### Регрессионные модели\n")
+cat("У женщин при увеличении роста на 1 см объём лёгких в среднем увеличивается ")
+cat("на", round(coef_f[2], 3), "л, у мужчин — на", round(coef_m[2], 3), "л.\n")
+cat("Коэффициент детерминации R² составил", round(summary(mod_f)$r.squared, 3), 
+    "для женщин и", round(summary(mod_m)$r.squared, 3), "для мужчин.\n\n")
+
+cat("### Ограничения\n")
+cat("Небольшой объём выборки (N = 32) не позволяет делать широкие обобщения. ")
+cat("Для более надёжных выводов требуется большее количество наблюдений.\n")
+```
+
+
+# СПИСОК ЛИТЕРАТУРЫ
