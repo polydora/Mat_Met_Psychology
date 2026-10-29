@@ -1120,7 +1120,7 @@ C:\mat_met\data\</code></pre>
 <li>Перенос длинных строк в окне кода — это удобно. На вкладке <code>Code</code> ставим галочку рядом с опцией <code>Soft-wrap R source files</code>.</li>
 </ul>
 </section>
-<section id="комментарии" class="slide level2">
+<section id="комментарии" class="slide level2 smaller">
 <h2>Комментарии</h2>
 <p>Комментарии в текстах программ обозначаются символом #</p>
 <div class="cell" data-layout-align="center">
@@ -1164,7 +1164,7 @@ C:\mat_met\data\</code></pre>
 </div>
 </div>
 </section>
-<section id="как-выбрать-название-переменной" class="slide level2">
+<section id="как-выбрать-название-переменной" class="slide level2 smaller">
 <h2>Как выбрать название переменной?</h2>
 <ul>
 <li><code>a</code> - плохо, и даже <code>b</code>, <code>с</code>, или <code>х</code>. Но в некоторых случаях допустимо:)</li>
@@ -1273,6 +1273,8 @@ C:\mat_met\data\</code></pre>
 </section>
 <section id="выбор-элементов-из-вектора" class="slide level2 smaller">
 <h2>Выбор элементов из вектора</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p>Аналогично, если вам нужны элементы не подряд, то передайте вектор с номерами элементов, который вы создали при помощи функции c() c(2, 4, 6) # это вектор содержащий 2, 4 и 6, поэтому</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href aria-label="1"></a>vect_num[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)] <span class="co"># возвращает 2-й, 4-й и 6-й элементы</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1284,6 +1286,7 @@ C:\mat_met\data\</code></pre>
 <pre><code>[1] -11  -2   8</code></pre>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
 <p>Вектор - одномерный объект. У его элементов только один порядковый номер (индекс). Поэтому при обращении к элементам вектора нужно указывать только одно число или один вектор с адресами.</p>
 <p>Правильно:</p>
 <div class="cell" data-layout-align="center">
@@ -1292,6 +1295,7 @@ C:\mat_met\data\</code></pre>
 <pre><code>[1] -11 -10  -7</code></pre>
 </div>
 </div>
+</div></div>
 </section>
 <section id="выбор-элементов-из-вектора-1" class="slide level2 smaller">
 <h2>Выбор элементов из вектора</h2>
@@ -1310,7 +1314,7 @@ C:\mat_met\data\</code></pre>
 <section id="типы-данных-в-r" class="slide level2 center middle inverse">
 <h2>Типы данных в R</h2>
 </section>
-<section id="числовые-данные" class="slide level2">
+<section id="числовые-данные" class="slide level2 smaller">
 <h2>Числовые данные</h2>
 <p>Всё, что вы видели в прошлом разделе :)</p>
 </section>
@@ -1399,7 +1403,7 @@ C:\mat_met\data\</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href aria-label="1"></a>short_logical_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="длинные-векторы" class="slide level2">
+<section id="длинные-векторы" class="slide level2 smaller">
 <h2>Длинные векторы</h2>
 <p>Чтобы создавать длинные вектора из повторяющихся элементов, можно использовать функцию rep().</p>
 <div class="cell" data-layout-align="center">
@@ -1523,7 +1527,10 @@ C:\mat_met\data\</code></pre>
 <pre><code> [1]  1  2  3  4  5  6  7  8  9 10 11 12</code></pre>
 </div>
 </div>
-<p><strong>Задача 4</strong>. Давайте извлечем из вектора <code>vect_num</code> все числа, которые либо меньше или равны -8, либо больше или равны 8</p>
+</section>
+<section id="задача-4" class="slide level2 smaller">
+<h2>Задача 4</h2>
+<p>Давайте извлечем из вектора <code>vect_num</code> все числа, которые либо меньше или равны -8, либо больше или равны 8</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href aria-label="1"></a>f_5_8 <span class="ot">&lt;-</span> (vect_num <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">8</span>) <span class="sc">|</span> (vect_num <span class="sc">&gt;=</span> <span class="dv">8</span>)</span>
 <span id="cb87-2"><a href aria-label="2"></a>vect_num[f_5_8]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1560,6 +1567,9 @@ Levels: green red yellow</code></pre>
 <li>2 — red,</li>
 <li>3 — yellow.</li>
 </ul>
+</section>
+<section id="создаём-фактор-1" class="slide level2 smaller">
+<h2>Создаём фактор</h2>
 <p>По умолчанию, R назначает порядок уровней по алфавиту. Можно изменить порядок (см. <code>help(&quot;factor&quot;)</code>). Нам это пригодится позже.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href aria-label="1"></a>double_rainbow <span class="co"># текстовый вектор</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1621,49 +1631,50 @@ Levels: green red yellow</code></pre>
 </section>
 <section id="арифметические-операции-с-векторами" class="slide level2 smaller">
 <h2>Арифметические операции с векторами</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href aria-label="1"></a>vect_num</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7
-[20]   8   9  10  11  12</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href aria-label="1"></a>vect_num <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href aria-label="1"></a>vect_num <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -9 -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href aria-label="1"></a>vect_num <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href aria-label="1"></a>vect_num <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -22 -20 -18 -16 -14 -12 -10  -8  -6  -4  -2   0   2   4   6   8  10  12  14
 [20]  16  18  20  22  24</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href aria-label="1"></a>vect_num <span class="sc">*</span> (<span class="sc">-</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href aria-label="1"></a>vect_num <span class="sc">*</span> (<span class="sc">-</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  22  20  18  16  14  12  10   8   6   4   2   0  -2  -4  -6  -8 -10 -12 -14
 [20] -16 -18 -20 -22 -24</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href aria-label="1"></a>vect_num<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href aria-label="1"></a>vect_num<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 121 100  81  64  49  36  25  16   9   4   1   0   1   4   9  16  25  36  49
 [20]  64  81 100 121 144</code></pre>
 </div>
 </div>
+</div></div>
 </section>
 <section id="операции-с-векторами-содержащими-константы" class="slide level2 smaller">
 <h2>Операции с векторами, содержащими константы</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href aria-label="1"></a>NAs_NANs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="cn">NA</span>, <span class="dv">7</span>, <span class="dv">0</span>, <span class="dv">22</span><span class="sc">:</span><span class="dv">24</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href aria-label="1"></a>NAs_NANs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="cn">NA</span>, <span class="dv">7</span>, <span class="dv">0</span>, <span class="dv">22</span><span class="sc">:</span><span class="dv">24</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Что произойдет с NA?</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href aria-label="1"></a>NAs_NANs <span class="sc">+</span> <span class="dv">2</span> <span class="co"># останется NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href aria-label="1"></a>NAs_NANs <span class="sc">+</span> <span class="dv">2</span> <span class="co"># останется NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  3  5 NA  9  2 24 25 26</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href aria-label="1"></a>NAs_NANs <span class="sc">*</span> <span class="dv">0</span> <span class="co"># останется NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href aria-label="1"></a>NAs_NANs <span class="sc">*</span> <span class="dv">0</span> <span class="co"># останется NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  0  0 NA  0  0  0  0  0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href aria-label="1"></a>NAs_NANs <span class="sc">/</span> <span class="dv">0</span>  <span class="co"># останется NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href aria-label="1"></a>NAs_NANs <span class="sc">/</span> <span class="dv">0</span>  <span class="co"># останется NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] Inf Inf  NA Inf NaN Inf Inf Inf</code></pre>
 </div>
@@ -1678,7 +1689,7 @@ Levels: green red yellow</code></pre>
 </ul>
 <p>NaN получится, если взять корень из отрицательного числа</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href aria-label="1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href aria-label="1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NaN</code></pre>
 </div>
@@ -1691,7 +1702,7 @@ Levels: green red yellow</code></pre>
 <p>Вы уже видели массу функций, их легко узнать по скобкам после ключевого слова. Познакомимся еще с несколькими и научимся писать пользовательские функции. Пользовательские функции позволяют автоматизировать повторяющиеся действия и делают код легко читаемым.</p>
 <p>Вот наш вектор</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href aria-label="1"></a>NAs_NANs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href aria-label="1"></a>NAs_NANs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1  3 NA  7  0 22 23 24</code></pre>
 </div>
@@ -1699,14 +1710,14 @@ Levels: green red yellow</code></pre>
 </div><div class="column" style="width:50%;">
 <p>Длину вектора можно вычислить при помощи функции <code>length()</code></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href aria-label="1"></a><span class="fu">length</span>(NAs_NANs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href aria-label="1"></a><span class="fu">length</span>(NAs_NANs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8</code></pre>
 </div>
 </div>
 <p>Сумму элементов вектора при помощи функции <code>sum()</code></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href aria-label="1"></a><span class="fu">sum</span>(NAs_NANs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href aria-label="1"></a><span class="fu">sum</span>(NAs_NANs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
@@ -1719,14 +1730,14 @@ Levels: green red yellow</code></pre>
 <p>У функции <code>sum()</code> есть аргумент <code>na.rm</code>, который по умолчанию принимает значение <code>FALSE</code>, то есть <code>NA</code> не учитываются при подсчете суммы.</p>
 <p>Если мы передадим функции <code>sum</code> аргумент <code>na.rm = TRUE</code>, то получится правильная сумма</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href aria-label="1"></a><span class="fu">sum</span>(NAs_NANs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href aria-label="1"></a><span class="fu">sum</span>(NAs_NANs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 80</code></pre>
 </div>
 </div>
 <p>Та же история с функцией <code>mean</code></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href aria-label="1"></a><span class="fu">mean</span>(NAs_NANs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href aria-label="1"></a><span class="fu">mean</span>(NAs_NANs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 11.42857</code></pre>
 </div>
@@ -1736,9 +1747,9 @@ Levels: green red yellow</code></pre>
 <h2>Пользовательские функции</h2>
 <p>Попробуем написать пользовательскую функцию <code>mmean()</code>, которая будет по умолчанию считать среднее значение элементов в векторе с учетом пропущенных значений (<code>NA</code>)</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href aria-label="1"></a>mmean <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb136-2"><a href aria-label="2"></a>  <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb136-3"><a href aria-label="3"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href aria-label="1"></a>mmean <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb134-2"><a href aria-label="2"></a>  <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb134-3"><a href aria-label="3"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>В этом коде: - mmean - переменная, название функции. В эту переменную мы складываем функцию, которую создает функция <code>function()</code> — функция, которая делает функции. В скобках перечисляются аргументы (названия переменных, которые мы передаем в функцию, чтобы она что-то сделала с ними) - <code>{ }</code> - в фигурных скобках тело функции - последовательность действий, которую нужно сделать с аргументами</p>
 </section>
@@ -1746,18 +1757,18 @@ Levels: green red yellow</code></pre>
 <h2>Return в теле функции</h2>
 <p>У больших функций бывает еще инструкция <code>return()</code>, которая сообщает, что именно должна возвращать наша функция. Вот как выглядела бы наша функция с этой инструкцией.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href aria-label="1"></a>mmean <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb137-2"><a href aria-label="2"></a>  res <span class="ot">&lt;-</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb137-3"><a href aria-label="3"></a>  <span class="fu">return</span>(res)</span>
-<span id="cb137-4"><a href aria-label="4"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href aria-label="1"></a>mmean <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb135-2"><a href aria-label="2"></a>  res <span class="ot">&lt;-</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb135-3"><a href aria-label="3"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb135-4"><a href aria-label="4"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Проверим нашу функцию при помощи встроенной функции</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href aria-label="1"></a><span class="fu">mean</span>(vect_num, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href aria-label="1"></a><span class="fu">mean</span>(vect_num, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href aria-label="1"></a><span class="fu">mmean</span>(vect_num)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href aria-label="1"></a><span class="fu">mmean</span>(vect_num)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5</code></pre>
 </div>
@@ -1768,7 +1779,7 @@ Levels: green red yellow</code></pre>
 <p>Матрицы — двумерный объект, схожий с атомарными векторами, но содержащий дополнительный аттрибут <code>dim</code>.</p>
 <p>Матрицу можно создать следующим образом:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href aria-label="1"></a><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href aria-label="1"></a><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    1    4    7
@@ -1786,23 +1797,23 @@ Levels: green red yellow</code></pre>
 <h2>Датафреймы — двумерные структуры данных</h2>
 <p>Создадим датафрейм. Для начала создадим векторы с данными для переменных.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href aria-label="1"></a>len <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span> <span class="co"># числовой</span></span>
-<span id="cb144-2"><a href aria-label="2"></a>col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;green&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;red&quot;</span>, <span class="dv">5</span>)) <span class="co"># текстовый</span></span>
-<span id="cb144-3"><a href aria-label="3"></a>wid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">by =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">18</span>) <span class="co"># числовой</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href aria-label="1"></a>len <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span> <span class="co"># числовой</span></span>
+<span id="cb142-2"><a href aria-label="2"></a>col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;green&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;red&quot;</span>, <span class="dv">5</span>)) <span class="co"># текстовый</span></span>
+<span id="cb142-3"><a href aria-label="3"></a>wid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">by =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">18</span>) <span class="co"># числовой</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="датафреймы-двумерные-структуры-данных-2" class="slide level2 smaller">
 <h2>Датафреймы — двумерные структуры данных</h2>
 <p>Теперь сложим эти векторы в датафрейм</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href aria-label="1"></a>my_worms <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Length =</span> len, <span class="at">Width =</span> wid, <span class="at">Colour =</span> col, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href aria-label="1"></a>my_worms <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Length =</span> len, <span class="at">Width =</span> wid, <span class="at">Colour =</span> col, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="датафреймы-двумерные-структуры-данных-3" class="slide level2 smaller">
 <h2>Датафреймы — двумерные структуры данных</h2>
 <p>Можно проверить, действительно мы создали объект класса data.frame</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href aria-label="1"></a><span class="fu">class</span>(my_worms) <span class="co"># смотрим, действительно датафрейм</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href aria-label="1"></a><span class="fu">class</span>(my_worms) <span class="co"># смотрим, действительно датафрейм</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;data.frame&quot;</code></pre>
 </div>
@@ -1812,9 +1823,9 @@ Levels: green red yellow</code></pre>
 <h2>Превращение других типов данных в датафрейм</h2>
 <p>Например, из матрицы…</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href aria-label="1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb148-2"><a href aria-label="2"></a>mat_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mat)</span>
-<span id="cb148-3"><a href aria-label="3"></a><span class="fu">str</span>(mat_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href aria-label="1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb146-2"><a href aria-label="2"></a>mat_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mat)</span>
+<span id="cb146-3"><a href aria-label="3"></a><span class="fu">str</span>(mat_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&#39;data.frame&#39;:   3 obs. of  3 variables:
  $ V1: int  1 2 3
@@ -1827,26 +1838,26 @@ Levels: green red yellow</code></pre>
 <h2>Содержимое датафрейма</h2>
 <p>Содержимое датафрейма можно посмотреть несколькими способами.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href aria-label="1"></a>my_worms <span class="co"># печать датафрейма</span></span>
-<span id="cb150-2"><a href aria-label="2"></a><span class="fu">View</span>(my_worms) <span class="co"># просмотр в RStudio</span></span>
-<span id="cb150-3"><a href aria-label="3"></a><span class="fu">head</span>(my_worms)</span>
-<span id="cb150-4"><a href aria-label="4"></a><span class="fu">tail</span>(my_worms)</span>
-<span id="cb150-5"><a href aria-label="5"></a><span class="co"># fix(my_worms) # ручное редактирование. осторожно! избегайте его использовать, никаких документов о нем не останется</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href aria-label="1"></a>my_worms <span class="co"># печать датафрейма</span></span>
+<span id="cb148-2"><a href aria-label="2"></a><span class="fu">View</span>(my_worms) <span class="co"># просмотр в RStudio</span></span>
+<span id="cb148-3"><a href aria-label="3"></a><span class="fu">head</span>(my_worms)</span>
+<span id="cb148-4"><a href aria-label="4"></a><span class="fu">tail</span>(my_worms)</span>
+<span id="cb148-5"><a href aria-label="5"></a><span class="co"># fix(my_worms) # ручное редактирование. осторожно! избегайте его использовать, никаких документов о нем не останется</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="содержимое-датафрейма-1" class="slide level2 smaller">
 <h2>Содержимое датафрейма</h2>
 <p>Также у датафрейма можно посмотреть количество строк и столбцов.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href aria-label="1"></a><span class="fu">nrow</span>(my_worms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href aria-label="1"></a><span class="fu">nrow</span>(my_worms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href aria-label="1"></a><span class="fu">ncol</span>(my_worms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href aria-label="1"></a><span class="fu">ncol</span>(my_worms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href aria-label="1"></a><span class="fu">length</span>(my_worms) <span class="co">#выдаст количество столбцов</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href aria-label="1"></a><span class="fu">length</span>(my_worms) <span class="co">#выдаст количество столбцов</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
@@ -1856,11 +1867,11 @@ Levels: green red yellow</code></pre>
 <h2>Адресация внутри датафреймов</h2>
 <p>Вывод столбца-переменной при помощи оператора $ и имени переменной</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href aria-label="1"></a>my_worms<span class="sc">$</span>Length</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href aria-label="1"></a>my_worms<span class="sc">$</span>Length</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5 6 7 8 9</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href aria-label="1"></a>my_worms<span class="sc">$</span>Width</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href aria-label="1"></a>my_worms<span class="sc">$</span>Width</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2  4  6  8 10 12 14 16 18</code></pre>
 </div>
@@ -1870,21 +1881,21 @@ Levels: green red yellow</code></pre>
 <h2>Адресация внутри датафреймов</h2>
 <p>У каждой ячейки в датафрейме есть координаты вида [строка, столбец]</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href aria-label="1"></a>my_worms[<span class="dv">2</span>, <span class="dv">3</span>] <span class="co"># вторая строка в 3 столбце</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href aria-label="1"></a>my_worms[<span class="dv">2</span>, <span class="dv">3</span>] <span class="co"># вторая строка в 3 столбце</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] green
 Levels: green red</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href aria-label="1"></a>my_worms[<span class="dv">2</span>, ] <span class="co"># вторая строка целиком</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href aria-label="1"></a>my_worms[<span class="dv">2</span>, ] <span class="co"># вторая строка целиком</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Length Width Colour
 2      2     4  green</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href aria-label="1"></a>my_worms[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">2</span>] <span class="co"># строки с 1 по 9 во втором столбце</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href aria-label="1"></a>my_worms[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">2</span>] <span class="co"># строки с 1 по 9 во втором столбце</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2  4  6  8 10 12 14 16 18</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href aria-label="1"></a>my_worms[, <span class="dv">2</span>] <span class="co"># второй столбец целиком</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href aria-label="1"></a>my_worms[, <span class="dv">2</span>] <span class="co"># второй столбец целиком</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2  4  6  8 10 12 14 16 18</code></pre>
 </div>
@@ -1894,8 +1905,8 @@ Levels: green red</code></pre>
 <h2>Расширение датафрейма</h2>
 <p>Добавление колонки.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href aria-label="1"></a>my_worms<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sredniy&quot;</span>, <span class="st">&quot;Sredniy&quot;</span>, <span class="st">&quot;Ogorod&quot;</span>, <span class="st">&quot;Vichennaya&quot;</span>, <span class="st">&quot;Ogorod&quot;</span>, <span class="st">&quot;Vichennaya&quot;</span>, <span class="st">&quot;Keret&quot;</span>, <span class="st">&quot;Ogorod&quot;</span>, <span class="st">&quot;Vichennaya&quot;</span>)</span>
-<span id="cb169-2"><a href aria-label="2"></a>my_worms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href aria-label="1"></a>my_worms<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sredniy&quot;</span>, <span class="st">&quot;Sredniy&quot;</span>, <span class="st">&quot;Ogorod&quot;</span>, <span class="st">&quot;Vichennaya&quot;</span>, <span class="st">&quot;Ogorod&quot;</span>, <span class="st">&quot;Vichennaya&quot;</span>, <span class="st">&quot;Keret&quot;</span>, <span class="st">&quot;Ogorod&quot;</span>, <span class="st">&quot;Vichennaya&quot;</span>)</span>
+<span id="cb167-2"><a href aria-label="2"></a>my_worms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Length Width Colour       Site
 1      1     2  green    Sredniy
@@ -1913,9 +1924,9 @@ Levels: green red</code></pre>
 <section id="добавление-строки" class="slide level2 smaller">
 <h2>Добавление строки</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href aria-label="1"></a>my_worms_new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Length =</span> <span class="dv">40</span>, <span class="at">Width =</span> <span class="dv">60</span>, <span class="at">Colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">Site =</span> <span class="st">&quot;Pashinnikov&quot;</span>)</span>
-<span id="cb171-2"><a href aria-label="2"></a>my_worms_final <span class="ot">&lt;-</span> <span class="fu">rbind</span>(my_worms, my_worms_new)</span>
-<span id="cb171-3"><a href aria-label="3"></a>my_worms_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href aria-label="1"></a>my_worms_new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Length =</span> <span class="dv">40</span>, <span class="at">Width =</span> <span class="dv">60</span>, <span class="at">Colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">Site =</span> <span class="st">&quot;Pashinnikov&quot;</span>)</span>
+<span id="cb169-2"><a href aria-label="2"></a>my_worms_final <span class="ot">&lt;-</span> <span class="fu">rbind</span>(my_worms, my_worms_new)</span>
+<span id="cb169-3"><a href aria-label="3"></a>my_worms_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Length Width Colour        Site
 1       1     2  green     Sredniy
